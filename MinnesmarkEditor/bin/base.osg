@@ -1,0 +1,108 @@
+Group {
+  UniqueID Group_0
+  nodeMask 0xffffffff
+  cullingActive TRUE
+  StateSet {
+    DataVariance STATIC
+    rendering_hint DEFAULT_BIN
+    renderBinMode INHERIT
+    GL_LIGHT0 ON
+    GL_LIGHT2 ON
+  }
+  num_children 1
+  PositionAttitudeTransform {
+    nodeMask 0xffffffff
+    cullingActive TRUE
+    StateSet {
+      DataVariance STATIC
+      rendering_hint DEFAULT_BIN
+      renderBinMode INHERIT
+      GL_LIGHT1 ON
+    }
+    referenceFrame RELATIVE
+    position 0 0 0
+    attitude 0 0 0 1
+    scale 1 1 1
+    pivotPoint 0 0 0
+    num_children 2
+    Geode {
+      nodeMask 0xffffffff
+      cullingActive TRUE
+      StateSet {
+        DataVariance STATIC
+        rendering_hint DEFAULT_BIN
+        renderBinMode INHERIT
+        Material {
+          ColorMode EMISSION
+          ambientColor 0.2 0.2 0.2 1
+          diffuseColor 0.8 0.8 0.8 1
+          specularColor 0 0 0 1
+          emissionColor 1 0 0 0
+          shininess 0
+        }
+        textureUnit 0 {
+          GL_TEXTURE_2D ON
+          Texture2D {
+            file "base1.jpg"
+            wrap_s CLAMP
+            wrap_t CLAMP
+            wrap_r CLAMP
+            min_filter LINEAR_MIPMAP_LINEAR
+            mag_filter LINEAR
+            maxAnisotropy 1
+            borderColor 0 0 0 0
+            borderWidth 0
+            useHardwareMipMapGeneration TRUE
+            unRefImageDataAfterApply FALSE
+            internalFormatMode USE_IMAGE_DATA_FORMAT
+            resizeNonPowerOfTwo TRUE
+          }
+        }
+      }
+      num_drawables 1
+      ShapeDrawable {
+        DataVariance STATIC
+        Cylinder {
+          Center 0 0 0
+          Radius 1
+          Height 0.05
+          Rotation 0 0 0 1
+        }
+        useDisplayList TRUE
+        useVertexBufferObjects FALSE
+        color 1 1 1 1
+        TessellationHints {
+          detailRatio 0.5
+          createFaces TRUE FALSE
+          createNormals TRUE
+          createTextureCoords FALSE
+          createParts TRUE TRUE TRUE
+        }
+      }
+    }
+    LightSource {
+      nodeMask 0xffffffff
+      cullingActive FALSE
+      StateSet {
+        DataVariance STATIC
+        rendering_hint DEFAULT_BIN
+        renderBinMode INHERIT
+        GL_LIGHT1 ON
+      }
+      referenceFrame RELATIVE
+      Light {
+        light_num 1
+        ambient 1 1 1 1
+        diffuse 1 1 1 1
+        specular 0.05 0.05 0.05 1
+        position 0 0 0 1
+        direction 0 0 -1
+        constant_attenuation 1
+        linear_attenuation 0
+        quadratic_attenuation 0
+        spot_exponent 0
+        spot_cutoff 180
+      }
+    }
+  }
+}
