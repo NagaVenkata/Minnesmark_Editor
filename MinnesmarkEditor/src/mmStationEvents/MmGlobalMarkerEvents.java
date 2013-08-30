@@ -286,12 +286,14 @@ public class MmGlobalMarkerEvents {
 		
 		this.saveFilePath = saveFilePath;
 		
+		
+		
 		markerEvent.setEventName(this.markerName);
 		markerEvent.setMarkerIndex(markerIndex+1);
 		markerEvent.setDestinationPath(saveFilePath);
 		
 			
-		writeMarkerFile(saveFilePath);
+		//writeMarkerFile(saveFilePath);
 			   
 		JLabel lb = null; 
 			   
@@ -327,7 +329,7 @@ public class MmGlobalMarkerEvents {
 							         
 				System.out.println("label text "+lb.getText());
 				
-				JOptionPane.showMessageDialog(null, "data "+lb.getText());
+				
 				   
 			    if(((lb.getText().contains(".jpg"))||(lb.getText().contains(".png"))||(lb.getText().contains(".bmp"))) && !(lb.getText().contains("Panorama")) && !(lb.getText().contains("Model")))
 			    { 	
@@ -644,14 +646,16 @@ public class MmGlobalMarkerEvents {
 				    src = new FileInputStream(sourcePath).getChannel();
 				    des = new FileOutputStream(savePath+"/markers/"+desPath).getChannel();
 			      }
-			  }
-			  
-			  try {
+			  	  
+			  	try {
 				    des.transferFrom(src, 0, src.size());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			  }
+			  
+			  
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -2112,7 +2116,7 @@ public class MmGlobalMarkerEvents {
 		      if(lb.getText().contains(".obj") || lb.getText().contains("Model"))
 		      { 	  
 		    	
-		    	 JOptionPane.showMessageDialog(null, " mosdel  "+lb.getText()); 
+		    	  
 				 MmModelEvent modelEvent = new MmModelEvent();
 				 if(modelEvents.size()==0)
 					  modelEvent.setEventName("marker"+Integer.toString(markerIndex+1)+"_model");

@@ -190,14 +190,14 @@ public class MmMarkerEvent {
 			  
 			  File desFile = new File(destinationPath+"/markers/"+desPath);
 			  			  
-			 JOptionPane.showMessageDialog(null, "destination file exists "+ desFile.exists());
+			 //JOptionPane.showMessageDialog(null, "destination file exists "+ desFile.exists());
 			  
 			  if(!desFile.exists())
 			  {
-				 JOptionPane.showMessageDialog(null, "destination file "+ desFile.getPath()+"  "+desFile.getName());
+				 //JOptionPane.showMessageDialog(null, "destination file "+ desFile.getPath()+"  "+desFile.getName());
 			     if(file.isDirectory())
 			     {
-			        JOptionPane.showMessageDialog(null, sourcePath+"  "+destinationPath); 
+			        //JOptionPane.showMessageDialog(null, sourcePath+"  "+destinationPath); 
 				    src = new FileInputStream(sourcePath).getChannel(); 
 			        des = new FileOutputStream(destinationPath+"/markers/"+desPath).getChannel();
 			     }
@@ -207,18 +207,20 @@ public class MmMarkerEvent {
 				    src = new FileInputStream(sourcePath).getChannel();
 				    des = new FileOutputStream(destinationPath+"/markers/"+desPath).getChannel();
 			     }
+			     
+			     try {
+					  
+		                if(src!=null)
+						   des.transferFrom(src, 0, src.size());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			  }
 			  
 			  
 			  
-			  try {
-				  
-                if(src!=null)
-				   des.transferFrom(src, 0, src.size());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

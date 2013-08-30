@@ -2057,7 +2057,7 @@ public class MmMapViewer extends JPanel implements Printable {
 		    {
 				 for(int j=0;j<events.getStations().get(i).getItemsCollected().size();j++)
 				 {
-					  JOptionPane.showMessageDialog(null, "objects collect "+events.getStations().get(i).getItemsCollected().get(j).intValue()+"   "+count);
+					  //JOptionPane.showMessageDialog(null, "objects collect "+events.getStations().get(i).getItemsCollected().get(j).intValue()+"   "+count);
 					  count+=events.getStations().get(i).getItemsCollected().get(j).intValue();
 				 }
 		    }
