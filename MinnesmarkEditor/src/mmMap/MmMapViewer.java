@@ -229,6 +229,8 @@ public class MmMapViewer extends JPanel implements Printable {
 	JFrame markerFrame2 = new JFrame();
 	
 	JFrame markerFrame = new JFrame();
+	
+	JLabel frameLabel = new JLabel();
     
 	public MmMapViewer()
 	{
@@ -577,17 +579,24 @@ public class MmMapViewer extends JPanel implements Printable {
     	    	
     	    	
     	    	
-    	    	if((event.getX()>0 && event.getX()<400) && (event.getY()>0 && event.getY()<100))
+    	    	if((event.getX()>0 && event.getX()<400) && (event.getY()>0 && event.getY()<125))
     	    	{
     	    		   	    		
-    	    	   	JLabel lb = new JLabel(icons[index]);
-    	    		int x = event.getPoint().x - lb.getWidth()/2;
- 				    int y = event.getPoint().y - lb.getHeight()/2;
+    	    	   	frameLabel.setIcon(icons[index]);
+    	    		int x = event.getPoint().x - frameLabel.getWidth()/2;
+ 				    int y = event.getPoint().y - frameLabel.getHeight()/2;
  				    Point pt = new Point(x,y);
  				
- 				    SwingUtilities.convertPointToScreen(pt, lb); 
-    	    		markerFrame.add(lb);
+ 				    SwingUtilities.convertPointToScreen(pt, frameLabel); 
+ 				    
+ 				    
+    	    		markerFrame.add(frameLabel);
+    	    		
+    	    		//JOptionPane.showMessageDialog(null,markerFrame.getComponentCount());
+ 				    
+ 				    
     	    		markerFrame.setVisible(true);
+    	    		markerFrame.validate();
     	    		markerFrame.setLocation(event.getX()+400,event.getY()+50);
     	    		
     	    	}
@@ -888,13 +897,14 @@ public class MmMapViewer extends JPanel implements Printable {
 				if(isPointPresent)
 				{
 					
-					if((event.getX()>0 && event.getX()<400) && (event.getY()>0 && event.getY()<100))
+					if((event.getX()>0 && event.getX()<400) && (event.getY()>0 && event.getY()<125))
 					{
 																		
 						int option = JOptionPane.showConfirmDialog(null, "Vill du ta bort stationen","Stationen",JOptionPane.YES_NO_OPTION);
 						
 						if(option == JOptionPane.OK_OPTION)
 						{
+							markerFrame.setVisible(false);
 							mapMarkerWindow.hideMarker(index);
 							
 							if(swingPos.size()==1)
@@ -1001,7 +1011,7 @@ public class MmMapViewer extends JPanel implements Printable {
 							//swingPoints.remove(swingPointIndex);
 							//swingPoints.add(swingPointIndex,getGeoPosition(moveSwingPoint));
 							
-							JOptionPane.showMessageDialog(null, "Cannot move the point");
+							JOptionPane.showMessageDialog(null, "Kan inte flytta sväng");
 							
 							if(!checkSwingPointsDistance(swingPos.get(edgeIndex).getEndGeoPosition()))
 							{
@@ -2157,7 +2167,7 @@ public class MmMapViewer extends JPanel implements Printable {
 			   numRegions.put("name", "NumberOfRegions");
 			   numRegions.put("type", "NumberOfRegions");
 			   
-			   JOptionPane.showMessageDialog(null, "geo pos "+geoPoints.size());
+			   //JOptionPane.showMessageDialog(null, "geo pos "+geoPoints.size());
 			   
 			   int count = 0;
 			   
@@ -2975,13 +2985,13 @@ public class MmMapViewer extends JPanel implements Printable {
 		{
 			menuItem.addMenuItem("start", ledImage,"",0);
 		}	
-		else
-		{	
-			for(int i=0;i<menuItems.getStartEvents().getTexts().size();i++)
-			{
+		
+		
+		for(int i=0;i<menuItems.getStartEvents().getTextPaths().size();i++)
+		{
 				menuItem.addMenuItem("start", menuItems.getStartEvents().getTexts().get(i),menuItems.getStartEvents().getTextPaths().get(i), i+1);
-			}
 		}
+		
 			
 		for(int i=0;i<menuItems.getGlobalMarkers().getStations().size();i++)
 		{
@@ -3128,7 +3138,7 @@ public class MmMapViewer extends JPanel implements Printable {
 			    parseMarkerEvent(jsonObject);
 			}
 			
-			if(jsonObject.optString("type").equals("BackGroundimage"))
+			if(jsonObject.optString("type").equals("backgroundimage"))
 			{
 				
 				JSONObject attributes = (JSONObject) jsonObject.get("attributes");
@@ -3244,11 +3254,15 @@ public class MmMapViewer extends JPanel implements Printable {
 			      
 			     if(jsonObject.get("name").toString().indexOf("start")==0)
 				 {
-				     String attrs = attributes.get("filename").toString();
+			    	 
+				     String attrs = attributes.get("imageName").toString();
 				     menuItems.getStartEvents().getTexts().add(attrs);
-				     File filename = new File(openFileName.getParent()+"/images/"+attributes.get("filename").toString());
+				     File filename = new File(openFileName.getParent()+"/images/"+attributes.get("imageName").toString());
 		    		  if(filename.exists())
-			               menuItems.getStartEvents().getTextPaths().add(filename.getAbsolutePath());
+		    		  {	  
+			              menuItems.getStartEvents().getTextPaths().add(filename.getAbsolutePath());
+			              
+		    		  }    
 		    		  else
 		    			  showMessage("bildfilen hittades inte");
 				 } 
@@ -3720,14 +3734,14 @@ public class MmMapViewer extends JPanel implements Printable {
 		            	   File imageFile = new File(openFileName.getParent()+"/osg_obj/"+fileName);
 		            	   
 		            	   String markerName = jsonObject.get("name").toString();  
-				    	   JOptionPane.showMessageDialog(null, markerName+"  "+markerIndex);
+				    	   //JOptionPane.showMessageDialog(null, markerName+"  "+markerIndex);
 						   if(markerName.contains("_Model"))
 						   {
 							   markerName = markerName.substring(0, markerName.indexOf('_') );
 							   menuItems.getGlobalMarkers().addStation(markerName, markerIndex); 
 						   }
 			    		
-						   JOptionPane.showMessageDialog(null, markerName+"  "+markerIndex);
+						   //JOptionPane.showMessageDialog(null, markerName+"  "+markerIndex);
 						   
 				   		   if(imageFile.exists())
 							     menuItems.getGlobalMarkers().getStations().get(markerIndex).setLabelsText(fileName+":Model",imageFile.getAbsolutePath());

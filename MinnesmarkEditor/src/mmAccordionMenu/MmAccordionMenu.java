@@ -421,7 +421,7 @@ public class MmAccordionMenu extends JPanel  {
 	public void addMenuItem(String menu,String itemName,String path,int index)
 	{
 	
-		JOptionPane.showMessageDialog(null, path);
+		//JOptionPane.showMessageDialog(null, path);
 		for(final MmAccordionMainItem item: getMenuItems())
         {
 						
@@ -560,6 +560,7 @@ public class MmAccordionMenu extends JPanel  {
 			
 			if(item.getName().equals("markers"))
 			{
+				markerEvents.getStations().clear();
 				item.getMenuItem().get(0).resetContent();
 			}
 			

@@ -667,6 +667,11 @@ public class MmAccordionMenuItems  {
 		labels.get(16).setName("patt.marker17");
 		labels.get(17).setText("Markör 18");
 		labels.get(17).setName("patt.marker18");
+		
+		for(int i=0;i<18;i++)
+		{
+			labels.get(i).setBackground(Color.white);
+		}
         
 		//labels.get(select_index).setText(selectText);
 		panel.revalidate();

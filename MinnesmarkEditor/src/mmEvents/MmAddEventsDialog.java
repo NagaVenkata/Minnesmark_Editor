@@ -173,6 +173,7 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 		cmbgChkbx  = new JCheckBox("Med Kamera bakgrund");
 		
 		panoramaChkbx.setEnabled(false);
+		cmbgChkbx.setEnabled(false);
 		
 		chkbx = new JCheckBox("Mediafilen är en skatt");
 		
@@ -256,6 +257,7 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 		{
 			
 			panoramaChkbx.setEnabled(true);
+			cmbgChkbx.setEnabled(true);
 		}
 		
 		
@@ -289,12 +291,12 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 				frame.setVisible(false);
 				JLabel lb = (JLabel) textPanel.getComponent(componentIndex);
 				lb.setText(textStrings[0]);
-				if(panoramaChkbx.isSelected())
+				if(panoramaChkbx.isSelected() && !chkbx.isSelected())
 				{	
 					lb.setText(lb.getText()+":"+"Panorama");
 				}
 				
-				if(cmbgChkbx.isSelected())
+				if(cmbgChkbx.isSelected() && !chkbx.isSelected())
 				{	
 				    lb.setText(lb.getText()+":"+"Model");
 				}
