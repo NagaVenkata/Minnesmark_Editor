@@ -54,7 +54,7 @@ public class MmObjWriter {
 	public void beginSave(String fn) {
 	        try {
 	        	
-	        	JOptionPane.showMessageDialog(null, "entered obj writer "+imageFileName+"  "+imageFileName.lastIndexOf('/'));
+	        	//JOptionPane.showMessageDialog(null, "entered obj writer "+imageFileName+"  "+imageFileName.lastIndexOf('/'));
 	        	
 	        	fileName = imageFileName.substring(imageFileName.lastIndexOf('/')+1, imageFileName.length());
 	        	
@@ -62,7 +62,7 @@ public class MmObjWriter {
 	        	
 	        	String srcName = imageFileName.substring(0,imageFileName.lastIndexOf('.'));
 	        	
-	        	JOptionPane.showMessageDialog(null, "file name "+fileName+"  "+srcName);
+	        	//JOptionPane.showMessageDialog(null, "file name "+fileName+"  "+srcName);
 	        	
 	        	//String[] files = imageFileName.split("."); 
 	        	//JOptionPane.showMessageDialog(null,files.length);
@@ -85,6 +85,7 @@ public class MmObjWriter {
 	            setVertices();
 	            setNormals();
 	            setVertexTextures();
+	            objWriter.println("usemtl Material");
 	            faceList();
 	            setFaces();
 	            numVerticesWritten = 0;
@@ -155,16 +156,16 @@ public class MmObjWriter {
 	    
 	    public void setVertices()
 	    {
-	    	vertex(new MmVec3(1.0f, -1.0f, -1.0f));
-	    	vertex(new MmVec3(1.0f, -1.0f, 1.0f));
-	    	vertex(new MmVec3(-1.0f, -1.0f, 1.0f));
-	    	vertex(new MmVec3(-1.0f, -1.0f, -1.0f));
+	    	vertex(new MmVec3(0.150000f,-0.961045f,1.037493f));
+	    	vertex(new MmVec3(0.150000f, 1.037493f, 0.961045f));
+	    	vertex(new MmVec3(-0.150000f, 1.037493f, 0.961045f));
+	    	vertex(new MmVec3(-0.150000f, -0.961045f, 1.037493f));
 	    	
 	    	
-	    	vertex(new MmVec3(1.0f, 1.0f, -1.0f));
-	    	vertex(new MmVec3(1.0f, 1.0f, 1.0f));
-	    	vertex(new MmVec3(-1.0f, 1.0f, 1.0f));
-	    	vertex(new MmVec3(-1.0f, 1.0f, -1.0f));
+	    	vertex(new MmVec3(0.150000f, -1.037493f, -0.961045f));
+	    	vertex(new MmVec3(0.150000f, 0.961046f, -1.037493f));
+	    	vertex(new MmVec3(-0.150000f, 0.961045f, -1.037493f));
+	    	vertex(new MmVec3(-0.150000f, -1.037493f, -0.961045f));
 	       	
 	    }
 	    
@@ -184,6 +185,7 @@ public class MmObjWriter {
 	    	faceWithNormals(5, 8, 7, 6, 2);
 	    	faceWithNormals(1, 5, 6, 2, 3);
 	    	faceWithNormals(2, 6, 7, 3, 4);
+	    	faceWithNormals(3, 7, 8, 4, 5);
 	    	faceWithNormals(5, 1, 4, 8, 6);
 	    }
 	    
@@ -224,7 +226,7 @@ public class MmObjWriter {
 		          objWriter1.println("illum "+ 2);
 		          objWriter1.println("map_Kd "+imageFileName.substring(imageFileName.lastIndexOf('/')+1,imageFileName.length()));
 		          
-		          JOptionPane.showMessageDialog(null, "img src path "+imageSrcPath);
+		          //JOptionPane.showMessageDialog(null, "img src path "+imageSrcPath);
 		          
 		          objWriter1.flush();
 		          objWriter1.close();

@@ -132,6 +132,9 @@ public class MmGlobalMarkerEvents {
 	public String getMarkerName()
 	{
 		
+		if(markerEvent.getEventName().contains(this.markerName+"_Model"))
+			return markerEvent.getEventName();
+		
 		return this.markerName;
 	}
 	

@@ -68,6 +68,8 @@ public class MmMapStationMarkers extends JPanel {
 	
 	boolean isSaved,markerSelected=false;
 	
+	public JDialog dialog;
+	
 	public final JWindow window = new JWindow();
 	public MmMapStationMarkers(JFrame frame,MmMapViewer mapView)
 	{
@@ -80,7 +82,7 @@ public class MmMapStationMarkers extends JPanel {
 		 mapViewer = mapView;
 		
 		 this.markerFrame.setLocation(425,75);
-		 this.markerFrame.setAlwaysOnTop(true);
+		 //this.markerFrame.setAlwaysOnTop(true);
 		 this.markerFrame.setUndecorated(false);
 		 this.markerFrame.setTitle("Stationer");
 		 

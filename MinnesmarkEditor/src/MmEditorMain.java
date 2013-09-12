@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -17,6 +18,10 @@ import java.net.URI;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 
@@ -29,7 +34,7 @@ import mmAccordionMenu.*;
 
 import mmMap.MmMapViewer;
 
-public class MmEditorMain extends JFrame implements ActionListener{
+public class MmEditorMain extends JFrame implements ActionListener,AWTEventListener{
 
 	/**
 	  */
@@ -71,11 +76,14 @@ public class MmEditorMain extends JFrame implements ActionListener{
 	     MmAccordionComponent.width = splitPane.getDividerLocation();
 	     width = splitPane.getDividerLocation();
 	     
+	     
 	     accordionMenu = new MmAccordionMenu();
 	     addMainLedInterface();
 	     
 	     window = new JFrame();
 	     window.setSize(new Dimension(dim.width,dim.height));
+	     
+	     
 	     
 	     window.setJMenuBar(menuBar);
 	     window.setTitle("Minnesmark Editor");
@@ -114,7 +122,11 @@ public class MmEditorMain extends JFrame implements ActionListener{
 	     window.add(splitPane);
 	     window.setVisible(true);
 	     
+	     map.showDialog();
+	     
 	     addMmWindowListener();  
+	     
+	     
 	}
 	
 	public void addMainLedInterface()
@@ -141,37 +153,7 @@ public class MmEditorMain extends JFrame implements ActionListener{
 		      
 		leftAccordion = new MmAccordionComponent(MmAccordionComponent.width-25,40);
 		
-		/*MmAccordionPanel panel = new MmAccordionPanel("Trial Title","Trial Title",width,true);
-		panel.addText("Trial Title", 0,0);
-		panel.addTextField(1,0);
-		panel.addText("Url",0,1);
-		panel.addTextField(1, 1);
-		panel.addPanel(1);
-		panel.getMinusButton().addActionListener(this);
-		panel.getPlusButton().addActionListener(this);
-		panel.eventsDialog = new MmAccordionTrialDialog();
-		panel.eventsDialog.cancelButton.addActionListener(this);
-		panel.eventsDialog.okButton.addActionListener(this);
-		accordionPanels.add(panel);
 		
-				
-		MmAccordionPanel panel1 = new MmAccordionPanel("Trial Start Events","Trial Start Events",width,true);
-		panel1.addText("BackgroundImageLandscape", 0, 0);
-		ImageIcon imageIcon = new ImageIcon("images/image_add.png");
-		panel1.addText(imageIcon, 2, 0);
-		panel1.addText("BackgroundImagePortrait", 0, 1);
-		panel1.addText(imageIcon, 2, 1);
-		panel1.addText("BackgroundMusic", 0,2);
-		panel1.addText(imageIcon, 2, 2);
-		panel1.addText("StartVideo", 0,3);
-		panel1.addText(imageIcon, 2, 3);
-		panel1.addPanel(2);
-		panel1.getMinusButton().addActionListener(this);
-		panel1.getPlusButton().addActionListener(this);
-		panel1.eventsDialog = new MmAccordionTrialDialog();
-		panel1.eventsDialog.cancelButton.addActionListener(this);
-		panel1.eventsDialog.okButton.addActionListener(this);
-		accordionPanels.add(panel1);*/
 		
 				
 	    for(int i=0;i<accordionPanels.size();i++)
@@ -262,10 +244,6 @@ public class MmEditorMain extends JFrame implements ActionListener{
 	    //accordionMenu.buttonActions("start");
 	    accordionMenu.startMenuButtonActions();
 	    
-	    	    
-        /*accordionMenu.backgroundPaint("search",new Color(45, 183, 255));
-        accordionMenu.backgroundPaint("global markers",new Color(45, 183, 255));
-        accordionMenu.backgroundPaint("start",new Color(45, 183, 255));*/
 	    
 	    accordionMenu.backgroundPaint("search",new Color(211, 242, 252));
         accordionMenu.backgroundPaint("markers",new Color(211, 242, 252));
@@ -273,16 +251,19 @@ public class MmEditorMain extends JFrame implements ActionListener{
 	    
         
         accordionMenu.setForeground(Color.white);
-        //accordionMenu.setBorder(new BevelBorder(BevelBorder.RAISED));
-        //accordionMenu.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
+        
         accordionMenu.setFont(new Font("monospaced", Font.PLAIN, 14));
 	    accordionPanel.add(accordionMenu);
 	    panelLeft.setOpaque(false);
 		scrollPaneLeft = new JScrollPane(panelLeft,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPaneLeft.setPreferredSize(new Dimension(500,600));
 		
+		
+		
+				
 		scrollPaneRight = new JScrollPane(panelRight,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPaneRight.setPreferredSize(new Dimension(500,600));
+		
 		
 		
 		
@@ -290,25 +271,165 @@ public class MmEditorMain extends JFrame implements ActionListener{
 	
 	public void addMmWindowListener()
 	{
-							
+		
+         		
+		Toolkit.getDefaultToolkit().addAWTEventListener(
+				new Listener(map), AWTEvent.MOUSE_EVENT_MASK | AWTEvent.FOCUS_EVENT_MASK);
+		
+		window.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent event) {
+				// TODO Auto-generated method stub
+				//JOptionPane.showMessageDialog(null, event.getLocationOnScreen());
+				map.bringTofront();
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent event) {
+				// TODO Auto-generated method stub
+				System.out.println("data "+event.getLocationOnScreen());
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
+		
 		window.addWindowListener(new WindowListener(){
 
 			@Override
 			public void windowActivated(WindowEvent arg0) {
 				// TODO Auto-generated method stub
 				window.setState(JFrame.NORMAL);
+				//map.showStationEventWindow();
+				
+				
 				
 			}
 
 			@Override
 			public void windowClosed(WindowEvent arg0) {
 				// TODO Auto-generated method stub
-				
+				if(map.getSavedState())
+				{	
+					accordionMenu.clearContent();
+					accordionMenu.getStartEvents().imageEvents.clear();
+					accordionMenu.getStartEvents().audioEvents.clear();
+					accordionMenu.getStartEvents().videoEvents.clear();
+					accordionMenu.getStartEvents().messageEvents.clear();
+				    map.resetMapContents();
+				}    
+				else
+				{
+					int option = JOptionPane.showConfirmDialog(null, "kankä spara file", "Spara", JOptionPane.YES_NO_CANCEL_OPTION);
+					if(option==JOptionPane.OK_OPTION)
+					{	
+					    JFileChooser saveFile = new JFileChooser();
+					    int saveOption = saveFile.showSaveDialog(window);
+					    map.hideStationEventWindow();
+					    if(saveOption == JFileChooser.APPROVE_OPTION)
+					    {
+					    	map.showStationEventWindow();
+					       //saveFile.setCurrentDirectory(null);
+					       //JOptionPane.showMessageDialog(window, saveFile.getSelectedFile().getName()+" "+saveFile.getSelectedFile().getPath());			
+					       map.createJSONFile(saveFile.getSelectedFile().toString(),saveFile.getSelectedFile().getPath(),accordionMenu.getGlobalMarkerEvents(),accordionMenu.getStartEvents());
+					       map.setSaved(true);
+					       accordionMenu.clearContent();
+					       resetStartContent();
+						   accordionMenu.getStartEvents().imageEvents.clear();
+						   accordionMenu.getStartEvents().audioEvents.clear();
+						   accordionMenu.getStartEvents().videoEvents.clear();
+						   accordionMenu.getStartEvents().messageEvents.clear();
+					       map.resetMapContents();
+					    }   
+					    
+					    
+					}
+					
+					if(option==JOptionPane.NO_OPTION)
+					{
+						//accordionMenu.getGlobalMarkerEvents().clear();
+						accordionMenu.clearContent();
+						resetStartContent();
+						accordionMenu.getStartEvents().imageEvents.clear();
+						accordionMenu.getStartEvents().audioEvents.clear();
+						accordionMenu.getStartEvents().videoEvents.clear();
+						accordionMenu.getStartEvents().messageEvents.clear();
+					    map.resetMapContents();
+					}
+					
+				}
 			}
 
 			@Override
 			public void windowClosing(WindowEvent arg0) {
 				// TODO Auto-generated method stub
+				if(map.getSavedState())
+				{	
+					accordionMenu.clearContent();
+					accordionMenu.getStartEvents().imageEvents.clear();
+					accordionMenu.getStartEvents().audioEvents.clear();
+					accordionMenu.getStartEvents().videoEvents.clear();
+					accordionMenu.getStartEvents().messageEvents.clear();
+				    map.resetMapContents();
+				}    
+				else
+				{
+					int option = JOptionPane.showConfirmDialog(null, "kankä spara file", "Spara", JOptionPane.YES_NO_CANCEL_OPTION);
+					if(option==JOptionPane.OK_OPTION)
+					{	
+					    JFileChooser saveFile = new JFileChooser();
+					    int saveOption = saveFile.showSaveDialog(window);
+					    map.hideStationEventWindow();
+					    if(saveOption == JFileChooser.APPROVE_OPTION)
+					    {
+					    	map.showStationEventWindow();
+					       //saveFile.setCurrentDirectory(null);
+					       //JOptionPane.showMessageDialog(window, saveFile.getSelectedFile().getName()+" "+saveFile.getSelectedFile().getPath());			
+					       map.createJSONFile(saveFile.getSelectedFile().toString(),saveFile.getSelectedFile().getPath(),accordionMenu.getGlobalMarkerEvents(),accordionMenu.getStartEvents());
+					       map.setSaved(true);
+					       accordionMenu.clearContent();
+					       resetStartContent();
+						   accordionMenu.getStartEvents().imageEvents.clear();
+						   accordionMenu.getStartEvents().audioEvents.clear();
+						   accordionMenu.getStartEvents().videoEvents.clear();
+						   accordionMenu.getStartEvents().messageEvents.clear();
+					       map.resetMapContents();
+					    }   
+					    
+					    
+					}
+					
+					if(option==JOptionPane.NO_OPTION)
+					{
+						//accordionMenu.getGlobalMarkerEvents().clear();
+						accordionMenu.clearContent();
+						resetStartContent();
+						accordionMenu.getStartEvents().imageEvents.clear();
+						accordionMenu.getStartEvents().audioEvents.clear();
+						accordionMenu.getStartEvents().videoEvents.clear();
+						accordionMenu.getStartEvents().messageEvents.clear();
+					    map.resetMapContents();
+					}
+					
+				}
 				System.exit(0);
 			}
 
@@ -316,8 +437,19 @@ public class MmEditorMain extends JFrame implements ActionListener{
 			public void windowDeactivated(WindowEvent arg0) {
 				// TODO Auto-generated method stub
 				//window.setState(JFrame.ICONIFIED);
+				//JOptionPane.showMessageDialog(null, "out of window");
+				//map.setFocusable(!map.isFocusable());
+				//JOptionPane.showMessageDialog(null, "out of window "+map.isFocusOwner());
+				//if(map.isFocusOwner())
+			  	
+				//map.hideStationEventWindow();
 				
 				
+				
+				if(MouseInfo.getPointerInfo().getLocation().y>750)
+					map.hideStationEventWindow();
+				System.out.println("mouse pos "+MouseInfo.getPointerInfo().getLocation().x+"  "+MouseInfo.getPointerInfo().getLocation().y);
+			
 			}
 
 			@Override
@@ -332,9 +464,7 @@ public class MmEditorMain extends JFrame implements ActionListener{
 			@Override
 			public void windowIconified(WindowEvent event) {
 				// TODO Auto-generated method stub
-				
-				map.hideStationEventWindow();
-				
+							
 				//window.setState(JFrame.ICONIFIED);
 			}
 
@@ -346,9 +476,18 @@ public class MmEditorMain extends JFrame implements ActionListener{
 	    	  
 	     });
 		
-				
-				
+		
+		
+		
+						
 	}
+	
+	@Override
+	public void eventDispatched(AWTEvent arg0) {
+		// TODO Auto-generated method stub
+		JOptionPane.showMessageDialog(null, MouseInfo.getPointerInfo().getLocation());
+	}
+	
 	
 	public JLabel addLabel(String text,String name)
 	{
@@ -481,11 +620,11 @@ public class MmEditorMain extends JFrame implements ActionListener{
 						 accordionPanels.get(currentFrame).eventsDialog.setOpaque(false);
 						 frame.setContentPane(accordionPanels.get(currentFrame).eventsDialog);
 						 
-						 System.out.println("current frame "+ currentFrame);
+						 //System.out.println("current frame "+ currentFrame);
 						 for(int j=0;j<accordionPanels.get(currentFrame).eventsDialog.componentPanel.getLabels().size();j++)
 						 {
 							  //JLabel label = accordionPanels.get(currentFrame).eventsDialog.componentPanel.getLabels().get(j);
-							   System.out.println("label text "+accordionPanels.get(currentFrame).eventsDialog.componentPanel.getLabels().get(j).getName());
+							   //System.out.println("label text "+accordionPanels.get(currentFrame).eventsDialog.componentPanel.getLabels().get(j).getName());
 							   
 							  accordionPanels.get(currentFrame).eventsDialog.componentPanel.getLabels().get(j).setVisible(true);
 							  accordionPanels.get(currentFrame).eventsDialog.componentPanel.getCheckBoxes().get(j).setVisible(true);
@@ -589,7 +728,8 @@ public class MmEditorMain extends JFrame implements ActionListener{
 		JMenuItem print_preview  = new JMenuItem("Print Preview");
 		JMenuItem exit  = new JMenuItem("Avsluta E",KeyEvent.VK_E);
 		
-				
+	
+						
 		file.add(newTrail);
 		file.add(open);
 		file.add(save);
@@ -598,6 +738,121 @@ public class MmEditorMain extends JFrame implements ActionListener{
 		file.add(print_preview);
 		file.add(exit);
 		
+		file.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				map.bringTofront();
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			
+		});
+		
+		
+		file.addMenuListener(new MenuListener() {
+
+			@Override
+			public void menuCanceled(MenuEvent arg0) {
+				// TODO Auto-generated method stub
+				map.bringTofront();
+			}
+
+			@Override
+			public void menuDeselected(MenuEvent arg0) {
+				// TODO Auto-generated method stub
+				map.bringTofront();
+			}
+
+			@Override
+			public void menuSelected(MenuEvent arg0) {
+				// TODO Auto-generated method stub
+				map.bringTofront();
+			}
+			
+		});
+		
+		help.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				map.bringTofront();
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			
+		});
+		
+		
+		help.addMenuListener(new MenuListener() {
+
+			@Override
+			public void menuCanceled(MenuEvent arg0) {
+				// TODO Auto-generated method stub
+				map.bringTofront();
+			}
+
+			@Override
+			public void menuDeselected(MenuEvent arg0) {
+				// TODO Auto-generated method stub
+				map.bringTofront();
+			}
+
+			@Override
+			public void menuSelected(MenuEvent arg0) {
+				// TODO Auto-generated method stub
+				map.bringTofront();
+			}
+			
+		});
 		
 		newTrail.addActionListener(new ActionListener() {
 
@@ -903,7 +1158,56 @@ public class MmEditorMain extends JFrame implements ActionListener{
 			public void actionPerformed(ActionEvent event) {
 				// TODO Auto-generated method stub
 				
-				System.exit(0);
+				if(map.getSavedState())
+				{	
+					accordionMenu.clearContent();
+					accordionMenu.getStartEvents().imageEvents.clear();
+					accordionMenu.getStartEvents().audioEvents.clear();
+					accordionMenu.getStartEvents().videoEvents.clear();
+					accordionMenu.getStartEvents().messageEvents.clear();
+					System.exit(0);
+				}    
+				else
+				{
+					int option = JOptionPane.showConfirmDialog(null, "kankä spara file", "Spara", JOptionPane.YES_NO_CANCEL_OPTION);
+					if(option==JOptionPane.OK_OPTION)
+					{	
+					    JFileChooser saveFile = new JFileChooser();
+					    int saveOption = saveFile.showSaveDialog(window);
+					    map.hideStationEventWindow();
+					    if(saveOption == JFileChooser.APPROVE_OPTION)
+					    {
+					    	map.bringTofront();
+					       //saveFile.setCurrentDirectory(null);
+					       //JOptionPane.showMessageDialog(window, saveFile.getSelectedFile().getName()+" "+saveFile.getSelectedFile().getPath());			
+					       map.createJSONFile(saveFile.getSelectedFile().toString(),saveFile.getSelectedFile().getPath(),accordionMenu.getGlobalMarkerEvents(),accordionMenu.getStartEvents());
+					       map.setSaved(true);
+					       accordionMenu.clearContent();
+					       resetStartContent();
+						   accordionMenu.getStartEvents().imageEvents.clear();
+						   accordionMenu.getStartEvents().audioEvents.clear();
+						   accordionMenu.getStartEvents().videoEvents.clear();
+						   accordionMenu.getStartEvents().messageEvents.clear();
+						   System.exit(0);
+					    }   
+					    
+					    
+					}
+					
+					if(option==JOptionPane.NO_OPTION)
+					{
+						//accordionMenu.getGlobalMarkerEvents().clear();
+						accordionMenu.clearContent();
+						resetStartContent();
+						accordionMenu.getStartEvents().imageEvents.clear();
+						accordionMenu.getStartEvents().audioEvents.clear();
+						accordionMenu.getStartEvents().videoEvents.clear();
+						accordionMenu.getStartEvents().messageEvents.clear();
+					    System.exit(0);
+					}
+					
+				}
+				
 			}
 			
 		});
@@ -920,7 +1224,7 @@ public class MmEditorMain extends JFrame implements ActionListener{
 			public void actionPerformed(ActionEvent event) {
 				// TODO Auto-generated method stub
 				
-				window.setState(JFrame.ICONIFIED);
+				//window.setState(JFrame.ICONIFIED);
 				
 				try
 				{
@@ -938,11 +1242,109 @@ public class MmEditorMain extends JFrame implements ActionListener{
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		Toolkit toolKit = Toolkit.getDefaultToolkit();
-		new MmEditorMain(toolKit.getScreenSize());
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice gd = ge.getDefaultScreenDevice();
+        GraphicsConfiguration gc = gd.getDefaultConfiguration();
+        Insets ins = Toolkit.getDefaultToolkit().getScreenInsets(gc);
+        int sw = gc.getBounds().width - ins.left - ins.right;
+        int sh = gc.getBounds().height - ins.top - ins.bottom;
+		
+		//Toolkit toolKit = Toolkit.getDefaultToolkit();
+		
+		new MmEditorMain(new Dimension(sw,sh));
+		
 		
              
 	}
+
+	
+	private static class Listener implements AWTEventListener {
+		
+		MmMapViewer map1;
+		boolean focused = true;
+		static AWTEvent prevEvent;
+	    
+		
+        public Listener(MmMapViewer map)
+        {
+        	map1 = map;
+        	focused = true;
+        }
+        public void eventDispatched(AWTEvent event) {
+            
+            if(MouseInfo.getPointerInfo().getLocation().y<75 && event.toString().contains("FOCUS_LOST"))
+            {
+            	 //System.out.print(MouseInfo.getPointerInfo().getLocation() + " | ");
+            	 //System.out.print("data  "+event);
+            	 map1.bringTofront();
+            }
+            
+            if((MouseInfo.getPointerInfo().getLocation().x<400 && MouseInfo.getPointerInfo().getLocation().y>75) && event.toString().contains("FOCUS_LOST"))
+            {
+            	 //System.out.print(MouseInfo.getPointerInfo().getLocation() + " | "+"\n");
+            	 //JOptionPane.showMessageDialog(null, "Entered");
+            	 System.out.print("data1  "+event);
+            	 map1.bringTofront();
+            }
+            
+            
+            //System.out.println(event.toString());
+            //map1.bringTofront();
+            //System.out.println("event  " +event.getID());
+            
+            //int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+            
+            //System.out.println("screen height "+screenHeight);
+            
+            /*if(event.toString().contains("FOCUS_LOST") && (focused) && (MouseInfo.getPointerInfo().getLocation().y>700))
+            {
+            	//JOptionPane.showMessageDialog(null, "Exit");
+            	map1.hideStationEventWindow();
+            	focused=false;
+            	Listener.prevEvent = event;
+            }
+            
+            /*if((MouseInfo.getPointerInfo().getLocation().y>750))
+            {
+            	
+            	
+            	if(prevEvent!=null && prevEvent.toString().contains("FOCUS_GAINED"))
+            	{
+            		System.out.println("mouse position  "+MouseInfo.getPointerInfo().getLocation());
+            		System.out.println("prev event "+prevEvent);
+            		map1.showStationEventWindow();
+            	}
+            	
+            	/*if(event.toString().contains("FOCUS_LOST") && (focused) && map1.isStationEventWindowHidden())
+            	{
+            		//System.out.println("mouse position show "+MouseInfo.getPointerInfo().getLocation());
+            		map1.hideStationEventWindow();
+            		focused=false;
+            		
+            	}
+            	
+            	prevEvent = event;
+            	   
+            }
+            
+            if(event.toString().contains("FOCUS_GAINED") && (!focused) && (MouseInfo.getPointerInfo().getLocation().y>700))
+            {	
+            	map1.showStationEventWindow();
+            	//JOptionPane.showMessageDialog(null, "Enter");
+            	focused = true;
+            	
+            	if(prevEvent!=null && prevEvent.toString().contains("FOCUS_GAINED") && (MouseInfo.getPointerInfo().getLocation().y>750))
+            	{
+            		map1.showStationEventWindow();
+            		
+            	}
+            	
+            	Listener.prevEvent = event;
+            }*/ 	
+            	
+            
+        }
+    }
 
 }
 

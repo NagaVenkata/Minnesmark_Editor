@@ -991,7 +991,8 @@ public class MmAddEvents extends JPanel {
 	       if (val == JFileChooser.APPROVE_OPTION) {
 	    	   File file = fileChooser.getSelectedFile();
 	    	   
-	    	   map.showStationEventWindow(); 
+	    	   map.showStationEventWindow();
+	    	   map.bringTofront();
 	    	   
 	    	   if(currentIndex<4)
 	    	   {  
@@ -1038,6 +1039,12 @@ public class MmAddEvents extends JPanel {
 	  	       }*/
 	  	       
 	       }
+	       else
+	       {
+	    	   map.showStationEventWindow();
+	    	   map.bringTofront();
+	       }
+	       
 		
 	}
 	

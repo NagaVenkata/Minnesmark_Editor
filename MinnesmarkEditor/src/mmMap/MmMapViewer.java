@@ -156,7 +156,7 @@ public class MmMapViewer extends JPanel implements Printable {
 	
 	JPanel markerPanel;
 	
-	JFrame frame1;
+	public JFrame frame1;
 	
 	ArrayList<MmAddEventsDialog> mapMarkers; 
 	
@@ -237,11 +237,14 @@ public class MmMapViewer extends JPanel implements Printable {
 		panel=this;
 		
 	    frame1 = new JFrame();
+	    //frame1.setAlwaysOnTop(true);
 	        
 		events = new MmAddEvents(frame1);
 	    
 	    events.setOpaque(true);
 	    events.setMap(this);
+	    
+	        	    
 	    
 	    frame1.pack();
 	    frame1.setSize(425, 150);
@@ -317,18 +320,10 @@ public class MmMapViewer extends JPanel implements Printable {
 		mapKit.getMainMap().setZoomEnabled(false);
 		
 		
-		mapMarkerWindow = new MmMapStationMarkers(markerFrame2,this);
-	    
-	    markerFrame2.setSize(300, 125);
-	    //markerFrame2.setLocation(600,75);
-	    markerFrame2.getContentPane().add(mapMarkerWindow);
-	    //markerFrame2.setAlwaysOnTop(true);
-	    
-	    markerFrame2.setVisible(true);
-	    markerFrame2.pack();
+		
 	    
 	    
-	    
+            
 	    GridBagConstraints constraints = new GridBagConstraints(); 
 	    
 	    constraints.anchor = GridBagConstraints.NORTH;
@@ -886,7 +881,8 @@ public class MmMapViewer extends JPanel implements Printable {
         			
         		}
 				
-				frame1.toFront();
+				bringTofront();    
+				//frame1.toFront();
 				
 			}
 
@@ -899,7 +895,7 @@ public class MmMapViewer extends JPanel implements Printable {
 					
 					if((event.getX()>0 && event.getX()<400) && (event.getY()>0 && event.getY()<125))
 					{
-																		
+																	
 						int option = JOptionPane.showConfirmDialog(null, "Vill du ta bort stationen","Stationen",JOptionPane.YES_NO_OPTION);
 						
 						if(option == JOptionPane.OK_OPTION)
@@ -1078,7 +1074,36 @@ public class MmMapViewer extends JPanel implements Printable {
         
 	}
 	
+	public void showDialog()
+	{
+        
+		mapMarkerWindow = new MmMapStationMarkers(markerFrame2,this);
+	    
+	    markerFrame2.setSize(300, 125);
+	    markerFrame2.setLocation(425,75);
+	    markerFrame2.getContentPane().add(mapMarkerWindow);
+	    //markerFrame2.setAlwaysOnTop(true);
+	    
+	    markerFrame2.setVisible(true);
+	    markerFrame2.pack();
+	    
+	}
 	
+	public void bringTofront()
+	{
+		markerFrame2.toFront();
+		/*if(!markerFrame2.isFocused())
+		{	
+			//markerFrame2.toBack();
+		    markerFrame2.toFront();
+		}*/
+		
+		if(frame1.isVisible())
+		{	
+		   frame1.toFront();
+		   
+		}
+	}
 	
 	//delets the station and way points 
 	public void deleteStations_WayPoints(Point point)
@@ -2212,15 +2237,7 @@ public class MmMapViewer extends JPanel implements Printable {
 		}
 		
 		
-		if(!globalMarkers.isEmpty())
-		{
-			for(int i=0;i<globalMarkers.size();i++)
-			{
-				//JOptionPane.showMessageDialog(null, globalMarkers.get(i).getMarkerName());
-				if(globalMarkers.get(i).getNumberOfEvents()!=0)
-					startActionArray.put(globalMarkers.get(i).getMarkerName());
-			}
-		}
+		
 		
 		
 		//writing start events data
@@ -2316,7 +2333,15 @@ public class MmMapViewer extends JPanel implements Printable {
 		}
 		
 		
-			
+		if(!globalMarkers.isEmpty())
+		{
+			for(int i=0;i<globalMarkers.size();i++)
+			{
+				//JOptionPane.showMessageDialog(null, globalMarkers.get(i).getMarkerName());
+				if(globalMarkers.get(i).getNumberOfEvents()!=0)
+					startActionArray.put(globalMarkers.get(i).getMarkerName());
+			}
+		}	
 		
 	}
 	
@@ -2620,10 +2645,7 @@ public class MmMapViewer extends JPanel implements Printable {
 			  
 			  String sourcePath = System.getProperty("user.dir")+"/markers/"+markerFile;
 			  
-			  //JOptionPane.showMessageDialog(null, sourcePath);
-			  
-			  //JOptionPane.showMessageDialog(null, sourcePath);
-			  
+			  			  
 			  String[] desPath = sourcePath.split("/");
 			  
 			  File desFile = new File(filePath+"/markers/"+desPath[desPath.length-1]);
@@ -2746,17 +2768,35 @@ public class MmMapViewer extends JPanel implements Printable {
 	
 	public void showStationEventWindow()
 	{
+		markerFrame2.setAlwaysOnTop(true);
 		markerFrame2.setVisible(true);
+		
+		if(frame1.isVisible())
+		{	
+		   frame1.setVisible(true);
+		   frame1.setAlwaysOnTop(true);
+		}   
 	}
 	
 	public void hideStationEventWindow()
 	{
 		markerFrame2.setVisible(false);
+		markerFrame2.setAlwaysOnTop(false);
+		markerFrame2.toBack();
+		
+		if(!frame1.isVisible())
+		{	
+		   frame1.setVisible(false);
+		   frame1.setAlwaysOnTop(false);
+		}	   
+		
 	}
 	
 	public boolean isStationEventWindowHidden()
 	{
+		
 		return markerFrame2.isVisible();
+		
 	}
 	
 	public void setSaved(boolean save)
