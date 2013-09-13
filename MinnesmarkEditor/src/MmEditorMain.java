@@ -342,11 +342,20 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 					if(option==JOptionPane.OK_OPTION)
 					{	
 					    JFileChooser saveFile = new JFileChooser();
-					    int saveOption = saveFile.showSaveDialog(window);
+					    int saveOption = saveFile.showSaveDialog(null);
+					    
+                        saveFile.setAcceptAllFileFilterUsed(false);
+						
+						FileNameExtensionFilter filter = new FileNameExtensionFilter(
+						        "JSON files", "json");
+						
+						saveFile.addChoosableFileFilter(filter);
+						saveFile.setFileFilter(filter);
+					    
 					    map.hideStationEventWindow();
 					    if(saveOption == JFileChooser.APPROVE_OPTION)
 					    {
-					    	map.showStationEventWindow();
+					    	//map.showStationEventWindow();
 					       //saveFile.setCurrentDirectory(null);
 					       //JOptionPane.showMessageDialog(window, saveFile.getSelectedFile().getName()+" "+saveFile.getSelectedFile().getPath());			
 					       map.createJSONFile(saveFile.getSelectedFile().toString(),saveFile.getSelectedFile().getPath(),accordionMenu.getGlobalMarkerEvents(),accordionMenu.getStartEvents());
@@ -376,61 +385,24 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 					}
 					
 				}
+				
+				System.exit(0);
 			}
 
 			@Override
 			public void windowClosing(WindowEvent arg0) {
 				// TODO Auto-generated method stub
-				if(map.getSavedState())
-				{	
-					accordionMenu.clearContent();
-					accordionMenu.getStartEvents().imageEvents.clear();
-					accordionMenu.getStartEvents().audioEvents.clear();
-					accordionMenu.getStartEvents().videoEvents.clear();
-					accordionMenu.getStartEvents().messageEvents.clear();
-				    map.resetMapContents();
-				}    
-				else
+				int option = JOptionPane.showConfirmDialog(null, "kankä spara file", "Spara", JOptionPane.YES_NO_CANCEL_OPTION);
+				if(option==JOptionPane.OK_OPTION)
 				{
-					int option = JOptionPane.showConfirmDialog(null, "kankä spara file", "Spara", JOptionPane.YES_NO_CANCEL_OPTION);
-					if(option==JOptionPane.OK_OPTION)
-					{	
-					    JFileChooser saveFile = new JFileChooser();
-					    int saveOption = saveFile.showSaveDialog(window);
-					    map.hideStationEventWindow();
-					    if(saveOption == JFileChooser.APPROVE_OPTION)
-					    {
-					    	map.showStationEventWindow();
-					       //saveFile.setCurrentDirectory(null);
-					       //JOptionPane.showMessageDialog(window, saveFile.getSelectedFile().getName()+" "+saveFile.getSelectedFile().getPath());			
-					       map.createJSONFile(saveFile.getSelectedFile().toString(),saveFile.getSelectedFile().getPath(),accordionMenu.getGlobalMarkerEvents(),accordionMenu.getStartEvents());
-					       map.setSaved(true);
-					       accordionMenu.clearContent();
-					       resetStartContent();
-						   accordionMenu.getStartEvents().imageEvents.clear();
-						   accordionMenu.getStartEvents().audioEvents.clear();
-						   accordionMenu.getStartEvents().videoEvents.clear();
-						   accordionMenu.getStartEvents().messageEvents.clear();
-					       map.resetMapContents();
-					    }   
-					    
-					    
-					}
-					
-					if(option==JOptionPane.NO_OPTION)
-					{
-						//accordionMenu.getGlobalMarkerEvents().clear();
-						accordionMenu.clearContent();
-						resetStartContent();
-						accordionMenu.getStartEvents().imageEvents.clear();
-						accordionMenu.getStartEvents().audioEvents.clear();
-						accordionMenu.getStartEvents().videoEvents.clear();
-						accordionMenu.getStartEvents().messageEvents.clear();
-					    map.resetMapContents();
-					}
-					
-				}
+				    SaveFile();
+				    
+				    System.exit(0);
+				}    
+				
 				System.exit(0);
+				
+				
 			}
 
 			@Override
@@ -852,7 +824,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 				map.bringTofront();
 			}
 			
-		});
+		}); 
 		
 		newTrail.addActionListener(new ActionListener() {
 
@@ -860,7 +832,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 			public void actionPerformed(ActionEvent event) {
 				// TODO Auto-generated method stub
 				
-				//if(!map.geoPos.isEmpty())
+				/*if(!map.geoPos.isEmpty())
 				{
 					if(map.getSavedState())
 					{	
@@ -911,6 +883,26 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 						}
 						
 					}
+				}*/
+				
+				int option = JOptionPane.showConfirmDialog(null, "kankä spara file", "Spara", JOptionPane.YES_NO_CANCEL_OPTION);
+				if(option==JOptionPane.OK_OPTION)
+				{
+				    SaveFile();
+				    
+				    map.resetMapContents();
+				}	
+				
+				if(option==JOptionPane.NO_OPTION)
+				{
+					//accordionMenu.getGlobalMarkerEvents().clear();
+					accordionMenu.clearContent();
+					resetStartContent();
+					accordionMenu.getStartEvents().imageEvents.clear();
+					accordionMenu.getStartEvents().audioEvents.clear();
+					accordionMenu.getStartEvents().videoEvents.clear();
+					accordionMenu.getStartEvents().messageEvents.clear();
+				    map.resetMapContents();
 				}
 			}
 			
@@ -960,82 +952,8 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
+				SaveFile();
 				
-				map.hideStationEventWindow();
-				
-                JFileChooser saveFile = new JFileChooser();
-				
-				saveFile.setAcceptAllFileFilterUsed(false);
-				
-				FileNameExtensionFilter filter = new FileNameExtensionFilter(
-				        "JSON files", "json");
-				
-				saveFile.addChoosableFileFilter(filter);
-				saveFile.setFileFilter(filter);
-				
-				int option = saveFile.showSaveDialog(null);
-				
-				//JOptionPane.showMessageDialog(null, "file name "+saveFile.getSelectedFile().getName());
-				
-				
-				if(option == JFileChooser.APPROVE_OPTION)
-				{	
-					map.showStationEventWindow();
-					String fileName = saveFile.getSelectedFile().toString();
-					
-					
-					if(!fileName.contains(".json"))
-					{	
-						fileName = fileName+".json";
-						
-					}	
-					
-					File file = new File(fileName);
-					
-					String fileName1 = file.getName();
-					
-					//JOptionPane.showMessageDialog(null, fileName1);
-					
-					int fileIndex = fileName1.indexOf(".");
-					
-					fileName1 = fileName1.substring(0, fileIndex);
-					
-					
-					//JOptionPane.showMessageDialog(null, "selected file "+saveFile.getSelectedFile()+"  "+file.getName());
-					
-					
-					File dirFile = new File(saveFile.getSelectedFile().getParent()+"/"+fileName1);
-					
-					File save_file = new File(saveFile.getSelectedFile()+"/"+file.getName());
-					saveFile.setSelectedFile(save_file);
-					
-					//JOptionPane.showMessageDialog(null, saveFile.getSelectedFile()+"  "+dirFile.isDirectory()+"  "+dirFile.getName()+" "+save_file.exists()+"  "+save_file.getPath());
-					
-					if(dirFile.isDirectory() && save_file.exists())
-					{
-						//File jsonFile = new File(dirFile.getName());
-						int fileOption = JOptionPane.showConfirmDialog(null, "Filen finns redan. Vill du override","Spara" ,JOptionPane.YES_NO_OPTION);
-						if(fileOption == JOptionPane.YES_OPTION)
-						{
-							map.createJSONFile(save_file.getPath(),(dirFile.getAbsolutePath().toString()),accordionMenu.getGlobalMarkerEvents(),accordionMenu.getStartEvents());
-						    map.setSaved(true);
-						}
-					}
-					else
-					{
-						if(!dirFile.isDirectory())
-						      dirFile.mkdir();
-						map.createJSONFile(save_file.getPath(),(dirFile.getAbsolutePath().toString()),accordionMenu.getGlobalMarkerEvents(),accordionMenu.getStartEvents());
-					    map.setSaved(true);
-					}
-									   
-				}   
-				
-				if(option == JFileChooser.CANCEL_OPTION)
-				{	
-					
-					map.showStationEventWindow();
-				}
 			}
 			
 		});
@@ -1237,6 +1155,85 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 			}
 		});
 		
+	}
+	
+	public void SaveFile()
+	{
+		map.hideStationEventWindow();
+		
+        JFileChooser saveFile = new JFileChooser();
+		
+		saveFile.setAcceptAllFileFilterUsed(false);
+		
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+		        "JSON files", "json");
+		
+		saveFile.addChoosableFileFilter(filter);
+		saveFile.setFileFilter(filter);
+		
+		int option = saveFile.showSaveDialog(null);
+		
+		//JOptionPane.showMessageDialog(null, "file name "+saveFile.getSelectedFile().getName());
+		
+		
+		if(option == JFileChooser.APPROVE_OPTION)
+		{	
+			map.showStationEventWindow();
+			String fileName = saveFile.getSelectedFile().toString();
+			
+			
+			if(!fileName.contains(".json"))
+			{	
+				fileName = fileName+".json";
+				
+			}	
+			
+			File file = new File(fileName);
+			
+			String fileName1 = file.getName();
+			
+			//JOptionPane.showMessageDialog(null, fileName1);
+			
+			int fileIndex = fileName1.indexOf(".");
+			
+			fileName1 = fileName1.substring(0, fileIndex);
+			
+			
+			//JOptionPane.showMessageDialog(null, "selected file "+saveFile.getSelectedFile()+"  "+file.getName());
+			
+			
+			File dirFile = new File(saveFile.getSelectedFile().getParent()+"/"+fileName1);
+			
+			File save_file = new File(saveFile.getSelectedFile()+"/"+file.getName());
+			saveFile.setSelectedFile(save_file);
+			
+			//JOptionPane.showMessageDialog(null, saveFile.getSelectedFile()+"  "+dirFile.isDirectory()+"  "+dirFile.getName()+" "+save_file.exists()+"  "+save_file.getPath());
+			
+			if(dirFile.isDirectory() && save_file.exists())
+			{
+				//File jsonFile = new File(dirFile.getName());
+				int fileOption = JOptionPane.showConfirmDialog(null, "Filen finns redan. Vill du override","Spara" ,JOptionPane.YES_NO_OPTION);
+				if(fileOption == JOptionPane.YES_OPTION)
+				{
+					map.createJSONFile(save_file.getPath(),(dirFile.getAbsolutePath().toString()),accordionMenu.getGlobalMarkerEvents(),accordionMenu.getStartEvents());
+				    map.setSaved(true);
+				}
+			}
+			else
+			{
+				if(!dirFile.isDirectory())
+				      dirFile.mkdir();
+				map.createJSONFile(save_file.getPath(),(dirFile.getAbsolutePath().toString()),accordionMenu.getGlobalMarkerEvents(),accordionMenu.getStartEvents());
+			    map.setSaved(true);
+			}
+							   
+		}   
+		
+		if(option == JFileChooser.CANCEL_OPTION)
+		{	
+			
+			map.showStationEventWindow();
+		}
 	}
 	
 	public static void main(String[] args) {

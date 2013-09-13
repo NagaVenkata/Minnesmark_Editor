@@ -181,7 +181,7 @@ public class MmAddEvents extends JPanel {
 					    frame2.setContentPane(eventProperties);
 					    frame2.setLocation(frame.getLocation().x-100, frame.getLocation().y);
 					    frame2.setVisible(true);
-					    
+					    frame2.toFront();
 					    dialogFrame = frame2;
 								
 				    }    
