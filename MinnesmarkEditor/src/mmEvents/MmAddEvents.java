@@ -65,20 +65,25 @@ public class MmAddEvents extends JPanel {
 	
 	MmMapViewer map;
 	
-	JFrame dialogFrame;
+	JDialog dialogFrame;
 	
+	JDialog eventDialog;
 	
 	boolean clicked;
 	
 	boolean isSaved;
 	
-	public MmAddEvents(JFrame frame1)
+	JFrame mainWindow;
+	
+	
+
+	public MmAddEvents(JDialog frame1)
 	{
 		initializeEvents();
 		
-		frame=frame1;
+		eventDialog=frame1;
 		
-		dialogFrame = new JFrame();
+		dialogFrame = new JDialog();
 		
 		dialogFrame = null;
 		
@@ -86,9 +91,9 @@ public class MmAddEvents extends JPanel {
 		//frame.setLocation(0,0);
 		 //this.frame.setPreferredSize(new Dimension(400,200));
 		
-		frame.setUndecorated(true);
+		eventDialog.setUndecorated(true);
 		
-		frame.setBackground(new Color(255,255,255,255));
+		eventDialog.setBackground(new Color(255,255,255,255));
 		setBorder(BorderFactory.createEmptyBorder(25, 5, 2, 5));
 		
 		 //MmEventsTabs tabs = new MmEventsTabs();
@@ -173,14 +178,16 @@ public class MmAddEvents extends JPanel {
 						
 						int index = station.getLabels().indexOf(lb);
 						
-					    JFrame frame2 = new JFrame();
-					
+					    JDialog frame2 = new JDialog(mainWindow);
+					    
+					        
 					    MmAddEventsDialog eventProperties = new MmAddEventsDialog(frame2,index,eventPanel,station,true);
+					    eventProperties.setMainWindow(mainWindow);
 					    frame2.pack();
 					    frame2.setSize(400, 150);
 					    frame2.setContentPane(eventProperties);
-					    frame2.setLocation(frame.getLocation().x-100, frame.getLocation().y);
-					    frame2.setVisible(true);
+					    frame2.setLocation(eventDialog.getLocation().x+25, eventDialog.getLocation().y+50);
+					    frame2.setVisible(true); 
 					    frame2.toFront();
 					    dialogFrame = frame2;
 								
@@ -189,12 +196,13 @@ public class MmAddEvents extends JPanel {
 					{
 						int index = station.getLabels().indexOf(lb);
 						
-						JFrame frame2 = new JFrame();
+						JDialog frame2 = new JDialog(mainWindow);
 						MmAddEventsDialog eventProperties = new MmAddEventsDialog(frame2,index,eventPanel,station,false);
+						eventProperties.setMainWindow(mainWindow);
 					    frame2.pack();
 					    frame2.setSize(400, 150);
 					    frame2.setContentPane(eventProperties);
-					    frame2.setLocation(frame.getLocation().x-100, frame.getLocation().y);
+					    frame2.setLocation(eventDialog.getLocation().x+25, eventDialog.getLocation().y+50);
 					    frame2.setVisible(true);
 					    dialogFrame = frame2;
 							
@@ -375,7 +383,7 @@ public class MmAddEvents extends JPanel {
 				eventPanel.repaint();
 			    eventPanel.updateUI();
 			    eventPanel.revalidate();
-				frame.repaint();
+			    eventDialog.repaint();
 				
 				if(eventPanel.getComponentCount()>1)
 				    System.out.println("component at index "+eventPanel.getComponent(1));
@@ -444,7 +452,7 @@ public class MmAddEvents extends JPanel {
 				 eventPanel.revalidate(); 
 				 pane.revalidate();
 				 pane.updateUI();
-				 frame.repaint();
+				 eventDialog.repaint();
 				 
 				 /*int current_index=-1;
 				 for(int i=0;i<station.getLabels().size();i++)
@@ -538,7 +546,7 @@ public class MmAddEvents extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				// TODO Auto-generated method stub
-				frame.setVisible(false);
+				eventDialog.setVisible(false);
 				if(dialogFrame!=null)
 				  dialogFrame.setVisible(false);
 				
@@ -562,11 +570,22 @@ public class MmAddEvents extends JPanel {
 		 panel1.add(buttonPanel);
 		 
 		 add(panel1,BorderLayout.SOUTH);
-		 frame.add(this);
+		 eventDialog.add(this);
         
 		 
 		
 	}
+	
+	
+	public JFrame getMainWindow() {
+		return mainWindow;
+	}
+
+	public void setMainWindow(JFrame mainWindow) {
+		this.mainWindow = mainWindow;
+	}
+	
+	
 	
 	public void setMap(MmMapViewer map1)
 	{

@@ -16,7 +16,7 @@ import mmStationEvents.MmStationEvents;
 
 public class MmImageViewer extends JPanel {
 	
-    public JFrame frame;
+    public JDialog frame;
 	
 	Image image;
 	
@@ -42,10 +42,11 @@ public class MmImageViewer extends JPanel {
 
 	
 	
-	public MmImageViewer(JFrame frame1,String imageName)
+	public MmImageViewer(JDialog frame1,String imageName)
 	{
 		frame=frame1;
 		
+			
 		JScrollPane pane = new JScrollPane();
 		
 		File sourceimage = new File(imageName);

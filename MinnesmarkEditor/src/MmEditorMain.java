@@ -77,13 +77,18 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 	     width = splitPane.getDividerLocation();
 	     
 	     
-	     accordionMenu = new MmAccordionMenu();
-	     addMainLedInterface();
-	     
 	     window = new JFrame();
 	     window.setSize(new Dimension(dim.width,dim.height));
 	     
+	     accordionMenu = new MmAccordionMenu();
 	     
+	     accordionMenu.setMainWindow(window);
+	     
+	     accordionMenu.setFrame();
+	     
+	     addMainLedInterface();
+	     
+	     	     
 	     
 	     window.setJMenuBar(menuBar);
 	     window.setTitle("Minnesmark Editor");
@@ -122,6 +127,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 	     window.add(splitPane);
 	     window.setVisible(true);
 	     
+	     map.setMainWindow(window);
 	     map.showDialog();
 	     
 	     addMmWindowListener();  

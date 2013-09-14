@@ -48,12 +48,16 @@ public class MmAccordionMenu extends JPanel  {
 	
 	public MmAddGlobalMarkers markerEvents;
 	
-	JFrame frame1 = new JFrame();
+	JDialog frame1; 
+	
 	
 	String text;
 	
 	MmStartEvents startEvents;
+	
+	JFrame mainWindow;
 	 
+	
 	public MmAccordionMenu()
 	{
 		this.setLayout(null);
@@ -63,14 +67,31 @@ public class MmAccordionMenu extends JPanel  {
 		menuItemHeight=0;
 		
 		startEvents = new MmStartEvents();
-	    
 		
 	}
+	
+	public JFrame getMainWindow() {
+		return mainWindow;
+	}
+
+	public void setMainWindow(JFrame mainWindow) {
+		this.mainWindow = mainWindow;
+	}
+	
+	
+   public void setFrame()
+   {
+	   frame1 = new JDialog(mainWindow);
+   }
+
     
 	public void markerDialog()
 	{
         
+		
 		markerEvents = new MmAddGlobalMarkers(frame1);
+		
+		markerEvents.setMainWindow(mainWindow);
 	    
 	    markerEvents.setOpaque(true);
 	    

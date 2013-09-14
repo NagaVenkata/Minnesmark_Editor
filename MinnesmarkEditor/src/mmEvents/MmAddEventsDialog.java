@@ -38,7 +38,7 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public JFrame frame;
+	public JDialog frame;
 	
 	Image image;
 	
@@ -72,9 +72,13 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 	MmAudioVideoPlayer audioPlayer = new MmAudioVideoPlayer();
 	
 	MmMapViewer mapViewer;
+	
+	JFrame mainWindow;
 
 
-	public MmAddEventsDialog(JFrame frame1,int width,int height,MmMapViewer mapView)
+	
+
+	public MmAddEventsDialog(JDialog frame1,int width,int height,MmMapViewer mapView)
 	{
 		super();
 		p = new JPanel();
@@ -152,7 +156,17 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 
 	}
 	
-	public MmAddEventsDialog(JFrame frame1,int index,JPanel panel,MmGlobalMarkerEvents marker,boolean focusEvents)
+	
+	public JFrame getMainWindow() {
+		return mainWindow;
+	}
+
+	public void setMainWindow(JFrame mainWindow) {
+		this.mainWindow = mainWindow;
+	}
+	
+	
+	public MmAddEventsDialog(JDialog frame1,int index,JPanel panel,MmGlobalMarkerEvents marker,boolean focusEvents)
 	{
 			
 		super();
@@ -329,7 +343,7 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 				JLabel lb = (JLabel) textPanel.getComponent(componentIndex);
 				if((lb.getText().contains("bmp")) || (lb.getText().contains("png")) || (lb.getText().contains("jpg")))
 				{	
-				   JFrame frame2 = new JFrame();
+				   JDialog frame2 = new JDialog(mainWindow);
 				   MmImageViewer imageViewer = new MmImageViewer(frame2,lb.getName());
 				   imageViewer.setOpaque(true);
 			       frame2.setContentPane(imageViewer);
@@ -345,7 +359,7 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 				}
 				if((lb.getText().contains(".txt")))
 				{	
-				   JFrame frame = new JFrame();
+				   JDialog frame = new JDialog(mainWindow);
 				   MmMessageViewer messageViewer = new MmMessageViewer(frame,lb.getName());
 				   messageViewer.setOpaque(true);
 			       frame.setContentPane(messageViewer);
@@ -383,7 +397,7 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 	
 	
 	
-	public MmAddEventsDialog(JFrame frame1,int index,JPanel panel,MmStationEvents station,boolean focusEvents)
+	public MmAddEventsDialog(JDialog frame1,int index,JPanel panel,MmStationEvents station,boolean focusEvents)
 	{
 			
 		super();
@@ -512,7 +526,7 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 				JLabel lb = (JLabel) textPanel.getComponent(componentIndex);
 				if((lb.getText().contains("bmp")) || (lb.getText().contains("png")) || (lb.getText().contains("jpg")))
 				{	
-				   JFrame frame = new JFrame();
+				   JDialog frame = new JDialog(mainWindow);
 				   MmImageViewer imageViewer = new MmImageViewer(frame,lb.getName());
 				   imageViewer.setOpaque(true);
 			       frame.setContentPane(imageViewer);
@@ -529,7 +543,7 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 				}
 				if((lb.getText().contains(".txt")))
 				{	
-				   JFrame frame = new JFrame();
+				   JDialog frame = new JDialog(mainWindow);
 				   MmMessageViewer messageViewer = new MmMessageViewer(frame,lb.getName());
 				   messageViewer.setOpaque(true);
 			       frame.setContentPane(messageViewer);

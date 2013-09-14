@@ -231,24 +231,25 @@ public class MmMapViewer extends JPanel implements Printable {
 	JFrame markerFrame = new JFrame();
 	
 	JLabel frameLabel = new JLabel();
+	
+	JFrame mainWindow;
+	
+	//map markers dialog
+	JDialog mapMarkersDialog;
     
+	//events dialog
+	JDialog eventsDialog;
+
+	
+
+
 	public MmMapViewer()
 	{
 		panel=this;
 		
-	    frame1 = new JFrame();
-	    //frame1.setAlwaysOnTop(true);
-	        
-		events = new MmAddEvents(frame1);
-	    
-	    events.setOpaque(true);
-	    events.setMap(this);
-	    
-	        	    
-	    
-	    frame1.pack();
-	    frame1.setSize(425, 150);
-	    frame1.setVisible(false);
+		mainWindow = new JFrame();
+		
+	   
 	    
 	    mapMarkers = new ArrayList<MmAddEventsDialog>();
 	    
@@ -534,40 +535,40 @@ public class MmMapViewer extends JPanel implements Printable {
     	    	   drawPoints();
     	    	}
     	    	
-    	    	if(frame1.isVisible())
+    	    	if(eventsDialog.isVisible())
     	    	{	
-    	    	    frame1.toFront();
+    	    	    //frame1.toFront();
     	    	
     	       	    mapKit.getMainMap().repaint();
     	    	
     	    	    if(mousePos.get(index).getx()<368 && mousePos.get(index).gety()<190)
     	    	    {	
-    	    	       frame1.setLocation(mousePos.get(index).getx()+450, mousePos.get(index).gety()+50);
+    	    	    	eventsDialog.setLocation(mousePos.get(index).getx()+450, mousePos.get(index).gety()+50);
     	    	    }
 				
 				    if(mousePos.get(index).getx()<368 && mousePos.get(index).gety()>190)
     	      	    {	
-    	    	       frame1.setLocation(mousePos.get(index).getx()+450, mousePos.get(index).gety());
+				    	eventsDialog.setLocation(mousePos.get(index).getx()+450, mousePos.get(index).gety());
     	    	    }
 				
 				    if(mousePos.get(index).getx()<368 && mousePos.get(index).gety()>590)
     	    	    {	
-    	    	       frame1.setLocation(mousePos.get(index).getx()+450, mousePos.get(index).gety()-100);
+				    	eventsDialog.setLocation(mousePos.get(index).getx()+450, mousePos.get(index).gety()-100);
     	    	    }
     	    	
     	    	    if(mousePos.get(index).getx()>368 && mousePos.get(index).gety()>190)
     	    	    {	
-    	    	       frame1.setLocation(mousePos.get(index).getx()-25, mousePos.get(index).gety());
+    	    	    	eventsDialog.setLocation(mousePos.get(index).getx()-25, mousePos.get(index).gety());
     	    	    }
     	    	
     	    	    if(mousePos.get(index).getx()>368 && mousePos.get(index).gety()<190)
     	    	    {	
-    	    	       frame1.setLocation(mousePos.get(index).getx()-25, mousePos.get(index).gety()+50);
+    	    	    	eventsDialog.setLocation(mousePos.get(index).getx()-25, mousePos.get(index).gety()+50);
     	    	    } 
     	    	
     	    	    if(mousePos.get(index).getx()>368 && mousePos.get(index).gety()>590)
     	    	    {	
-    	    	       frame1.setLocation(mousePos.get(index).getx()-25, mousePos.get(index).gety()-100);
+    	    	    	eventsDialog.setLocation(mousePos.get(index).getx()-25, mousePos.get(index).gety()-100);
     	    	    }
     	    	
     	    	}    
@@ -618,7 +619,7 @@ public class MmMapViewer extends JPanel implements Printable {
         			else
         			{
         				isPointPresent=true;
-        				frame1.setVisible(true);
+        				eventsDialog.setVisible(true);
         				events.updateStationEvents(geoPos.get(index));
         				index=i;
         				break;
@@ -697,37 +698,37 @@ public class MmMapViewer extends JPanel implements Printable {
             		   }
             		}*/
         			
-        			if(frame1.isVisible())
+        			if(eventsDialog.isVisible())
         			{	
         			  	
         				if(mousePos.get(index).getx()<368 && mousePos.get(index).gety()<190)
             	    	{	
-            	    	   frame1.setLocation(mousePos.get(index).getx()+450, mousePos.get(index).gety()+50);
+        					eventsDialog.setLocation(mousePos.get(index).getx()+450, mousePos.get(index).gety()+50);
             	    	}
         				
         				if(mousePos.get(index).getx()<368 && mousePos.get(index).gety()>190)
             	    	{	
-            	    	   frame1.setLocation(mousePos.get(index).getx()+450, mousePos.get(index).gety());
+        					eventsDialog.setLocation(mousePos.get(index).getx()+450, mousePos.get(index).gety());
             	    	}
         				
         				if(mousePos.get(index).getx()<368 && mousePos.get(index).gety()>=598)
             	    	{	
-            	    	   frame1.setLocation(mousePos.get(index).getx()+450, mousePos.get(index).gety()-100);
+        					eventsDialog.setLocation(mousePos.get(index).getx()+450, mousePos.get(index).gety()-100);
             	    	}
             	    	
             	    	if(mousePos.get(index).getx()>368 && mousePos.get(index).gety()>190)
             	    	{	
-            	    	   frame1.setLocation(mousePos.get(index).getx()-25, mousePos.get(index).gety());
+            	    		eventsDialog.setLocation(mousePos.get(index).getx()-25, mousePos.get(index).gety());
             	    	}
             	    	
             	    	if(mousePos.get(index).getx()>368 && mousePos.get(index).gety()<190)
             	    	{	
-            	    	   frame1.setLocation(mousePos.get(index).getx()-25, mousePos.get(index).gety()+50);
+            	    		eventsDialog.setLocation(mousePos.get(index).getx()-25, mousePos.get(index).gety()+50);
             	    	}
             	    	
             	    	if(mousePos.get(index).getx()>368 && mousePos.get(index).gety()>=598)
             	    	{	
-            	    	   frame1.setLocation(mousePos.get(index).getx()-25, mousePos.get(index).gety()-100);
+            	    		eventsDialog.setLocation(mousePos.get(index).getx()-25, mousePos.get(index).gety()-100);
             	    	}
             	    	
             	    	/*if(isPointPresent)
@@ -881,7 +882,8 @@ public class MmMapViewer extends JPanel implements Printable {
         			
         		}
 				
-				bringTofront();    
+				//
+				    //bringTofront();    
 				//frame1.toFront();
 				
 			}
@@ -1074,35 +1076,101 @@ public class MmMapViewer extends JPanel implements Printable {
         
 	}
 	
+	
+	public JFrame getMainWindow() {
+		return mainWindow;
+	}
+
+	public void setMainWindow(JFrame mainWindow) {
+		this.mainWindow = mainWindow;
+	}
+	
+	public JDialog getMapMarkersDialog() {
+		return mapMarkersDialog;
+	}
+
+
+	public void setMapMarkersDialog(JDialog mapMarkersDialog) {
+		this.mapMarkersDialog = mapMarkersDialog;
+	}
+	
 	public void showDialog()
 	{
-        
-		mapMarkerWindow = new MmMapStationMarkers(markerFrame2,this);
+		
+		
+		//map markers window 
+		
+        mapMarkersDialog = new JDialog(mainWindow);
 	    
-	    markerFrame2.setSize(300, 125);
+	    mapMarkersDialog.setSize(300, 125);
+	    mapMarkersDialog.setLocation(425,75);
+        
+		mapMarkerWindow = new MmMapStationMarkers(mapMarkersDialog,this);
+		
+		mapMarkersDialog.getContentPane().add(mapMarkerWindow);
+		
+		mapMarkersDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		
+		mapMarkersDialog.setResizable(false);
+		
+		mapMarkersDialog.setVisible(true);
+		
+		mapMarkersDialog.pack();
+		
+		
+		eventsDialog = new JDialog(mainWindow);
+		
+		
+		
+	    //frame1 = new JFrame();
+	    //frame1.setAlwaysOnTop(true);
+		
+		//eventsDialog = new JDialog(window);
+		        
+		events = new MmAddEvents(eventsDialog);
+		
+		events.setMainWindow(mainWindow);
+		    
+		events.setOpaque(true);
+		events.setMap(this);
+		    
+		        	    
+		    
+		eventsDialog.pack();
+		eventsDialog.setSize(425, 150);
+		eventsDialog.setVisible(false);
+		
+		
+		
+	    
+	   /* markerFrame2.setSize(300, 125);
 	    markerFrame2.setLocation(425,75);
 	    markerFrame2.getContentPane().add(mapMarkerWindow);
 	    //markerFrame2.setAlwaysOnTop(true);
 	    
 	    markerFrame2.setVisible(true);
-	    markerFrame2.pack();
+	    markerFrame2.pack();*/
+	    
+	    
+	    
+	    
 	    
 	}
 	
 	public void bringTofront()
 	{
-		markerFrame2.toFront();
+		//markerFrame2.toFront();
 		/*if(!markerFrame2.isFocused())
 		{	
 			//markerFrame2.toBack();
 		    markerFrame2.toFront();
-		}*/
-		
-		if(frame1.isVisible())
-		{	
-		   frame1.toFront();
-		   
 		}
+		
+		if(eventsDialog.isVisible())
+		{	
+			eventsDialog.toFront();
+		   
+		} */
 	}
 	
 	//delets the station and way points 
@@ -2768,34 +2836,34 @@ public class MmMapViewer extends JPanel implements Printable {
 	
 	public void showStationEventWindow()
 	{
-		markerFrame2.setAlwaysOnTop(true);
+		/*markerFrame2.setAlwaysOnTop(true);
 		markerFrame2.setVisible(true);
 		
-		if(frame1.isVisible())
+		if(eventsDialog.isVisible())
 		{	
-		   frame1.setVisible(true);
-		   frame1.setAlwaysOnTop(true);
-		}   
+			eventsDialog.setVisible(true);
+			eventsDialog.setAlwaysOnTop(true);
+		}*/   
 	}
 	
 	public void hideStationEventWindow()
 	{
-		markerFrame2.setVisible(false);
+		/*markerFrame2.setVisible(false);
 		markerFrame2.setAlwaysOnTop(false);
 		markerFrame2.toBack();
 		
-		if(!frame1.isVisible())
+		if(!eventsDialog.isVisible())
 		{	
-		   frame1.setVisible(false);
-		   frame1.setAlwaysOnTop(false);
-		}	   
+			eventsDialog.setVisible(false);
+			eventsDialog.setAlwaysOnTop(false);
+		}*/	   
 		
 	}
 	
 	public boolean isStationEventWindowHidden()
 	{
 		
-		return markerFrame2.isVisible();
+		return mapMarkersDialog.isVisible();
 		
 	}
 	
@@ -2818,7 +2886,7 @@ public class MmMapViewer extends JPanel implements Printable {
 	public void drawMapMarkers()
 	{
 
-		JFrame markerFrame = new JFrame();
+		JDialog markerFrame = new JDialog(mainWindow);
 	    
 	    MmAddEventsDialog frame2 = new MmAddEventsDialog(markerFrame,300,100,this);
 	    markerFrame.pack();
@@ -2830,7 +2898,7 @@ public class MmMapViewer extends JPanel implements Printable {
 	    
 	    
 	    	    	    
-        JFrame markerFrame1 = new JFrame();
+        JDialog markerFrame1 = new JDialog(mainWindow);
 	    
 	    MmAddEventsDialog frame3 = new MmAddEventsDialog(markerFrame1,300,100,this);
 	    markerFrame1.pack();
@@ -2840,7 +2908,7 @@ public class MmMapViewer extends JPanel implements Printable {
 	    markerFrame1.setVisible(true);
 	    mapMarkers.add(frame3);
 	    
-        JFrame markerFrame3 = new JFrame();
+        JDialog markerFrame3 = new JDialog(mainWindow);
 	    
 	    MmAddEventsDialog frame4 = new MmAddEventsDialog(markerFrame3,300,100,this);
 	    markerFrame3.pack();
@@ -2850,7 +2918,7 @@ public class MmMapViewer extends JPanel implements Printable {
 	    markerFrame3.setVisible(true);
 	    mapMarkers.add(frame4);
 	    
-        JFrame markerFrame4 = new JFrame();
+        JDialog markerFrame4 = new JDialog(mainWindow);
 	    
 	    MmAddEventsDialog frame5 = new MmAddEventsDialog(markerFrame4,300,100,this);
 	    markerFrame4.pack();

@@ -16,7 +16,7 @@ import mmStationEvents.MmStationEvents;
 
 public class MmMessageViewer extends JPanel {
 	
-public JFrame frame;
+public JDialog frame;
 	
 	Image image;
 	
@@ -42,7 +42,7 @@ public JFrame frame;
 
 	
 	
-	public MmMessageViewer(JFrame frame1,String textFile)
+	public MmMessageViewer(JDialog frame1,String textFile)
 	{
 		frame=frame1;
 		

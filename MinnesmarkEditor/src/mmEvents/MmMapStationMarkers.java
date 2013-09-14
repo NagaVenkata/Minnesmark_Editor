@@ -71,24 +71,26 @@ public class MmMapStationMarkers extends JPanel {
 	public JDialog dialog;
 	
 	public final JWindow window = new JWindow();
-	public MmMapStationMarkers(JFrame frame,MmMapViewer mapView)
+	public MmMapStationMarkers(JDialog markerDialog,MmMapViewer mapView)
 	{
 		
 		 super();
 		 
 		 	 
-		 this.markerFrame = frame;
+		 //this.markerFrame = frame;
+		 
+		 this.dialog = markerDialog;
 		 
 		 mapViewer = mapView;
 		
-		 this.markerFrame.setLocation(425,75);
+		 /*this.markerFrame.setLocation(425,75);
 		 //this.markerFrame.setAlwaysOnTop(true);
 		 this.markerFrame.setUndecorated(false);
 		 this.markerFrame.setTitle("Stationer");
 		 
 		 
 		 this.markerFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		 this.markerFrame.setResizable(false);
+		 this.markerFrame.setResizable(false);*/
 		 
 		 
 		 p = new JPanel();
@@ -100,7 +102,7 @@ public class MmMapStationMarkers extends JPanel {
 		 
 		 //mt.addImage(image,0);
 		 		 
-		 this.markerFrame.setBackground(new Color(255,255,255,255));
+		 //this.markerFrame.setBackground(new Color(255,255,255,255));
 		 //MmMapStationMarkers.setWindowAlpha(this.markerFrame, 0.0f);
 		 
 		 
@@ -143,7 +145,7 @@ public class MmMapStationMarkers extends JPanel {
 		 selectMarker(markerIndex); 
 		 		 
 		    		
-		 this.markerFrame.setBackground(new Color(255,255,255,255));
+		 //this.markerFrame.setBackground(new Color(255,255,255,255));
 		 
 		 		 		 
 		 JPanel framePanel = new JPanel();
@@ -339,8 +341,8 @@ public class MmMapStationMarkers extends JPanel {
 			public void mousePressed(MouseEvent event) {
 				// TODO Auto-generated method stub
 				//moveableLabel =  (JLabel) mapMarkers.get(0);
-				markerFrame.setAlwaysOnTop(false);
-				markerFrame.repaint();
+				//markerFrame.setAlwaysOnTop(false);
+				//markerFrame.repaint();
 				JLabel lb = (JLabel) markerPanel.getComponentAt(event.getPoint());
 				
                 
@@ -422,7 +424,7 @@ public class MmMapStationMarkers extends JPanel {
 				if(mapViewer.checkDistances(mapViewer.getGeoPosition(pnt))||mapViewer.geoPos.isEmpty() && markerSelected)
 				{
 					//JOptionPane.showMessageDialog(null, pnt);
-					markerFrame.setAlwaysOnTop(true);
+					//markerFrame.setAlwaysOnTop(true);
 					mapViewer.geoPos.add(mapViewer.getGeoPosition(pnt));	
 					mapViewer.initialGeoPos.add(mapViewer.getGeoPosition(pnt));
 					MmMousePoints pnts = new MmMousePoints(pnt);
@@ -463,7 +465,7 @@ public class MmMapStationMarkers extends JPanel {
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(mainPanel, "Cannot add a station");
+					JOptionPane.showMessageDialog(mainPanel, "Kan inte lägga till en station");
 					markerWindows.get(markerIndex).setVisible(false);
 				}
 				

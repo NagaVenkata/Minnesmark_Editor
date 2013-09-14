@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,10 +30,11 @@ public class MmAddGlobalMarkers extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	
-	JFrame frame,property_frame;
+	JDialog frame,property_frame;
 	public JPanel eventPanel;
 	ArrayList<JLabel> eventLabels;
 	int currentIndex=0;
+		
 	
 	ArrayList<MmAudioEvent> audioEvents;
 	ArrayList<MmVideoEvent> videoEvents;
@@ -60,7 +62,12 @@ public class MmAddGlobalMarkers extends JPanel {
 	
 	JButton addButton,minusButton,okButton;
 	
-	public MmAddGlobalMarkers(JFrame frame1)
+	JFrame mainWindow;
+	
+	
+	
+
+	public MmAddGlobalMarkers(JDialog frame1)
 	{
 		initializeEvents();
 		
@@ -157,9 +164,10 @@ public class MmAddGlobalMarkers extends JPanel {
 						
 						int index = station.getLabels().indexOf(lb);
 						
-					    JFrame frame2 = new JFrame();
+					    JDialog frame2 = new JDialog(mainWindow);
 					
 					    eventProperties = new MmAddEventsDialog(frame2,index,eventPanel,station,true);
+					    eventProperties.setMainWindow(mainWindow);
 					    frame2.pack();
 					    frame2.setSize(400, 150);
 					    frame2.setContentPane(eventProperties);
@@ -169,8 +177,9 @@ public class MmAddGlobalMarkers extends JPanel {
 					else if(!lb.getText().contains("patt"))
 					{
 						int index = station.getLabels().indexOf(lb);
-						JFrame frame2 = new JFrame();
+						JDialog frame2 = new JDialog(mainWindow);
 						eventProperties = new MmAddEventsDialog(frame2,index,eventPanel,station,false);
+						eventProperties.setMainWindow(mainWindow);
 					    frame2.pack();
 					    frame2.setSize(400, 150);
 					    frame2.setContentPane(eventProperties);
@@ -552,12 +561,17 @@ public class MmAddGlobalMarkers extends JPanel {
 		
 	}
 	
+	public JFrame getMainWindow() {
+		return mainWindow;
+	}
+
+	public void setMainWindow(JFrame mainWindow) {
+		this.mainWindow = mainWindow;
+	}
+	
 	public void resetSelectedText()
 	{
-		
-		
-		
-		
+	  
 	}
 	
 	public void setLabel(JLabel label)
