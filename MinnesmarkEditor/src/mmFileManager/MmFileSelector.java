@@ -44,7 +44,7 @@ public class MmFileSelector extends JFileChooser {
 	public void showSaveFileDialog()
 	{	
 		option = showSaveDialog(this);
-		addChoosableFileFilter(new MmFileFilter());
+		//addChoosableFileFilter(new MmFileFilter());
 		
 	}
 	

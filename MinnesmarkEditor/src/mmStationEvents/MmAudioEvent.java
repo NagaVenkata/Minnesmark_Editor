@@ -63,6 +63,7 @@ public class MmAudioEvent {
 	public void setSourcePath(String src)
 	{
 		sourcePath = src;
+			
 	}
 	
 	public void setDestinationPath(String des)
@@ -120,7 +121,7 @@ public class MmAudioEvent {
 		action.put(nextEventName);
 	}
 
-	public void JSONActions()
+	public boolean JSONActions()
 	{
 		
 		try 
@@ -166,11 +167,15 @@ public class MmAudioEvent {
 					     des.transferFrom(src, 0, src.size());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null, e);
 				e.printStackTrace();
+				return false;
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, e);
 			e.printStackTrace();
+			return false;
 		}
 
 		finally
@@ -183,10 +188,14 @@ public class MmAudioEvent {
 				  }
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null, e);
 				e.printStackTrace();
+				return false;
 			}
 			
 		}
+		
+		return true;
 		
 	}
 	

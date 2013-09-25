@@ -24,10 +24,25 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import net.sf.vfsjfilechooser.VFSJFileChooser;
+import net.sf.vfsjfilechooser.VFSJFileChooser.RETURN_TYPE;
+import net.sf.vfsjfilechooser.VFSJFileChooser.SELECTION_MODE;
+import net.sf.vfsjfilechooser.accessories.DefaultAccessoriesPanel;
+
+import mmFileManager.*;
+
+
+import org.apache.commons.vfs2.FileObject;
+
+import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
+import uk.co.caprica.vlcj.runtime.RuntimeUtil;
+
 
 import java.util.*;
 
 import mmFileManager.MmFileSelector;
+
+import com.sun.jna.NativeLibrary;
 
 
 import mmAccordionMenu.*;
@@ -75,6 +90,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 	     accordionPanels = new ArrayList<MmAccordionPanel>();
 	     MmAccordionComponent.width = splitPane.getDividerLocation();
 	     width = splitPane.getDividerLocation();
+	     
 	     
 	     
 	     window = new JFrame();
@@ -333,80 +349,25 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 			@Override
 			public void windowClosed(WindowEvent arg0) {
 				// TODO Auto-generated method stub
-				if(map.getSavedState())
-				{	
-					accordionMenu.clearContent();
-					accordionMenu.getStartEvents().imageEvents.clear();
-					accordionMenu.getStartEvents().audioEvents.clear();
-					accordionMenu.getStartEvents().videoEvents.clear();
-					accordionMenu.getStartEvents().messageEvents.clear();
-				    map.resetMapContents();
-				}    
-				else
-				{
-					int option = JOptionPane.showConfirmDialog(null, "kankä spara file", "Spara", JOptionPane.YES_NO_CANCEL_OPTION);
-					if(option==JOptionPane.OK_OPTION)
-					{	
-					    JFileChooser saveFile = new JFileChooser();
-					    int saveOption = saveFile.showSaveDialog(null);
-					    
-                        saveFile.setAcceptAllFileFilterUsed(false);
-						
-						FileNameExtensionFilter filter = new FileNameExtensionFilter(
-						        "JSON files", "json");
-						
-						saveFile.addChoosableFileFilter(filter);
-						saveFile.setFileFilter(filter);
-					    
-					    map.hideStationEventWindow();
-					    if(saveOption == JFileChooser.APPROVE_OPTION)
-					    {
-					    	//map.showStationEventWindow();
-					       //saveFile.setCurrentDirectory(null);
-					       //JOptionPane.showMessageDialog(window, saveFile.getSelectedFile().getName()+" "+saveFile.getSelectedFile().getPath());			
-					       map.createJSONFile(saveFile.getSelectedFile().toString(),saveFile.getSelectedFile().getPath(),accordionMenu.getGlobalMarkerEvents(),accordionMenu.getStartEvents());
-					       map.setSaved(true);
-					       accordionMenu.clearContent();
-					       resetStartContent();
-						   accordionMenu.getStartEvents().imageEvents.clear();
-						   accordionMenu.getStartEvents().audioEvents.clear();
-						   accordionMenu.getStartEvents().videoEvents.clear();
-						   accordionMenu.getStartEvents().messageEvents.clear();
-					       map.resetMapContents();
-					    }   
-					    
-					    
-					}
-					
-					if(option==JOptionPane.NO_OPTION)
-					{
-						//accordionMenu.getGlobalMarkerEvents().clear();
-						accordionMenu.clearContent();
-						resetStartContent();
-						accordionMenu.getStartEvents().imageEvents.clear();
-						accordionMenu.getStartEvents().audioEvents.clear();
-						accordionMenu.getStartEvents().videoEvents.clear();
-						accordionMenu.getStartEvents().messageEvents.clear();
-					    map.resetMapContents();
-					}
-					
-				}
 				
-				System.exit(0);
 			}
 
 			@Override
 			public void windowClosing(WindowEvent arg0) {
 				// TODO Auto-generated method stub
-				int option = JOptionPane.showConfirmDialog(null, "kankä spara file", "Spara", JOptionPane.YES_NO_CANCEL_OPTION);
-				if(option==JOptionPane.OK_OPTION)
-				{
-				    SaveFile();
-				    
-				    System.exit(0);
-				}    
 				
-				System.exit(0);
+				if(!map.getSavedState())
+				{
+				   int option = JOptionPane.showConfirmDialog(null, "kankä spara file", "Spara", JOptionPane.YES_NO_CANCEL_OPTION);
+				   if(option==JOptionPane.OK_OPTION)
+				   {
+				       SaveFile();
+				    
+				       System.exit(0);
+				   }    
+				}
+				
+				
 				
 				
 			}
@@ -424,9 +385,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 				
 				
 				
-				if(MouseInfo.getPointerInfo().getLocation().y>750)
-					map.hideStationEventWindow();
-				System.out.println("mouse pos "+MouseInfo.getPointerInfo().getLocation().x+"  "+MouseInfo.getPointerInfo().getLocation().y);
+				
 			
 			}
 
@@ -716,7 +675,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 		file.add(print_preview);
 		file.add(exit);
 		
-		file.addMouseListener(new MouseListener() {
+		/*file.addMouseListener(new MouseListener() {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -830,7 +789,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 				map.bringTofront();
 			}
 			
-		}); 
+		}); */
 		
 		newTrail.addActionListener(new ActionListener() {
 
@@ -920,7 +879,23 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 			public void actionPerformed(ActionEvent event) {
 				// TODO Auto-generated method stub
 				
-				map.hideStationEventWindow();
+				//map.hideStationEventWindow();
+				
+				final VFSJFileChooser vfs1 = new VFSJFileChooser();
+			     
+			     vfs1.setAccessory(new DefaultAccessoriesPanel(vfs1));
+			     vfs1.setFileHidingEnabled(false);
+			     vfs1.setMultiSelectionEnabled(false);
+			     vfs1.setFileSelectionMode(SELECTION_MODE.FILES_AND_DIRECTORIES);
+			     
+			    
+			        
+			     vfs1.addChoosableFileFilter(new MmFileFilter());
+			     
+			     vfs1.setFileFilter(new MmFileFilter());
+
+			     // show the file dialog
+			     RETURN_TYPE answer = vfs1.showOpenDialog(null);
 				
 				JFileChooser openFile = new JFileChooser();
 				
@@ -1186,8 +1161,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 		{	
 			map.showStationEventWindow();
 			String fileName = saveFile.getSelectedFile().toString();
-			
-			
+						
 			if(!fileName.contains(".json"))
 			{	
 				fileName = fileName+".json";
@@ -1245,10 +1219,16 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
+        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), System.getProperty("user.dir") + File.separator + "lib" + File.separator + "VLC.app" + File.separator + "Contents"+  File.separator + "MacOS"+File.separator + "lib");
+        System.setProperty("jna.library.path", System.getProperty("user.dir") + File.separator + "lib" + File.separator + "VLC" + File.separator + "lib");
+		
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         GraphicsConfiguration gc = gd.getDefaultConfiguration();
         Insets ins = Toolkit.getDefaultToolkit().getScreenInsets(gc);
+        
+        
+        
         int sw = gc.getBounds().width - ins.left - ins.right;
         int sh = gc.getBounds().height - ins.top - ins.bottom;
 		
@@ -1256,7 +1236,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 		
 		new MmEditorMain(new Dimension(sw,sh));
 		
-		
+		 
              
 	}
 
@@ -1347,7 +1327,12 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
             	
             
         }
+        
+        
     }
+	
+	
+	
 
 }
 

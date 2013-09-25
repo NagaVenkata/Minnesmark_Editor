@@ -2,6 +2,8 @@ package mmFileManager;
 
 import java.io.File;
 
+import org.apache.commons.vfs2.FileObject;
+
 public class MmFileUtils {
 	
 	public final static String jpeg = "jpeg";
@@ -14,11 +16,11 @@ public class MmFileUtils {
     /*
      * Get the extension of a file.
      */  
-    public static String getExtension(File file) {
+    public static String getExtension(FileObject file) {
         
     	String ext = null;
         
-        String s = file.getName();
+        String s = file.getName().getBaseName();
         int i = s.lastIndexOf('.');
 
         if (i > 0 &&  i < s.length() - 1) {

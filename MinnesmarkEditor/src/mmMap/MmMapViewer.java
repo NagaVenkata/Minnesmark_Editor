@@ -2069,7 +2069,21 @@ public class MmMapViewer extends JPanel implements Printable {
 		    stationAudioEvent.setSourcePath(System.getProperty("user.dir")+"/audios/magic-chime.mp3");
 		    stationAudioEvent.setDestinationPath(filePath);
 		    stationAudioEvent.makeJSONObject();
-		    stationAudioEvent.JSONActions();
+		    if(!stationAudioEvent.JSONActions())
+		    {
+		    	JOptionPane.showMessageDialog(null, "Kan inte spara json filen");
+		    	File file = new File(filePath);
+		    	if(file.isDirectory())
+		    	{
+		    		File[] files = file.listFiles();
+		    		if(files.length>0)
+		    		{
+		    			files[0].delete();
+		    		}
+		    		file.delete();
+		    	}	
+		    	return;
+		    }	
 		
 		    eventsArray.put(stationAudioEvent.getAudioEvent());
 		
@@ -2079,7 +2093,21 @@ public class MmMapViewer extends JPanel implements Printable {
 		    swingAudioEvent.setSourcePath(System.getProperty("user.dir")+"/audios/wayPoint.m4a");
 		    swingAudioEvent.setDestinationPath(filePath);
 	  	    swingAudioEvent.makeJSONObject();
-		    swingAudioEvent.JSONActions();
+		    if(!swingAudioEvent.JSONActions())
+		    {	
+		    	JOptionPane.showMessageDialog(null, "Kan inte spara json filen");
+		    	File file = new File(filePath);
+		    	if(file.isDirectory())
+		    	{
+		    		File[] files = file.listFiles();
+		    		if(files.length>0)
+		    		{
+		    			files[0].delete();
+		    		}
+		    		file.delete();
+		    	}	
+		    	return;
+		    }	
 		    
 		    eventsArray.put(swingAudioEvent.getAudioEvent());
 		    
@@ -2122,7 +2150,11 @@ public class MmMapViewer extends JPanel implements Printable {
 			{   
 			   
 			   mapMarkers(eventsArray,filePath);
-			   writeMap3DObjects(filePath);
+			   if(!writeMap3DObjects(filePath))
+			   {
+				   JOptionPane.showMessageDialog(null, "Kan inte spara json filen");
+				   return;
+			   }
 			   
 				
 		       for(int i=0;i<events.getStations().size();i++)
@@ -2222,7 +2254,7 @@ public class MmMapViewer extends JPanel implements Printable {
 	       }
 	       catch(Exception e)
 	       {
-	    	   
+	    	   JOptionPane.showMessageDialog(null, "Kan inte spara json filen");
 	       }
 		
 	}
@@ -2703,7 +2735,7 @@ public class MmMapViewer extends JPanel implements Printable {
 		}
 	}
 	
-	public void writeMarkerFiles(String markerFile, String filePath)
+	public boolean writeMarkerFiles(String markerFile, String filePath)
 	{
 		FileChannel src = null,des=null;
 		try {
@@ -2740,11 +2772,15 @@ public class MmMapViewer extends JPanel implements Printable {
 					     des.transferFrom(src, 0, src.size());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null, e);
 				e.printStackTrace();
+				return false;
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, e);
 			e.printStackTrace();
+			return false;
 		}
 
 		finally
@@ -2757,28 +2793,40 @@ public class MmMapViewer extends JPanel implements Printable {
 				  }
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null, e);
 				e.printStackTrace();
+				return false;
 			}
 			
 		}
+		
+		return true;
 
 	}
 	
 	/*
 	 * writes the 3d content files 
 	 */
-	public void writeMap3DObjects(String filePath)
+	public boolean writeMap3DObjects(String filePath)
 	{
-		writeFile("base.osg",filePath);
-		writeFile("diamond.osg",filePath);
-		writeFile("base1.jpg",filePath);
-		writeFile("diamond2.jpg",filePath);
+		if(!writeFile("base.osg",filePath))
+              return false;
+		if(!writeFile("diamond.osg",filePath))
+			  return false;   
+		   
+		if(writeFile("base1.jpg",filePath))
+			return false;
+		
+		if(writeFile("diamond2.jpg",filePath))
+			return false;
+		
+		return true;
 	}
 	
 	/*
 	 * writes the files content from source to destination
 	 */
-	public void writeFile(String sourceFileName,String filePath)
+	public boolean writeFile(String sourceFileName,String filePath)
 	{
 		FileChannel src = null,des=null;
 		
@@ -2809,11 +2857,15 @@ public class MmMapViewer extends JPanel implements Printable {
 				des.transferFrom(src, 0, src.size());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null,e);
 				e.printStackTrace();
+				return false;
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null,e);
 			e.printStackTrace();
+			return false;
 		}
 
 		finally
@@ -2823,10 +2875,14 @@ public class MmMapViewer extends JPanel implements Printable {
 				des.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null,e);
 				e.printStackTrace();
+				return false;
 			}
 			
 		}
+		
+		return true;
 	}
 	
 	public ArrayList<MmStationEvents> getStations()

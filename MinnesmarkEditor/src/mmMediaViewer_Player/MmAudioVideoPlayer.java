@@ -11,7 +11,12 @@ import javax.media.PlugInManager;
 import javax.media.format.AudioFormat;
 
 import javax.sound.sampled.*;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+import javax.swing.*;
+
+import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
 
 import java.net.*;
 
@@ -27,6 +32,10 @@ public class MmAudioVideoPlayer {
 	URL url = null;
 	AudioInputStream aiffAudioStream = null; 
 	Clip aiffPlayer = null;
+	
+	EmbeddedMediaPlayerComponent mediaPlayerComponent = null;
+	
+	JDialog mediaDialog = null;
 	
 	public MmAudioVideoPlayer()
 	{
@@ -44,20 +53,58 @@ public class MmAudioVideoPlayer {
 		audio_video_filename = fileName;
 	}
 	
-	public void audioPlay()
+	public void audioPlay(JFrame window)
 	{
+		if(mediaDialog==null)		
+		   mediaDialog = new JDialog(window);
 		
-		
-		if(audio_video_filename.contains(".mp3"))
-		{
-			palyMP3AudioClip();
-		}
-		else
-			playAiffAudioClip();
+		mediaDialog.setTitle("Media Player");
+
+		if(mediaPlayerComponent==null)
+		   mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
+
+		mediaDialog.setContentPane(mediaPlayerComponent);
+
+		mediaDialog.setLocation(100, 100);
+		mediaDialog.setSize(100, 100);
+		mediaDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		mediaDialog.setVisible(true);
+
+        mediaPlayerComponent.getMediaPlayer().playMedia(audio_video_filename);
+
+        
 		
 	}
 	
-	public void palyMP3AudioClip()
+	
+	public void videoPlay(JFrame window)
+	{
+		if(mediaDialog==null)		
+			mediaDialog = new JDialog(window);
+		
+		mediaDialog.setTitle("Media Player");
+
+		if(mediaPlayerComponent==null)
+		   mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
+
+		mediaDialog.setContentPane(mediaPlayerComponent);
+
+		mediaDialog.setLocation(100, 100);
+		mediaDialog.setSize(400, 400);
+		mediaDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		mediaDialog.setVisible(true);
+		
+		
+
+        mediaPlayerComponent.getMediaPlayer().playMedia(audio_video_filename);
+        
+        
+
+        
+		
+	}
+	
+	/*public void palyMP3AudioClip()
 	{
 		
 		Format input1 = new AudioFormat(AudioFormat.MPEGLAYER3);
@@ -80,14 +127,16 @@ public class MmAudioVideoPlayer {
 		{
 			
 		}
-	}
+	}*/
 	
 	public void stopMP3AudioClip()
 	{
-		player.stop();
+		mediaPlayerComponent.getMediaPlayer().stop();
+		
+		mediaDialog.setVisible(false);
 	}
 	
-	public void playAiffAudioClip()
+	/*public void playAiffAudioClip()
 	{
 		
 		try
@@ -108,14 +157,14 @@ public class MmAudioVideoPlayer {
 	public void stopAiffAudioClip()
 	{
 		aiffPlayer.stop();
-	}
+	}*/
 	
 	public void  audioStop()
 	{
-		if(audio_video_filename.contains(".mp3"))
-			stopMP3AudioClip();
-		else
-			stopAiffAudioClip();
+        mediaPlayerComponent.getMediaPlayer().stop();
+		
+		mediaDialog.setVisible(false);
+		
 	}
 	
 	
