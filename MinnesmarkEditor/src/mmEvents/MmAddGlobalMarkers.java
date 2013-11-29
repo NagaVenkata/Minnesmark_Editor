@@ -2,17 +2,27 @@ package mmEvents;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.print.Book;
+import java.awt.print.PageFormat;
+import java.awt.print.Paper;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -23,6 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import mmPrintMarkers.MmPrintMarkers;
 import mmStationEvents.*;
 
 
@@ -64,7 +75,11 @@ public class MmAddGlobalMarkers extends JPanel {
 	
 	JFrame mainWindow;
 	
+	int pages = 0;
 	
+	ImageIcon img,img1;
+	
+	ImageIcon[] images;
 	
 
 	public MmAddGlobalMarkers(JDialog frame1)
@@ -119,6 +134,15 @@ public class MmAddGlobalMarkers extends JPanel {
 		 pane.setLocation(2, 10);
 		 		 
 		 add(pane,BorderLayout.CENTER);
+		 
+		 img = new ImageIcon("/Users/Umapathi/Desktop/brick.gif");
+	      
+	     img1 = new ImageIcon("/Users/Umapathi/Desktop/brickNrm.gif");
+	      
+	     images = new ImageIcon[2];
+	      
+	     images[0] = img;
+	     images[1] = img1;
 		 
 		 
 		 eventPanel.addMouseListener(new MouseListener() {
@@ -576,6 +600,11 @@ public class MmAddGlobalMarkers extends JPanel {
 		
 	}
 	
+	public MmAddGlobalMarkers getGlobalMarkers()
+	{
+		return this;
+	}
+	
 	public JFrame getMainWindow() {
 		return mainWindow;
 	}
@@ -748,7 +777,7 @@ public class MmAddGlobalMarkers extends JPanel {
 		fileChooser.addChoosableFileFilter(MediaFilter);
 		fileChooser.setFileFilter(MediaFilter);
 		
-		int val = fileChooser.showDialog(this, "open");
+		int val = fileChooser.showOpenDialog(null);
 	       if (val == JFileChooser.APPROVE_OPTION) {
 	    	   File file = fileChooser.getSelectedFile();
 	    	   if(currentIndex<4)
@@ -915,6 +944,81 @@ public class MmAddGlobalMarkers extends JPanel {
 	{
 		return globalMarkerEvents;
 	}
+	
+	 public void printMap()
+	 {
+	    PrinterJob printer = PrinterJob.getPrinterJob();
+	    //printer.setPrintable(this);
+	    boolean ok = printer.printDialog();
+	    	
+	    if(ok)
+	    {
+	    	try
+	    	{
+	    		PageFormat pPageFormat = printer.defaultPage();
+	    		Paper pPaper = pPageFormat.getPaper();
+	    		pPaper.setImageableArea(1.0, 1.0, pPaper.getWidth(), pPaper.getHeight());
+	    		pPageFormat.setPaper(pPaper);
+	    		pPageFormat = printer.pageDialog(pPageFormat);
+	    		Book pBook = new Book();
+	    		pBook.append(new MmPrintMarkers("/Users/Umapathi/Desktop/brick.gif",null), printer.defaultPage());
+	    		pBook.append(new MmPrintMarkers("/Users/Umapathi/Desktop/brickNrm.gif",null), pPageFormat);
+	    		pBook.append(new MmPrintMarkers("/Users/Umapathi/Desktop/dirt_NRM.png",null), pPageFormat);
+	    		pBook.append(new MmPrintMarkers("/Users/Umapathi/Desktop/childrenAtPond_NRM.png",null), pPageFormat);
+	    		printer.setPageable(pBook);
+	    		printer.print();
+	    			
+	    		}
+	    		catch(Exception e)
+	    		{
+	    			JOptionPane.showMessageDialog(this, e);
+	    		}
+	    	}
+	    
+	        
+	    	
+	    	
+	    }
+	    
+	    /*public int print(Graphics g,PageFormat print,int page) throws PrinterException
+	    {
+	    	
+	    	if (page > images.length) {
+	            return NO_SUCH_PAGE;
+	       }
+	    	
+	      
+	      
+	      
+	      
+
+	       // User (0,0) is typically outside the
+	       // imageable area, so we must translate
+	       // by the X and Y values in the PageFormat
+	       // to avoid clipping.
+	       Graphics2D g2d = (Graphics2D)g;
+	       g2d.setRenderingHint
+	       (RenderingHints.KEY_ANTIALIASING, 
+	         RenderingHints.VALUE_ANTIALIAS_ON);
+	       g2d.translate(print.getImageableX(), print.getImageableY());
+	       //g2d.drawString("Hi Printer", 100, 100);
+	       if(page<images.length)
+	       {	   
+	           g2d.drawImage(images[pages].getImage(),50,50,null);
+	           System.out.println("page exists "+page+ "  "+pages);
+	           pages++;
+	           return PAGE_EXISTS;
+	       } 
+	       else
+	       {
+	    	   return NO_SUCH_PAGE;
+	       }
+	      	       // tell the caller that this page is part
+	       // of the printed document
+	       //return PAGE_EXISTS;
+	    	
+	        	
+	    }*/
 	
 	
 	public void setSaved(boolean save)

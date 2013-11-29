@@ -25,7 +25,7 @@ import java.net.*;
 
 public class MmAudioVideoPlayer {
 	
-	String audio_video_filename;
+	String audio_video_filename; 
 	
 	Player player=null;
 	
@@ -79,25 +79,37 @@ public class MmAudioVideoPlayer {
 	
 	public void videoPlay(JFrame window)
 	{
-		if(mediaDialog==null)		
-			mediaDialog = new JDialog(window);
+		try
+		{
+		    if(mediaDialog==null)		
+			    mediaDialog = new JDialog(window);
 		
-		mediaDialog.setTitle("Media Player");
+		    mediaDialog.setTitle("Media Player");
+		    
+		    JOptionPane.showMessageDialog(null, "clicked");
 
-		if(mediaPlayerComponent==null)
-		   mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
+		   if(mediaPlayerComponent==null)
+		      mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
+		   
+		   JOptionPane.showMessageDialog(null, mediaPlayerComponent);
+		   
+		   System.out.println("component "+mediaPlayerComponent);
 
-		mediaDialog.setContentPane(mediaPlayerComponent);
+		   mediaDialog.setContentPane(mediaPlayerComponent);
 
-		mediaDialog.setLocation(100, 100);
-		mediaDialog.setSize(400, 400);
-		mediaDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		mediaDialog.setVisible(true);
+		   mediaDialog.setLocation(100, 100);
+		   mediaDialog.setSize(400, 400);
+		   mediaDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+	 	   mediaDialog.setVisible(true);
 		
 		
 
-        mediaPlayerComponent.getMediaPlayer().playMedia(audio_video_filename);
-        
+          mediaPlayerComponent.getMediaPlayer().playMedia(audio_video_filename);
+	   }   
+       catch(Exception e)
+       {
+    	   JOptionPane.showMessageDialog(null, e);
+       }
         
 
         

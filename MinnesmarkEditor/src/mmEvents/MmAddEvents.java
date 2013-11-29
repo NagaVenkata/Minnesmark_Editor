@@ -328,7 +328,6 @@ public class MmAddEvents extends JPanel {
 						 tempLabel.setName(station.getLabels().get(select_index+1).getName());
 						 int index = select_index; 
 						 index++;
-						 JOptionPane.showMessageDialog(null, "Entered");
 						 swapUp(tempLabel,index);
 						 station.getLabels().get(put_index).setText(moveLabel.getText());
 						 station.getLabels().get(put_index).setName(moveLabel.getName());
@@ -404,6 +403,8 @@ public class MmAddEvents extends JPanel {
 				 JLabel lb1 = (JLabel)eventPanel.getComponent(selectLabelIndex);
 				 lb1.setOpaque(false);
 				 isSaved=false;		 
+				 
+				 map.setSaved(false);
 				 
 				 System.out.println("index "+index);
 				
@@ -606,6 +607,7 @@ public class MmAddEvents extends JPanel {
 		 station.setGPSRadius(gpsRadius);
 		 station.setStationType(stationType);
 		 stationEvents.add(station);
+		 map.setSaved(false);
 		 eventPanel.removeAll();
 		 currentIndex=0;
 		 if(station.getLabels().isEmpty())

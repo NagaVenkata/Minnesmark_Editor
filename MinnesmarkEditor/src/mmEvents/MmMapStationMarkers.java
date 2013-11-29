@@ -70,6 +70,8 @@ public class MmMapStationMarkers extends JPanel {
 	
 	public JDialog dialog;
 	
+	int markersLeft = 6;
+	
 	public final JWindow window = new JWindow();
 	public MmMapStationMarkers(JDialog markerDialog,MmMapViewer mapView)
 	{
@@ -287,6 +289,8 @@ public class MmMapStationMarkers extends JPanel {
 		    window1.setAlwaysOnTop(true);
 		    window1.setVisible(false);
 		    markerWindows.add(window1);
+		    
+		    
 		 }    
 		 
 		 add(framePanel);
@@ -456,6 +460,8 @@ public class MmMapStationMarkers extends JPanel {
 					if(markerIndex+1<mapMarkers.size())
 					{
 						markerIndex++;
+						if(markerIndex==5)
+							markersLeft=0;
 						mapMarkers.get(markerIndex).setIcon(icon[markerIndex]);
 						selectMarker(markerIndex);
 						isSaved=false;
@@ -594,9 +600,7 @@ public class MmMapStationMarkers extends JPanel {
 		   mapMarkers.get(markerIndex).setIcon(icon_gray[index]);
 		}   
 		
-		
-		
-		
+				
 		markerIndex--;
 		
 		
@@ -631,8 +635,14 @@ public class MmMapStationMarkers extends JPanel {
 		
 		markerPanel.revalidate();
 		
+		if(markersLeft==0)
+			index=5;
+		
 		if(markerIndex>=1)
 		{
+			if(index==5)
+				markerIndex = 5;
+			
 			for(int i=0;i<markerIndex;i++)
 			{
 				JLabel lb = new JLabel();
@@ -641,24 +651,54 @@ public class MmMapStationMarkers extends JPanel {
 		}
 		
 		mapMarkers.add(new JLabel(icon[markerIndex]));
-		for(int i= markerIndex+1;i<6;i++)
-		{
-			JLabel lb = new JLabel(icon_gray[i]);
-			mapMarkers.add(lb);
+		
+		
+		
+		if(index!=5)
+		{	
+		    for(int i= markerIndex+1;i<6;i++)
+		    {
+			    JLabel lb = new JLabel(icon_gray[i]);
+			    mapMarkers.add(lb);
+		    }
+		
+		    for(int i= 0;i<6;i++)
+			    markerPanel.add(mapMarkers.get(i));
+		
+		    markerPanel.revalidate();
+		
+		    //JOptionPane.showMessageDialog(null, "markers "+mapMarkers.size()+"  "+markerIndex);
+		
+		   mapMarkers.get(markerIndex).setVisible(true);
+		
+		   markersLeft++;
+		   selectMarker(markerIndex);
+		
+		   //markerWindows.get(markerIndex).remove(moveableLabel);
 		}
 		
-		for(int i= 0;i<6;i++)
-			markerPanel.add(mapMarkers.get(i));
+		if(index==5)
+		{	
+		    /*for(int i= markerIndex+1;i<6;i++)
+		    {
+			    JLabel lb = new JLabel(icon_gray[i]);
+			    mapMarkers.add(lb);
+		    } */
 		
-		markerPanel.revalidate();
+		    for(int i= 0;i<6;i++)
+			    markerPanel.add(mapMarkers.get(i));
 		
-		//JOptionPane.showMessageDialog(null, "markers "+mapMarkers.size()+"  "+markerIndex);
+		    markerPanel.revalidate();
 		
-		mapMarkers.get(markerIndex).setVisible(true);
+		    //JOptionPane.showMessageDialog(null, "markers "+mapMarkers.size()+"  "+markerIndex);
 		
-		selectMarker(markerIndex);
+		   mapMarkers.get(markerIndex).setVisible(true);
 		
-		//markerWindows.get(markerIndex).remove(moveableLabel);
+		   markersLeft++;
+		   selectMarker(markerIndex);
+		
+		   //markerWindows.get(markerIndex).remove(moveableLabel);
+		}
 		
 	}
 	

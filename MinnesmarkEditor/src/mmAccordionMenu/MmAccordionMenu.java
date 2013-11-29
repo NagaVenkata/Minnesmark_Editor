@@ -13,6 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import javax.print.Doc;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.Copies;
 import javax.swing.*;
 
 import org.jdesktop.swingx.mapviewer.GeoPosition;
@@ -565,6 +574,38 @@ public class MmAccordionMenu extends JPanel  {
 	 public ArrayList<MmGlobalMarkerEvents> getGlobalMarkerEvents()
 	 {
 		 return markerEvents.getStations();
+	 }
+	 
+	 public MmAddGlobalMarkers getMarkers()
+	 {
+		 return markerEvents;
+	 }
+	 
+	 public void printMarker()
+	 {
+		 try
+		 {
+			PrintRequestAttributeSet printAttrs = new HashPrintRequestAttributeSet();
+			
+			printAttrs.add(new Copies(1));
+			
+			PrintService pntSer[] = PrintServiceLookup.lookupPrintServices(DocFlavor.INPUT_STREAM.PNG,printAttrs);
+			
+			PrintService ptrSer = pntSer[0];
+			
+			DocPrintJob print = ptrSer.createPrintJob();
+			
+			FileInputStream ins = new FileInputStream("Users/Umapathi/Desktop/MinnesmarkEditor/marker1.png"); 
+			
+			Doc doc = new SimpleDoc(ins, DocFlavor.INPUT_STREAM.PNG, null);
+		    print.print(doc, printAttrs);
+		    ins.close();
+			
+		 }
+		 catch(Exception e)
+		 {
+			 
+		 }
 	 }
 	 
 	 public void clearContent()

@@ -132,7 +132,7 @@ public class MmGlobalMarkerEvents {
 	public String getMarkerName()
 	{
 		
-		if(markerEvent.getEventName().contains(this.markerName+"_Model"))
+		if(markerEvent.getEventName().contains(this.markerName+"_Model") || markerEvent.getEventName().contains(this.markerName+"_model"))
 			return markerEvent.getEventName();
 		
 		return this.markerName;
@@ -176,6 +176,53 @@ public class MmGlobalMarkerEvents {
 		
 		  if(eventsText.contains("<html>"))
 		      eventsText +="</html>";
+		}
+		
+		return eventsText;
+	}
+	
+	public String getMarkerMediaFiles()
+	{
+		String eventsText = "";
+		
+		if(!labels.isEmpty())
+		{	
+		   
+		   for(int i=0;i<labels.size();i++)
+		   {
+			    
+			  if(!labels.get(i).getName().equals("label"))
+			  {
+				
+				 int index = labels.get(i).getText().indexOf(":");
+				 
+				 if(i==0) 
+				 {		 
+					if(index!=-1)
+					{
+						eventsText += labels.get(i).getText().substring(0,index);
+					}
+					else
+					{	
+				        eventsText += labels.get(i).getText();
+					}   
+				 }   
+				 else
+				 {		 
+					 if(index!=-1)
+					 {
+						 eventsText+=","+ labels.get(i).getText().substring(0,index);
+					 }
+					 else
+					 {	
+					     eventsText += ","+ labels.get(i).getText();
+					 }
+				 }		 
+				
+			  }
+		   }
+		
+		 
 		}
 		
 		return eventsText;
@@ -334,7 +381,7 @@ public class MmGlobalMarkerEvents {
 				
 				
 				   
-			    if(((lb.getText().contains(".jpg"))||(lb.getText().contains(".png"))||(lb.getText().contains(".bmp"))) && !(lb.getText().contains("Panorama")) && !(lb.getText().contains("Model")))
+			    if(((lb.getText().contains(".jpg"))||(lb.getText().contains(".png"))||(lb.getText().contains(".bmp"))) && !(lb.getText().contains("Panorama")) && (!(lb.getText().contains("Model"))||!(lb.getText().contains("model"))))
 			    { 	
 			    	  
 			    	 
@@ -521,7 +568,7 @@ public class MmGlobalMarkerEvents {
 			    	  if(lb.getText().contains("Model"))
 			    	  {
 			    		  markerEvent.setEventName(this.markerName+"_Model");
-			    		  
+			    		  			    		  
 			    		  if(attrs.length==2)
 			    		  {	  
 			    		     MmObjWriter objWriter = new MmObjWriter(this.saveFilePath+"/osg_obj/"+attrs[0]);
@@ -544,6 +591,60 @@ public class MmGlobalMarkerEvents {
 			    		  
 			    		  
 			    	  }
+			    	  if(lb.getText().contains("model"))
+			    	  {
+			    		  
+                          markerEvent.setEventName(this.markerName+"_model");
+			    		  
+			    		  if(attrs.length==2)
+			    		  {	  
+			    		     //MmObjWriter objWriter = new MmObjWriter(this.saveFilePath+"/osg_obj/"+attrs[0]);
+			    		     //objWriter.setImageSrcPath(lb.getName());
+			    			 //objWriter.beginSave(this.saveFilePath+"/osg_obj/"+attrs[0]);
+			    		     MmObj_OsgWriter.WriteObj_OsgFile(lb.getName(), this.saveFilePath+"/osg_obj/");
+			    			 markerEvent.setModelFile(lb.getText().substring(0,lb.getText().indexOf(":")));
+			    			 //objWriter.endSave();
+			    		  }
+			    		  
+			    		  if(attrs.length==3)
+					      { 	   
+			    			  //MmObjWriter objWriter = new MmObjWriter(this.saveFilePath+"/osg_obj/"+attrs[0]);
+			    			  //objWriter.setImageSrcPath(lb.getName());
+				    		  //objWriter.beginSave(this.saveFilePath+"/osg_obj/"+attrs[0]);
+			    			  MmObj_OsgWriter.WriteObj_OsgFile(lb.getName(), this.saveFilePath+"/osg_obj/"+attrs[0]);
+				    		  markerEvent.setModelFile(lb.getText().substring(0,lb.getText().indexOf(":")));
+				    		  //objWriter.endSave();
+						      markerEvent.setCollectItem(true);
+						      collectItems.add(new Integer(collectItems.size()+1));
+					      }
+			    		  
+			    		  /*MmModelEvent modelEvent = new MmModelEvent();
+							if(modelEvents.size()==0)
+								  modelEvent.setEventName("marker"+Integer.toString(markerIndex+1)+"_model");
+							else
+								  modelEvent.setEventName("marker"+Integer.toString(markerIndex+1)+"_"+Integer.toString(modelEvents.size())+"_model"); 
+							attrs = lb.getText().split(":");
+							if(attrs.length<=1)
+							{	   
+								   modelEvent.setModelFile(attrs[0]);
+							       modelEvent.setCollectItem(false);
+							}    
+							if(attrs.length==2)
+							{ 	   
+								   modelEvent.setModelFile(attrs[0]);
+							       modelEvent.setCollectItem(true);
+							       collectItems.add(new Integer(collectItems.size()+1));
+							}
+							markerEvent.setEventName(this.markerName+"_model");
+						    modelEvent.addActions(modelEvent.getEventName());
+							modelEvent.setSourcePath(lb.getName());
+							modelEvent.setDestinationPath(this.saveFilePath);
+							modelEvent.JSONActions();
+							modelEvent.makeJSONObject();
+					    	modelEvents.add(modelEvent);
+					    	currentLabelIndex++;
+			    	  }
+			    	  
 			    	  
 			    	  if(attrs.length<=1)
 					  {	   
@@ -554,8 +655,9 @@ public class MmGlobalMarkerEvents {
 			    	  if(currentLabelIndex>=labels.size())
 			    	  {	
 			    	     break;
-			    	  }  
-			     }
+			    	  }*/  
+			        }
+			      }
 			      
 			      lb = labels.get(currentLabelIndex);
 			         		      
@@ -632,7 +734,7 @@ public class MmGlobalMarkerEvents {
 			  
 			  String desPath = "patt."+this.markerName;
 			  
-			  String sourcePath = System.getProperty("user.dir")+"/markers/"+"patt."+this.markerName;
+			  String sourcePath = System.getProperty("user.dir")+"/new markers/"+"patt."+this.markerName;
 			  
 			  File desFile = new File(savePath+"/markers/"+desPath);
 			  

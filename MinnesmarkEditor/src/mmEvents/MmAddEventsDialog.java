@@ -196,16 +196,18 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 		
         bt1 = new JButton();
         
+        bt1.setEnabled(false);
+        
         bt2 = new JButton("Stoppa");
         
         bt2.setEnabled(false);
 		
 		textStrings = ((JLabel) textPanel.getComponent(componentIndex)).getText().split(":");
 		
+		
 				
 		if(isImageFile(textStrings[0]))
 		{
-			
 			panoramaChkbx.setEnabled(true);
 			bt1.setText("Visa Bilden");
 		}
@@ -237,10 +239,11 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 			chkbx.setSelected(true); 
 		}
 		
-		if(label.contains("Model"))
+		if(label.contains("Model")||label.contains("model"))
 		{
 			panoramaChkbx.setSelected(false);
 			cmbgChkbx.setSelected(true);
+			chkbx.setEnabled(false);	
 		}
 		
 		textStrings = ((JLabel) textPanel.getComponent(componentIndex)).getText().split(":");
@@ -263,10 +266,43 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				if(cmbgChkbx.isSelected())
-					panoramaChkbx.setEnabled(false);
+				
+				JLabel lb = (JLabel) textPanel.getComponent(componentIndex);
+				ImageIcon image1 = new ImageIcon(lb.getName());
+				if(image1.getIconWidth()<=512 && image1.getIconHeight()<=512)
+				{	
+				    if(cmbgChkbx.isSelected())
+				    {	
+					    panoramaChkbx.setEnabled(false);
+					    chkbx.setEnabled(false);
+				    }    
+				    else 
+				    {	
+					    panoramaChkbx.setEnabled(true);
+					    chkbx.setEnabled(true);
+				    }    
+				}
 				else
-					panoramaChkbx.setEnabled(true);
+				{
+					JOptionPane.showMessageDialog(null, "Bild bredd och höjd ska vara under 512 till göra en 3d modell.\n Men bilden bredd och höjd är "+image1.getIconWidth()+" och "+image1.getIconHeight());
+					cmbgChkbx.setSelected(false);
+					
+				}
+				
+				if(lb.getName().contains(".obj")||lb.getName().contains(".osg"))
+				{
+					 if(cmbgChkbx.isSelected())
+					 {		 
+						 panoramaChkbx.setEnabled(false);
+						 chkbx.setEnabled(false);
+					 }		 
+					 else 
+					 {	 
+					   panoramaChkbx.setEnabled(true);
+					   chkbx.setEnabled(true);
+					 }  
+				}
+				
 			}
 			
 		});
@@ -275,6 +311,11 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 		{
 			
 			panoramaChkbx.setEnabled(true);
+			cmbgChkbx.setEnabled(true);
+		}
+		
+		if(textStrings[0].contains(".obj")||textStrings[0].contains(".osg"))
+		{
 			cmbgChkbx.setEnabled(true);
 		}
 		
@@ -316,7 +357,10 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 				
 				if(cmbgChkbx.isSelected() && !chkbx.isSelected())
 				{	
-				    lb.setText(lb.getText()+":"+"Model");
+					if(isImageFile(textStrings[0]))
+				        lb.setText(lb.getText()+":"+"Model");
+				    else
+			            lb.setText(lb.getText()+":"+"model");
 				}
 				
 				if(chkbx.isSelected())
@@ -441,24 +485,20 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 		
 		textStrings = ((JLabel) textPanel.getComponent(componentIndex)).getText().split(":");
 		
-		
-		
-				
+					
 		if(isImageFile(textStrings[0]))
 		{
-			
 			panoramaChkbx.setEnabled(true);
 			bt1.setText("Visa Bilden");
 		}
 		
 		if(isAudio_VideoFile(textStrings[0]))
 		{
-			if(isAudioFile(textStrings[0]))
-			    bt1.setText("Spela Upp Ljud");
-			else
-				bt1.setText("Spela Upp Video");
-			
+			bt1.setText("Spela Upp Video");
 		}
+		
+		if(isAudioFile(textStrings[0]))
+		    bt1.setText("Spela Upp Ljud");
 		
 		if((textStrings[0].contains(".txt")))
 		{
@@ -553,14 +593,17 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 				else if(isAudio_VideoFile(lb.getText()))
 				{
 				    audioPlayer.setAudioFile(lb.getName());
-				    if(isAudioFile(lb.getText()))
-				       audioPlayer.audioPlay(mainWindow);
-				    else
-				    	audioPlayer.videoPlay(mainWindow);	
-				    
+				    audioPlayer.videoPlay(mainWindow);	
 				    bt2.setEnabled(true);
 							    
 				}
+				else if(isAudioFile(lb.getName()))
+				{
+					 audioPlayer.setAudioFile(lb.getName());  
+					 audioPlayer.audioPlay(mainWindow);
+					 bt2.setEnabled(true);
+				}
+				
 				if((lb.getText().contains(".txt")))
 				{	
 				   JDialog frame = new JDialog(mainWindow);
@@ -601,7 +644,7 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 	
 	public boolean isImageFile(String mediaFile)
 	{
-		String[] extensions = { "bmp","BMP","jpg","JPG","jpeg","JPEG","tiff","TIFF","tif","TIF","gif","GIF"};
+		String[] extensions = { "bmp","BMP","jpg","JPG","jpeg","JPEG","png","PNG","tiff","TIFF","tif","TIF","gif","GIF"};
 		
 		for(int i=0;i<extensions.length;i++)
 		{	
@@ -618,7 +661,7 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 	
 	public boolean isAudio_VideoFile(String mediaFile)
 	{
-		if(!isImageFile(mediaFile) || !mediaFile.contains("txt") || !mediaFile.contains("TXT") || !mediaFile.contains("patt"))
+		if(mediaFile.contains(".m4v")||mediaFile.contains(".M4V"))
 		{
 			return true;
 		}

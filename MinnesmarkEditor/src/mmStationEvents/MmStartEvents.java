@@ -104,7 +104,7 @@ public class MmStartEvents {
     			{
     				MmImageEvent imageEvent = new MmImageEvent();
      			   imageEvent.setEventName("start"+Integer.toString(i)+"_image");
-     			   eventNames[i] = "start"+Integer.toString(i+1)+"_image";
+     			   eventNames[i] = "start"+Integer.toString(i)+"_image";
      			   imageEvent.setImageFile(text);
      			   imageEvent.setSourcePath(pathsText.get(i));
  				   imageEvent.setDestinationPath(saveFilePath);
@@ -112,29 +112,32 @@ public class MmStartEvents {
      			   
      			  if((i+1)<labelsText.size())
 				  {
-					  if(text.contains(".jpg")||text.contains(".png")||text.contains(".bmp"))
+     				  String nextText = labelsText.get(i+1);
+					  if(nextText.contains(".jpg")||nextText.contains(".png")||nextText.contains(".bmp"))
 					  {	  
-					       imageEvent.addActions("start"+labelsText.get(i+1)+"_image");
+					       imageEvent.addActions("start"+Integer.toString(i+1)+"_image");
 					       eventNames[i+1] = "start"+Integer.toString(i+1)+"_image";
 					  }     
-					  if(text.contains(".mp3")||text.contains(".m4a")||text.contains(".aiff"))
+					  if(nextText.contains(".mp3")||nextText.contains(".m4a")||nextText.contains(".aiff"))
 					  {	  
 						  
 						  imageEvent.addActions("start"+Integer.toString(i+1)+"_audio");
 						  eventNames[i+1] = "start"+Integer.toString(i+1)+"_audio";
 					  }	  
-					  if(text.contains(".m4v"))
+					  if(nextText.contains(".m4v"))
 					  {	  
 						  imageEvent.addActions("start"+Integer.toString(i+1)+"_video");
 						  eventNames[i+1] = "start"+Integer.toString(i+1)+"_video";
 					  }	  
-					  if(text.contains(".txt"))
+					  if(nextText.contains(".txt"))
 					  {	  
 						  imageEvent.addActions("start"+Integer.toString(i+1)+"_message");
 						  eventNames[i+1] = "start"+Integer.toString(i+1)+"_message";
 					  }		  
 					  
 				  }
+     			  if(i==labelsText.size()-1)
+     				  imageEvent.addActions("compassView");
      			   imageEvent.JSONActions();
      			   imageEvents.add(imageEvent);
     			}
@@ -152,28 +155,32 @@ public class MmStartEvents {
 				  audioEvent.makeJSONObject();
 				  if((i+1)<labelsText.size())
 				  {
-					  if(text.contains(".jpg")||text.contains(".png")||text.contains(".bmp"))
+					  String nextText = labelsText.get(i+1);
+					  if(nextText.contains(".jpg")||nextText.contains(".png")||nextText.contains(".bmp"))
 					  {	  
 					       audioEvent.addActions("start"+Integer.toString(i+1)+"_image");
 					       eventNames[i+1] = "start"+Integer.toString(i+1)+"_image";
 					  }     
-					  if(text.contains(".mp3")||text.contains(".m4a")||text.contains(".aiff"))
+					  if(nextText.contains(".mp3")||nextText.contains(".m4a")||nextText.contains(".aiff"))
 					  {	  
-					       audioEvent.addActions("start"+Integer.toString(i+1)+"_audio");
+						   audioEvent.addActions("start"+Integer.toString(i+1)+"_audio");
 					       eventNames[i+1] = "start"+Integer.toString(i+1)+"_audio";
 					  }     
-					  if(text.contains(".m4v"))
-					  { 	  
+					  if(nextText.contains(".m4v"))
+					  { 	
+						   
 					       audioEvent.addActions("start"+Integer.toString(i+1)+"_video");
 					       eventNames[i+1] = "start"+Integer.toString(i+1)+"_video";
 					  }     
-					  if(text.contains(".txt"))
+					  if(nextText.contains(".txt"))
 					  {	  
 					       audioEvent.addActions("start"+Integer.toString(i+1)+"_message");
 					       eventNames[i+1] = "start"+Integer.toString(i+1)+"_message";
 					  }     
 					  
 				  }
+				  if(i==labelsText.size()-1)
+     				  audioEvent.addActions("compassView");
 				  audioEvent.JSONActions();
 		    	  audioEvents.add(audioEvent);
 		    	     	  
@@ -191,28 +198,31 @@ public class MmStartEvents {
 				  videoEvent.makeJSONObject();
 				  if((i+1)<labelsText.size())
 				  {
-					  if(text.contains(".jpg")||text.contains(".png")||text.contains(".bmp"))
+					  String nextText = labelsText.get(i+1);
+					  if(nextText.contains(".jpg")||nextText.contains(".png")||nextText.contains(".bmp"))
 					  {		  
 					       videoEvent.addActions("start"+Integer.toString(i+1)+"_image");
 					       eventNames[i+1] = "start"+Integer.toString(i+1)+"_image";
 					  }     
-					  if(text.contains(".mp3")||text.contains(".m4a")||text.contains(".aiff"))
+					  if(nextText.contains(".mp3")||nextText.contains(".m4a")||nextText.contains(".aiff"))
 					  {	  
 					       videoEvent.addActions("start"+Integer.toString(i+1)+"_audio");
 					       eventNames[i+1] = "start"+Integer.toString(i+1)+"_audio";
 					  }     
-					  if(text.contains(".m4v"))
+					  if(nextText.contains(".m4v"))
 					  {	  
 						  videoEvent.addActions("start"+Integer.toString(i+1)+"_video");
 						  eventNames[i+1] = "start"+Integer.toString(i+1)+"_video";
 					  }	  
-					  if(text.contains(".txt"))
+					  if(nextText.contains(".txt"))
 					  {	  
 						  videoEvent.addActions("start"+Integer.toString(i+1)+"_message");
 						  eventNames[i+1] = "start"+Integer.toString(i+1)+"_audio";
 					  }	  
 					  
 				  }
+				  if(i==labelsText.size()-1)
+     				  videoEvent.addActions("compassView");
 				  videoEvent.JSONActions();
 		    	  videoEvents.add(videoEvent);
 		    	  	    	   
@@ -229,28 +239,31 @@ public class MmStartEvents {
 				  messageEvent.makeJSONObject();
 				  if((i+1)<labelsText.size())
 				  {
-					  if(text.contains(".jpg")||text.contains(".png")||text.contains(".bmp"))
+					  String nextText = labelsText.get(i+1);
+					  if(nextText.contains(".jpg")||nextText.contains(".png")||nextText.contains(".bmp"))
 					  {	  
 					       messageEvent.addActions("start"+Integer.toString(i+1)+"_image");
 					       eventNames[i+1] = "start"+Integer.toString(i+1)+"_image";
 					  }     
-					  if(text.contains(".mp3")||text.contains(".m4a")||text.contains(".aiff"))
+					  if(nextText.contains(".mp3")||nextText.contains(".m4a")||nextText.contains(".aiff"))
 					  {	  
 					       messageEvent.addActions("start"+Integer.toString(i+1)+"_audio");
 					       eventNames[i+1] = "start"+Integer.toString(i+1)+"_audio";
 					  }     
-					  if(text.contains(".m4v"))
+					  if(nextText.contains(".m4v"))
 					  {	  
 						  messageEvent.addActions("start"+Integer.toString(i+1)+"_video");
 						  eventNames[i+1] = "start"+Integer.toString(i+1)+"_video";
 					  }	  
-					  if(text.contains(".txt"))
+					  if(nextText.contains(".txt"))
 					  {	  
 						  messageEvent.addActions("start"+Integer.toString(i+1)+"_message");
 						  eventNames[i+1] = "start"+Integer.toString(i+1)+"_message";
 					  }	  
 					  
 				  }
+				  if(i==labelsText.size()-1)
+     				  messageEvent.addActions("compassView");
 				  messageEvent.JSONActions();
 		    	  messageEvents.add(messageEvent);
 		    	  	    	  

@@ -32,6 +32,9 @@ import mmMap.*;
 
 import org.geonames.*;
 import org.jdesktop.swingx.mapviewer.GeoPosition;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 
 
@@ -165,15 +168,110 @@ public class MmAccordionMenuItems  {
 			public void actionPerformed(ActionEvent event) {
 				// TODO Auto-generated method stub
 				
+				 String[] strings = textField.getText().split("\\s+");
+				 
+				 				 
+				 
+				 String str = "http://maps.googleapis.com/maps/api/geocode/json?address=";
+				 
+				if(strings.length>0)
+				 {
+					 for(int i=0;i<strings.length-1;i++)
+					     str +=strings[i]+"+";
+				 }
+				 
+				 str+=strings[strings.length-1]+",+";
+				 
+				
+				 try
+				  {
+				     URL url = new URL(str+"SE&sensor=false");
+				     //JOptionPane.showMessageDialog(null, url.getQuery());
+				     
+				     
+				     InputStream is = url.openStream();
+				     InputStreamReader is1 = new InputStreamReader(is);
+		             StringBuilder sb=new StringBuilder();
+		             BufferedReader br = new BufferedReader(is1);
+		             String read = br.readLine();
+
+		             while(read != null) {
+		                    //System.out.println(read);
+		                    sb.append(read);
+		                    read =br.readLine();
+
+		              }
+		                
+		             //JOptionPane.showMessageDialog(null, sb.toString());
+		             //System.out.println("data "+sb.toString());
+		             
+		             String jsonContent = sb.toString();
+		             JSONTokener jsonTokens = new JSONTokener(jsonContent);
+		             
+		             JSONObject jsonObject = new JSONObject(jsonTokens);
+		             
+		             //JOptionPane.showMessageDialog(null, jsonObject);
+		             //JOptionPane.showMessageDialog(null, jsonObject.get("results"));
+		             
+		             if(!jsonObject.isNull("results"))
+		             {
+		            	 JSONArray jsonArray = new JSONArray(jsonObject.get("results").toString());
+		            	 //JOptionPane.showMessageDialog(null, jsonArray.get(0));
+		            	 jsonObject = (JSONObject) jsonArray.getJSONObject(0).getJSONObject("geometry");
+		            	 jsonObject = (JSONObject)jsonObject.get("location");
+		            	 
+		            	 //JOptionPane.showMessageDialog(null, jsonObject.get("lat"));
+		            	 //JOptionPane.showMessageDialog(null, jsonObject.get("lng"));
+		            	 
+		            	 latitude = (Double)jsonObject.get("lat");
+				         longitude = (Double)jsonObject.get("lng");
+				         
+				         map.getMap().getMainMap().setAddressLocation(new GeoPosition(latitude,longitude));
+						 map.getMap().setZoom(1);
+				         
+				         //JOptionPane.showMessageDialog(null, "lat "+latitude+" long  "+longitude);
+		            	 
+		            	 //jsonArray = new JSONArray(jsonObject.get("geometry").toString());
+		            	 //JOptionPane.showMessageDialog(null, jsonArray.length());
+		             }
+		             
+		             /*JSONArray placeAttrs = new JSONArray(jsonTokens);
+		             for(int i=0;i<placeAttrs.length();i++)
+		             {
+		            	 try
+		            	 {
+		            	    jsonObject = (JSONObject)placeAttrs.get(i);
+		            	    
+		            	    if(!jsonObject.isNull("location"))
+		            	    {
+		            	    	
+		            	    }
+		            	 }
+		            	 catch(Exception e)
+		            	 {
+		            		 JOptionPane.showMessageDialog(null,e);
+		            	 }
+		            	 
+		            	 
+		             }*/
+		             
+		             
+				  }
+				  catch(Exception e)
+				  {
+					  JOptionPane.showMessageDialog(null, e);
+				  }
+				
 				//JOptionPane.showMessageDialog(null, textField.getText());
 				
-				WebService.setUserName("umapathi"); // add your username here
+				/*WebService.setUserName("umapathi"); // add your username here
 				 
 				  ToponymSearchCriteria searchCriteria = new ToponymSearchCriteria();
 				  searchCriteria.setQ(textField.getText());
 				  try
 				  {
 				     ToponymSearchResult searchResult = WebService.search(searchCriteria);
+				     
 				     for (Toponym toponym : searchResult.getToponyms()) {
 				         System.out.println(toponym.getName()+" "+toponym.getLatitude()+"  "+toponym.getLongitude()+" "+toponym.getName());
 				         latitude = toponym.getLatitude();
@@ -191,9 +289,10 @@ public class MmAccordionMenuItems  {
 				  catch(Exception e)
 				  {
 					  JOptionPane.showMessageDialog(null, e);
-				  }
+				  }*/
 				  
-
+                  
+				 
 				
 				/*InputStream is = null;
 				

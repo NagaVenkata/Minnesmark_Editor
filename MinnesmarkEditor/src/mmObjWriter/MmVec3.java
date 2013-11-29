@@ -4,6 +4,8 @@ public class MmVec3 {
 	
 	float x,y,z;
 	
+	int x1,y1,z1;
+	
 	public MmVec3()
 	{
 		x=0;
