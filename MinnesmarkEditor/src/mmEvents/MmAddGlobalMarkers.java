@@ -33,6 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import mmLanguage.MmLanguage;
 import mmPrintMarkers.MmPrintMarkers;
 import mmStationEvents.*;
 
@@ -81,6 +82,7 @@ public class MmAddGlobalMarkers extends JPanel {
 	
 	ImageIcon[] images;
 	
+	int language;
 
 	public MmAddGlobalMarkers(JDialog frame1)
 	{
@@ -113,7 +115,7 @@ public class MmAddGlobalMarkers extends JPanel {
 		 eventPanel.setLayout(grid);
 		 
 		 
-		 JLabel lb = new JLabel("Lägg till media som spelas på markör");
+		 JLabel lb = new JLabel(MmLanguage.language[language][5]);
 		 lb.setName("label");
 		 eventLabels.add(lb);
 		 eventLabels.add(addLabels());
@@ -125,8 +127,8 @@ public class MmAddGlobalMarkers extends JPanel {
 		 
 		 JPanel buttonPanel = new JPanel();
 		 		 	 
-		 addButton = new JButton("+   Lägg till media");
-		 minusButton = new JButton("-   Ta bort media");
+		 addButton = new JButton("+  "+MmLanguage.language_button[language][1]);
+		 minusButton = new JButton("-  "+MmLanguage.language_button[language][2]);
 		 okButton = new JButton("Ok");
 		 
 		 pane = new JScrollPane(eventPanel);
@@ -408,13 +410,13 @@ public class MmAddGlobalMarkers extends JPanel {
 				
 				 if(index==0 && !station.getLabels().get(index).getName().equals("label") && station.getLabels().get(index+1).getName().equals("label"))
 				 {
-						 station.getLabels().get(index).setText("Lägg till media som spelas på stationen");
+						 station.getLabels().get(index).setText(MmLanguage.language[language][5]);
 						 station.getLabels().get(index).setName("label");
 						 JLabel lb = (JLabel) eventPanel.getComponent(index);
-						 lb.setText("Lägg till media som spelas på stationen");
+						 lb.setText(MmLanguage.language[language][5]);
 						 lb.setName("label");
 						 lb.setOpaque(false);
-					     System.out.println("panel size "+eventPanel.getComponentCount());	 
+					     //System.out.println("panel size "+eventPanel.getComponentCount());	 
 					     //if(station.getLabels().size()<eventPanel.getComponentCount())
 					    	 eventPanel.remove(moveLabel);
 				 }
@@ -605,6 +607,43 @@ public class MmAddGlobalMarkers extends JPanel {
 		return this;
 	}
 	
+	public int getLanguage() {
+		return language;
+	}
+
+
+	public void setLanguage(int language) {
+		this.language = language;
+	}
+
+	public void setLanguageText()
+	{
+	
+		if((station!=null) && !station.getLabels().isEmpty() && station.getLabels().get(0).getName().equals("label"))
+		{	
+			station.getLabels().get(0).setText(MmLanguage.language[language][5]);
+			station.getLabels().get(0).setName("label");
+			eventPanel.repaint();
+		    eventPanel.updateUI();
+		    eventPanel.revalidate();
+		    
+
+		}		
+		
+		addButton.setText("+   "+MmLanguage.language_button[language][1]);
+		minusButton.setText("-   "+MmLanguage.language_button[language][2]);
+		
+		if(eventProperties!=null)
+		{	
+		   eventProperties.setLanguage(language);
+		   eventProperties.setLanguageText();
+		}   
+		
+		    
+		
+		
+	}
+	
 	public JFrame getMainWindow() {
 		return mainWindow;
 	}
@@ -639,7 +678,7 @@ public class MmAddGlobalMarkers extends JPanel {
 			 if(station.getLabels().isEmpty())
 			 {	 
 				ArrayList<JLabel> stationLabels = new ArrayList<JLabel>(); 
-			    JLabel lb = new JLabel("Lägg till media som spelas när hitta makör");
+			    JLabel lb = new JLabel(MmLanguage.language[language][5]);
 			    lb.setName("label");
 			    stationLabels.add(lb);
 			    stationLabels.add(addLabels());
@@ -699,7 +738,7 @@ public class MmAddGlobalMarkers extends JPanel {
 				 if(station.getLabels().isEmpty())
 				 {	 
 					ArrayList<JLabel> stationLabels = new ArrayList<JLabel>(); 
-				    JLabel lb = new JLabel("Lägg till media som spelas när hitta markör");
+				    JLabel lb = new JLabel(MmLanguage.language[language][5]);
 				    lb.setName("label");
 				    stationLabels.add(lb);
 				    stationLabels.add(addLabels());

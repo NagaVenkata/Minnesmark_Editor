@@ -5,8 +5,8 @@ package mmLanguage;
 public class MmLanguage {
 	
 
-	public static String language[][]=new String[][]{{"Dra och släpp stationer på kartan för att skapa en rundvandring","Klicka på en station för ett lägga till media","Sök efter en plats på kartan","Välj en markör och klicka 'Lägg till' för att koppla media till den","Lägg till media som spelas när rundvandringen startar"},
-		                                             {"        Drag and drop stations on the map to make a trail              ","         Click on a station to add media              ","Search for a location on the map","Choose a marker and click 'Add' to connect media to it","Add media that plays when a trail starts"}}; 
+	public static String language[][]=new String[][]{{"Dra och släpp stationer på kartan för att skapa en rundvandring","Klicka på en station för ett lägga till media","Sök efter en plats på kartan","Välj en markör och klicka 'Lägg till' för att koppla media till den","Lägg till media som spelas när rundvandringen startar","Lägg till media som spelas när hitta markören."},
+		                                             {"        Drag and drop stations on the map to make a trail              ","         Click on a station to add media              ","Search for a location on the map","Choose a marker and click 'Add' to connect media to it","Add media that plays when a trail starts","Add media that plays when the marker is found."}}; 
 	
 	public static String language_menu[][]=new String[][]{{"Fil","Hjälp","Ny rundvandring N","Öppna rundvandring... O","Spara S","Spara Som...","Skriv ut karta och markörer P","Förhandsvisning av utskrift","Avsluta E","Handledningsfilmer","Om Minnesmark","Inställningar","Språk"},
 		                                                  {"File","Help","New trail N","Open trail... O","Save S","Save As...","Print map and markers P","Print preview","Exit E","Tutorial videos","About Minnesmark","Settings","Languages"}};

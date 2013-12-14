@@ -479,6 +479,9 @@ public class MmAccordionMenu extends JPanel  {
 			JButton bt1 = this.mainItems.get(2).getMenuItem().get(2).getButtonItem();
 			bt1.setText(MmLanguage.language_button[language][2]);
 		}
+		
+		markerEvents.setLanguage(language);
+		markerEvents.setLanguageText();
 	}
 	
 	public void setSearchText(String text)
