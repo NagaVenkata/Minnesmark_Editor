@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.*;
 
+import mmLanguage.MmLanguage;
 import mmMap.*;
 
 import org.geonames.*;
@@ -71,11 +72,23 @@ public class MmAccordionMenuItems  {
 	JTextArea searchArea = new JTextArea(5,25);
 	
 	JWindow window = new JWindow();
+	
+	int language;
 		
+	
 	public MmAccordionMenuItems(String text)
 	{
 		//super(text);
 	}
+	
+	public int getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(int language) {
+		this.language = language;
+	}
+
 	
 	public MmAccordionMenuItems()
 	{
@@ -343,6 +356,8 @@ public class MmAccordionMenuItems  {
 		});
 	}
 	
+	
+	
 	public JPanel getSearchItemPanel()
 	{
 		
@@ -398,9 +413,9 @@ public class MmAccordionMenuItems  {
 		latitudeField.setText("latitude");
 		longitudeField.setText("longitude");
 		
-		latitudeField.setToolTipText("Klick på text till srikva latitude");
+		latitudeField.setToolTipText(MmLanguage.language_search[language][1]);
 		
-		longitudeField.setToolTipText("Klick på text till srikva longitude");
+		longitudeField.setToolTipText(MmLanguage.language_search[language][2]);
 	}
 	
 	public double getLatitude()
@@ -462,7 +477,7 @@ public class MmAccordionMenuItems  {
             public void mousePressed(MouseEvent e) {
                 //MmAccordionMenuItems item = (MmAccordionMenuItems) e.getSource();
                 
-                System.out.println(" selected item "+e.getSource());
+                //System.out.println(" selected item "+e.getSource());
                    
                
             }
@@ -678,7 +693,7 @@ public class MmAccordionMenuItems  {
 				if(events!=null && events.getStations().isEmpty())
 				{
 					JComponent cmp = (JComponent)event.getSource();
-			        cmp.setToolTipText("<html>Klicka på station för att lägga till mediefiler</html>");
+			        cmp.setToolTipText(MmLanguage.language_media[language][0]);
 				}
 				
 				if(events!=null && labelIndex!=-1 && labelIndex<events.getStations().size())
@@ -691,13 +706,13 @@ public class MmAccordionMenuItems  {
 					else
 					{
 						JComponent cmp = (JComponent)event.getSource();
-				        cmp.setToolTipText("<html>Klicka på station för att lägga till mediafilen</html>");
+				        cmp.setToolTipText(MmLanguage.language_media[language][0]);
 					}
 				}
 				else
 				{
 					JComponent cmp = (JComponent)event.getSource();
-			        cmp.setToolTipText("<html>Klicka på station för att lägga till mediafilen</html>");
+			        cmp.setToolTipText(MmLanguage.language_media[language][0]);
 				}
 				
 				
@@ -728,15 +743,32 @@ public class MmAccordionMenuItems  {
 		panel.revalidate();
 	}
 	
+	public void setMarkersText(ArrayList<String> texts)
+	{
+		
+		
+		for(int i=0;i<texts.size();i++)
+		{
+			labels.get(i).setText(texts.get(i));
+		}
+		panel.revalidate();
+	}
+	
 	public void resetContent()
 	{
-		labels.get(0).setText("Markör 1");
+		for(int i=0;i<18;i++)
+		{
+			labels.get(i).setText(MmLanguage.language_markers[language][i]);
+			labels.get(i).setName("patt.marker"+Integer.toString(i+1));
+		}
+		
+		/*labels.get(0).setText(MmLanguage.language_markers[0][0]);
 		labels.get(0).setName("patt.marker1");
-		labels.get(1).setText("Markör 2");
+		labels.get(1).setText(MmLanguage.language_markers[0][1]);
 		labels.get(1).setName("patt.marker2");
-		labels.get(2).setText("Markör 3");
+		labels.get(2).setText(MmLanguage.language_markers[0][2]);
 		labels.get(2).setName("patt.marker3");
-		labels.get(3).setText("Markör 4");
+		labels.get(3).setText(MmLanguage.language_markers[0][3]);
 		labels.get(3).setName("patt.marker4");
 		labels.get(4).setText("Markör 5");
 		labels.get(4).setName("patt.marker5");
@@ -765,7 +797,9 @@ public class MmAccordionMenuItems  {
 		labels.get(16).setText("Markör 17");
 		labels.get(16).setName("patt.marker17");
 		labels.get(17).setText("Markör 18");
-		labels.get(17).setName("patt.marker18");
+		labels.get(17).setName("patt.marker18");*/
+		
+		
 		
 		for(int i=0;i<18;i++)
 		{
@@ -782,10 +816,10 @@ public class MmAccordionMenuItems  {
 	public void resetStartContent()
 	{
 				
-		labels.get(0).setText("Lägg till uppstart bild");
-		labels.get(1).setText("Lägg till media som spelas vid uppstart");
-		labels.get(2).setText("Lägg till media som spelas vid uppstart");
-		labels.get(3).setText("Lägg till media som spelas vid uppstart");
+		labels.get(0).setText(MmLanguage.language_startMedia[language][0]);
+		labels.get(1).setText(MmLanguage.language_startMedia[language][1]);
+		labels.get(2).setText(MmLanguage.language_startMedia[language][1]);
+		labels.get(3).setText(MmLanguage.language_startMedia[language][1]);
 		labels.get(4).setText("");
 		labels.get(5).setText("");
 		

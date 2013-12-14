@@ -27,7 +27,7 @@ public class MmObj_OsgWriter {
 		   FileChannel src = null,des=null;
 		   try {
 			    
-			     JOptionPane.showMessageDialog(null, destinationPath);	
+			     //JOptionPane.showMessageDialog(null, destinationPath);	
 			   
 			     File file = new File(destinationPath);
 			  
@@ -47,7 +47,7 @@ public class MmObj_OsgWriter {
 			        {
 			           	
 				       file.mkdir();
-				       JOptionPane.showMessageDialog(null, file.isDirectory());
+				       //JOptionPane.showMessageDialog(null, file.isDirectory());
 				       src = new FileInputStream(sourcePath).getChannel();
 				       des = new FileOutputStream(destinationPath+desPath).getChannel();
 			       }

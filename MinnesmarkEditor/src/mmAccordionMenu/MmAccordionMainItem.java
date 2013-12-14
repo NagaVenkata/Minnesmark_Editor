@@ -59,6 +59,10 @@ public class MmAccordionMainItem extends MmAccordionItem {
 		return new ImageIcon(getClass().getResource("/blu_arrow_down.png"));
 	}
 	
+	public void setLanguageText(String text)
+	{
+		super.setLanguageText(text);
+	}
 	
 	
 	

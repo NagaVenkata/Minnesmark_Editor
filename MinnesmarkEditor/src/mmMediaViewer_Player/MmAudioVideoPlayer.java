@@ -86,14 +86,14 @@ public class MmAudioVideoPlayer {
 		
 		    mediaDialog.setTitle("Media Player");
 		    
-		    JOptionPane.showMessageDialog(null, "clicked");
+		    
 
 		   if(mediaPlayerComponent==null)
 		      mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
 		   
-		   JOptionPane.showMessageDialog(null, mediaPlayerComponent);
+		  
 		   
-		   System.out.println("component "+mediaPlayerComponent);
+		   //System.out.println("component "+mediaPlayerComponent);
 
 		   mediaDialog.setContentPane(mediaPlayerComponent);
 

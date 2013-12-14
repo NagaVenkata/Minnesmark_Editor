@@ -20,6 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 
+import mmLanguage.MmLanguage;
 import mmMap.*;
 import mmStationEvents.MmAudioEvent;
 import mmStationEvents.MmImageEvent;
@@ -75,6 +76,11 @@ public class MmAddEvents extends JPanel {
 	
 	JFrame mainWindow;
 	
+	int language;
+	
+	JButton addButton,minusButton;
+	
+	MmAddEventsDialog eventProperties,eventProperties1;
 	
 
 	public MmAddEvents(JDialog frame1)
@@ -112,7 +118,7 @@ public class MmAddEvents extends JPanel {
 		 eventPanel.setLayout(grid);
 		 
 		 
-		 JLabel lb = new JLabel("Lägg till media som spelas på stationen");
+		 JLabel lb = new JLabel(MmLanguage.language_events[language][3]);
 		 lb.setName("label");
 		 eventLabels.add(lb);
 		 eventLabels.add(addLabels());
@@ -124,8 +130,8 @@ public class MmAddEvents extends JPanel {
 		 
 		 JPanel buttonPanel = new JPanel();
 		 		 	 
-		 JButton addButton = new JButton("+   Lägg till media");
-		 JButton minusButton = new JButton("-   Ta bort media");
+		 addButton = new JButton("+   "+MmLanguage.language_button[language][1]);
+		 minusButton = new JButton("-   "+MmLanguage.language_button[language][2]);
 		 JButton okButton = new JButton("Ok");
 		 
 		 pane = new JScrollPane(eventPanel);
@@ -180,12 +186,12 @@ public class MmAddEvents extends JPanel {
 						
 					    JDialog frame2 = new JDialog(mainWindow);
 					    
-					        
-					    MmAddEventsDialog eventProperties = new MmAddEventsDialog(frame2,index,eventPanel,station,true);
-					    eventProperties.setMainWindow(mainWindow);
+					       
+					    eventProperties1 = new MmAddEventsDialog(frame2,index,eventPanel,station,true,language);
+					    eventProperties1.setMainWindow(mainWindow);
 					    frame2.pack();
 					    frame2.setSize(400, 150);
-					    frame2.setContentPane(eventProperties);
+					    frame2.setContentPane(eventProperties1);
 					    frame2.setLocation(eventDialog.getLocation().x+25, eventDialog.getLocation().y+50);
 					    frame2.setVisible(true); 
 					    frame2.toFront();
@@ -197,7 +203,7 @@ public class MmAddEvents extends JPanel {
 						int index = station.getLabels().indexOf(lb);
 						
 						JDialog frame2 = new JDialog(mainWindow);
-						MmAddEventsDialog eventProperties = new MmAddEventsDialog(frame2,index,eventPanel,station,false);
+						eventProperties = new MmAddEventsDialog(frame2,index,eventPanel,station,false,language);
 						eventProperties.setMainWindow(mainWindow);
 					    frame2.pack();
 					    frame2.setSize(400, 150);
@@ -410,13 +416,13 @@ public class MmAddEvents extends JPanel {
 				
 				 if(index==0 && !station.getLabels().get(index).getName().equals("label") && station.getLabels().get(index+1).getName().equals("label"))
 				 {
-					 station.getLabels().get(index).setText("Lägg till media som spelas på stationen");
+					 station.getLabels().get(index).setText(MmLanguage.language_events[language][3]);
 					 station.getLabels().get(index).setName("label");
 					 JLabel lb = (JLabel) eventPanel.getComponent(index);
-					 lb.setText("Lägg till media som spelas på stationen");
+					 lb.setText(MmLanguage.language_events[language][3]);
 					 lb.setName("label");
 					 lb.setOpaque(false);
-					 System.out.println("panel size "+eventPanel.getComponentCount());	 
+					 //System.out.println("panel size "+eventPanel.getComponentCount());	 
 					 eventPanel.remove(moveLabel);
 					 
 				 }
@@ -577,6 +583,47 @@ public class MmAddEvents extends JPanel {
 		
 	}
 	
+	public int getLanguage() {
+		return language;
+	}
+
+
+	public void setLanguage(int language) {
+		this.language = language;
+	}
+
+	public void setLanguageText()
+	{
+	
+		if((station!=null) && !station.getLabels().isEmpty() && station.getLabels().get(0).getName().equals("label"))
+		{	
+			station.getLabels().get(0).setText(MmLanguage.language_events[language][3]);
+			station.getLabels().get(0).setName("label");
+			eventPanel.repaint();
+		    eventPanel.updateUI();
+		    eventPanel.revalidate();
+		    eventDialog.repaint();
+
+		}		
+		
+		addButton.setText("+   "+MmLanguage.language_button[language][1]);
+		minusButton.setText("-   "+MmLanguage.language_button[language][2]);
+		
+		if(eventProperties!=null)
+		{	
+		   eventProperties.setLanguage(language);
+		   eventProperties.setLanguageText();
+		}   
+		
+		if(eventProperties1!=null)
+		{	
+		    eventProperties1.setLanguage(language);
+		    eventProperties1.setLanguageText();
+		}    
+		
+		
+	}
+	
 	
 	public JFrame getMainWindow() {
 		return mainWindow;
@@ -613,7 +660,7 @@ public class MmAddEvents extends JPanel {
 		 if(station.getLabels().isEmpty())
 		 {	 
 			 ArrayList<JLabel> stationLabels = new ArrayList<JLabel>(); 
-			 JLabel lb = new JLabel("Lägg till media som spelas på stationen");
+			 JLabel lb = new JLabel(MmLanguage.language_events[language][3]);
 			 lb.setName("label");
 			 stationLabels.add(lb);
 			 stationLabels.add(addLabels());
@@ -636,10 +683,10 @@ public class MmAddEvents extends JPanel {
 		 
 		if(!stationEvents.isEmpty())
 		{	
-		    System.out.println("Station events size "+stationEvents.size());		 
+		    //System.out.println("Station events size "+stationEvents.size());		 
 		    stationEvents.get(index).setLatLon(point.getLatitude(), point.getLongitude());
 		 
-		    System.out.println("events lat lon "+ stationEvents.get(index).getLatitude()+"  "+stationEvents.get(index).getLongitude()+"   "+index);
+		    //System.out.println("events lat lon "+ stationEvents.get(index).getLatitude()+"  "+stationEvents.get(index).getLongitude()+"   "+index);
 		}    
 	}
 	
@@ -649,10 +696,10 @@ public class MmAddEvents extends JPanel {
 		 station = stationEvents.get(index);
 		 
 		 	 
-		 System.out.println("eventLabels "+station.getLabels().size());
+		 //System.out.println("eventLabels "+station.getLabels().size());
 	     for(int i=0; i<station.getLabels().size();i++)
 		 {
-			  System.out.println("data "+station.getLabels().get(i));
+			  //System.out.println("data "+station.getLabels().get(i));
 			  eventPanel.add(station.getLabels().get(i));
 		 }	 
 	     
@@ -671,7 +718,7 @@ public class MmAddEvents extends JPanel {
 		 
 		 for(int i=0;i<stationEvents.size();i++)
 		 {
-			 System.out.println("events gps "+ stationEvents.get(i).getLatitude()+"  "+stationEvents.get(i).getLongitude());
+			 //System.out.println("events gps "+ stationEvents.get(i).getLatitude()+"  "+stationEvents.get(i).getLongitude());
 			 if(stationEvents.get(i).isGPSPointPresent(point))
 			 {
 				 index = i;
@@ -682,10 +729,10 @@ public class MmAddEvents extends JPanel {
 		 		 
 		 station = stationEvents.get(index);
 			 
-		 System.out.println("eventLabels "+station.getLabels().size());
+		 //System.out.println("eventLabels "+station.getLabels().size());
 	     for(int i=0; i<station.getLabels().size();i++)
 		 {
-				 System.out.println("data "+station.getLabels().get(i));
+				 //System.out.println("data "+station.getLabels().get(i));
 				 eventPanel.add(station.getLabels().get(i));
 		 }	 
 	     
@@ -708,11 +755,11 @@ public class MmAddEvents extends JPanel {
 				    if(stationEvents.get(j).getStationType())
 				    {
 				       swgIndx++;	
-					   System.out.println("index present "+swgIndx);
+					   ///System.out.println("index present "+swgIndx);
 				       stationEvents.get(j).setCurrentStationIndex(swgIndx);
 				       stationEvents.get(j).setStationIndex(stationIndex-1);
 				       stationEvents.get(j).setStationName("station"+stationIndex+"_"+"swingPoint"+(swgIndx));
-				       System.out.println("swing point name "+stationEvents.get(j).getStationName());
+				       //System.out.println("swing point name "+stationEvents.get(j).getStationName());
 				       
 				    }
 				 }   
@@ -728,7 +775,7 @@ public class MmAddEvents extends JPanel {
 		 station.setStationType(stationType);
 		 stationEvents.add(index, station);
 		 
-		 System.out.println("swing point name "+station.getStationName());
+		 //System.out.println("swing point name "+station.getStationName());
 		 		 
 	}
 	
@@ -1136,7 +1183,7 @@ public class MmAddEvents extends JPanel {
 	
 	public boolean deleteAndSwapUp(JLabel label,int curr_index)
 	{
-		System.out.println("sawp index "+curr_index+"  "+label.getName());
+		//System.out.println("sawp index "+curr_index+"  "+label.getName());
 		
 		
 		if(curr_index==3 && station.getLabels().size()-1==3)

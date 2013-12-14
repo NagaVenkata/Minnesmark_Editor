@@ -22,6 +22,7 @@ import java.util.*;
 import mmEvents.MmAddEvents;
 import mmStationEvents.MmGlobalMarkerEvents;
 import mmStationEvents.MmStationEvents;
+import mmLanguage.MmLanguage;
 import mmMap.*;
 import mmMediaViewer_Player.*;
 
@@ -76,8 +77,9 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 	
 	JFrame mainWindow;
 
-
+    int language;
 	
+
 
 	public MmAddEventsDialog(JDialog frame1,int width,int height,MmMapViewer mapView)
 	{
@@ -166,6 +168,15 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 		this.mainWindow = mainWindow;
 	}
 	
+	public int getLanguage() {
+		return language;
+	}
+
+
+	public void setLanguage(int language) {
+		this.language = language;
+	}
+	
 	
 	public MmAddEventsDialog(JDialog frame1,int index,JPanel panel,MmGlobalMarkerEvents marker,boolean focusEvents)
 	{
@@ -183,14 +194,14 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 		
 		currentMarker = marker;
 		
-		panoramaChkbx = new JCheckBox("Panorama");
+		panoramaChkbx = new JCheckBox(MmLanguage.language_mediaevents[language][0]);
 		
-		cmbgChkbx  = new JCheckBox("Med Kamera bakgrund");
+		cmbgChkbx  = new JCheckBox(MmLanguage.language_mediaevents[language][1]);
 		
 		panoramaChkbx.setEnabled(false);
 		cmbgChkbx.setEnabled(false);
 		
-		chkbx = new JCheckBox("Mediafilen är en skatt");
+		chkbx = new JCheckBox(MmLanguage.language_mediaevents[language][2]);
 		
 		bt = new JButton("Ok");
 		
@@ -198,7 +209,7 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
         
         bt1.setEnabled(false);
         
-        bt2 = new JButton("Stoppa");
+        bt2 = new JButton(MmLanguage.language_mediaevents[language][3]);
         
         bt2.setEnabled(false);
 		
@@ -209,37 +220,37 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 		if(isImageFile(textStrings[0]))
 		{
 			panoramaChkbx.setEnabled(true);
-			bt1.setText("Visa Bilden");
+			bt1.setText(MmLanguage.language_mediaevents[language][10]);
 		}
 		
 		if(isAudio_VideoFile(textStrings[0]))
 		{
 			if(isAudioFile(textStrings[0]))
-			    bt1.setText("Spela Upp Ljud");
+			    bt1.setText(MmLanguage.language_mediaevents[language][4]);
 			else
-				bt1.setText("Spela Upp Video");
+				bt1.setText(MmLanguage.language_mediaevents[language][5]);
 		}
 		
 		if((textStrings[0].contains(".txt")))
 		{
-			bt1.setText("Visa");
+			bt1.setText(MmLanguage.language_mediaevents[language][6]);
 			
 		}
 		
 		String label = ((JLabel) textPanel.getComponent(componentIndex)).getText();
 		
-		if(label.contains("Panorama"))
+		if(label.contains(MmLanguage.language_mediaevents[language][0]))
 		{
 			panoramaChkbx.setSelected(true);
 			cmbgChkbx.setSelected(false);
 		}
 		
-		if(label.contains("skatt"))
+		if(label.contains(MmLanguage.language_mediaevents[language][7]))
 		{
 			chkbx.setSelected(true); 
 		}
 		
-		if(label.contains("Model")||label.contains("model"))
+		if(label.contains(MmLanguage.language_mediaevents[language][8])||label.contains(MmLanguage.language_mediaevents[language][9]))
 		{
 			panoramaChkbx.setSelected(false);
 			cmbgChkbx.setSelected(true);
@@ -284,7 +295,7 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null, "Bild bredd och höjd ska vara under 512 till göra en 3d modell.\n Men bilden bredd och höjd är "+image1.getIconWidth()+" och "+image1.getIconHeight());
+					JOptionPane.showMessageDialog(null, MmLanguage.language_mediaException[language][0]+" "+image1.getIconWidth()+" och "+image1.getIconHeight());
 					cmbgChkbx.setSelected(false);
 					
 				}
@@ -352,25 +363,25 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 				lb.setText(textStrings[0]);
 				if(panoramaChkbx.isSelected() && !chkbx.isSelected())
 				{	
-					lb.setText(lb.getText()+":"+"Panorama");
+					lb.setText(lb.getText()+":"+MmLanguage.language_mediaevents[language][0]);
 				}
 				
 				if(cmbgChkbx.isSelected() && !chkbx.isSelected())
 				{	
 					if(isImageFile(textStrings[0]))
-				        lb.setText(lb.getText()+":"+"Model");
+				        lb.setText(lb.getText()+":"+MmLanguage.language_mediaevents[language][8]);
 				    else
-			            lb.setText(lb.getText()+":"+"model");
+			            lb.setText(lb.getText()+":"+MmLanguage.language_mediaevents[language][9]);
 				}
 				
 				if(chkbx.isSelected())
 				{
 					if(panoramaChkbx.isSelected())
-					   lb.setText(lb.getText()+":"+"Panorama"+":"+"skatt");
+					   lb.setText(lb.getText()+":"+MmLanguage.language_mediaevents[language][0]+":"+MmLanguage.language_mediaevents[language][7]);
 					else if(cmbgChkbx.isSelected())
-						lb.setText(lb.getText()+":"+"Model"+":"+"skatt");	
+						lb.setText(lb.getText()+":"+MmLanguage.language_mediaevents[language][8]+":"+MmLanguage.language_mediaevents[language][7]);	
 					else
-						lb.setText(lb.getText()+":"+"skatt");
+						lb.setText(lb.getText()+":"+MmLanguage.language_mediaevents[language][7]);
 				}
 				
 				currentMarker.getLabels().get(componentIndex).setText(lb.getText());
@@ -453,7 +464,7 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 	
 	
 	
-	public MmAddEventsDialog(JDialog frame1,int index,JPanel panel,MmStationEvents station,boolean focusEvents)
+	public MmAddEventsDialog(JDialog frame1,int index,JPanel panel,MmStationEvents station,boolean focusEvents,int lang)
 	{
 			
 		super();
@@ -463,23 +474,26 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 		panelHeight=200;
 		componentIndex=index;
 		
+		this.language = lang;
+		
 		setBorder(BorderFactory.createEmptyBorder(20, 5, 5, 5));
 		
 		textPanel = panel;
 		
 		currentStation = station;
 		
-		panoramaChkbx = new JCheckBox("Panorama");
+		panoramaChkbx = new JCheckBox(MmLanguage.language_mediaevents[language][0]);
 		
+				
 		panoramaChkbx.setEnabled(false);
 		
-		chkbx = new JCheckBox("Mediafilen är en skatt");
+		chkbx = new JCheckBox(MmLanguage.language_mediaevents[language][2]);
 		
 		bt = new JButton("Ok");
 		
 		bt1 = new JButton();
 		
-		bt2 = new JButton("Stoppa");
+		bt2 = new JButton(MmLanguage.language_mediaevents[language][3]);
 		
 		bt2.setEnabled(false);
 		
@@ -489,26 +503,26 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 		if(isImageFile(textStrings[0]))
 		{
 			panoramaChkbx.setEnabled(true);
-			bt1.setText("Visa Bilden");
+			bt1.setText(MmLanguage.language_mediaevents[language][10]);
 		}
 		
 		if(isAudio_VideoFile(textStrings[0]))
 		{
-			bt1.setText("Spela Upp Video");
+			bt1.setText(MmLanguage.language_mediaevents[language][5]);
 		}
 		
 		if(isAudioFile(textStrings[0]))
-		    bt1.setText("Spela Upp Ljud");
+		    bt1.setText(MmLanguage.language_mediaevents[language][4]);
 		
 		if((textStrings[0].contains(".txt")))
 		{
-			bt1.setText("Visa");
+			bt1.setText(MmLanguage.language_mediaevents[language][6]);
 			
 		}
 		
 		if(textStrings.length==2)
 		{	
-			if(textStrings[1].contains("Panorama"))
+			if(textStrings[1].contains(MmLanguage.language_mediaevents[language][0]))
 				panoramaChkbx.setSelected(true);
 			if(textStrings[1].contains("skatt"))
 				chkbx.setSelected(true);
@@ -516,9 +530,9 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 		
 		if(textStrings.length==3)
 		{	
-			if(textStrings[1].contains("Panorama"))
+			if(textStrings[1].contains(MmLanguage.language_mediaevents[language][0]))
 				panoramaChkbx.setSelected(true);
-			if(textStrings[2].contains("skatt"))
+			if(textStrings[2].contains(MmLanguage.language_mediaevents[language][7]))
 				chkbx.setSelected(true);
 		}
 		
@@ -550,7 +564,7 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 				lb.setText(textStrings[0]);
 				if(panoramaChkbx.isSelected() && !chkbx.isSelected())
 				{	
-					lb.setText(lb.getText()+":"+"Panorama");
+					lb.setText(lb.getText()+":"+MmLanguage.language_mediaevents[language][0]);
 					
 				}   
 				
@@ -558,10 +572,10 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 				{
 					if(panoramaChkbx.isSelected())
 					{
-						lb.setText(lb.getText()+":"+"Panorama"+":"+"skatt");
+						lb.setText(lb.getText()+":"+MmLanguage.language_mediaevents[language][0]+":"+MmLanguage.language_mediaevents[language][7]);
 					}   
 					else
-						lb.setText(lb.getText()+":"+"skatt");	
+						lb.setText(lb.getText()+":"+MmLanguage.language_mediaevents[language][7]);	
 				}
 				
 				currentStation.getLabels().get(componentIndex).setText(lb.getText());
@@ -638,6 +652,39 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 		p.add(bt2);
 		p.setBorder(BorderFactory.createEtchedBorder());
 		add(p);
+		
+		
+	}
+	
+	public void setLanguageText()
+	{
+
+		panoramaChkbx.setText(MmLanguage.language_mediaevents[language][0]);
+		
+		chkbx.setText(MmLanguage.language_mediaevents[language][2]);
+		
+		bt2.setText(MmLanguage.language_mediaevents[language][3]);
+		
+					
+		if(isImageFile(textStrings[0]))
+		{
+			
+			bt1.setText(MmLanguage.language_mediaevents[language][10]);
+		}
+		
+		if(isAudio_VideoFile(textStrings[0]))
+		{
+			bt1.setText(MmLanguage.language_mediaevents[language][5]);
+		}
+		
+		if(isAudioFile(textStrings[0]))
+		    bt1.setText(MmLanguage.language_mediaevents[language][4]);
+		
+		if((textStrings[0].contains(".txt")))
+		{
+			bt1.setText(MmLanguage.language_mediaevents[language][6]);
+			
+		}
 		
 		
 	}

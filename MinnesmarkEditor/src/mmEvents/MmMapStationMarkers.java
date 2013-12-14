@@ -26,6 +26,7 @@ import javax.swing.*;
 
 
 import mmGPSCoordinates.MmMousePoints;
+import mmLanguage.MmLanguage;
 import mmMap.MmMapViewer;
 
 public class MmMapStationMarkers extends JPanel {
@@ -73,39 +74,28 @@ public class MmMapStationMarkers extends JPanel {
 	int markersLeft = 6;
 	
 	public final JWindow window = new JWindow();
+	
+	JPanel  titlePanel,titlePanel1;
+	
+	JLabel titleLabel,titleLabel1;
+	
+	int language;
+	
+	
+
 	public MmMapStationMarkers(JDialog markerDialog,MmMapViewer mapView)
 	{
 		
 		 super();
 		 
-		 	 
-		 //this.markerFrame = frame;
 		 
 		 this.dialog = markerDialog;
 		 
 		 mapViewer = mapView;
 		
-		 /*this.markerFrame.setLocation(425,75);
-		 //this.markerFrame.setAlwaysOnTop(true);
-		 this.markerFrame.setUndecorated(false);
-		 this.markerFrame.setTitle("Stationer");
-		 
-		 
-		 this.markerFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		 this.markerFrame.setResizable(false);*/
 		 
 		 
 		 p = new JPanel();
-		 
-		 //MediaTracker mt = new MediaTracker(this);
-		 //image = Toolkit.getDefaultToolkit().getImage("images/frame.png");
-		 
-		 //image = new ImageIcon(getClass().getResource("/frame.png")).getImage();
-		 
-		 //mt.addImage(image,0);
-		 		 
-		 //this.markerFrame.setBackground(new Color(255,255,255,255));
-		 //MmMapStationMarkers.setWindowAlpha(this.markerFrame, 0.0f);
 		 
 		 
 		 setOpaque(true);
@@ -160,10 +150,10 @@ public class MmMapStationMarkers extends JPanel {
 		 JPanel panel = new JPanel();
 		 panel.setLayout(new GridLayout(0,1));
 		 
-		 JPanel titlePanel = new JPanel();
+		 titlePanel = new JPanel();
 		 titlePanel.setBackground(new Color(230,242,252));
 		 titlePanel.setBorder(BorderFactory.createEmptyBorder(0, 1, 0, 1));
-		 JLabel titleLabel = new JLabel("Dra och släpp stationer på kartan för att skapa en rundvandring");
+		 titleLabel = new JLabel(MmLanguage.language[language][0]);
 		 
 		 titleLabel.setOpaque(false);
 		 titleLabel.setForeground(new Color(24,24,24));
@@ -173,10 +163,10 @@ public class MmMapStationMarkers extends JPanel {
 		 //framePanel.add(titlePanel,BorderLayout.NORTH);
 		 
 		 
-		 JPanel titlePanel1 = new JPanel();
+		 titlePanel1 = new JPanel();
 		 titlePanel1.setBackground(new Color(230,242,252));
 		 titlePanel1.setBorder(BorderFactory.createEmptyBorder(0, 1, 0, 1));
-		 JLabel titleLabel1 = new JLabel("Station för ett lägga till media");
+		 titleLabel1 = new JLabel(MmLanguage.language[language][1]);
 		 titleLabel1.setOpaque(false);
 		 titleLabel1.setForeground(new Color(24,24,24));
 		 titlePanel1.add(titleLabel1);
@@ -296,6 +286,21 @@ public class MmMapStationMarkers extends JPanel {
 		 add(framePanel);
 		 //add(markerPanel);
 		    
+	}
+	
+	public int getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(int language) {
+		this.language = language;
+	}
+	
+	public void setTitleLabel()
+	{
+		titleLabel.setText(MmLanguage.language[language][0]);
+		titleLabel1.setText(MmLanguage.language[language][1]);
+		
 	}
 	
 	public void selectMarker(int index)

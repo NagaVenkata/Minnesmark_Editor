@@ -38,6 +38,12 @@ public abstract class MmAccordionItem extends JLabel {
 	
 	public abstract ImageIcon getSelectedIcon();
 	
+	public void setLanguageText(String text)
+	{
+		this.setText(text);
+	}
+	
+	
 	@Override
     protected void paintComponent(Graphics g) {
        if (getBackgroundPaint() != null) {

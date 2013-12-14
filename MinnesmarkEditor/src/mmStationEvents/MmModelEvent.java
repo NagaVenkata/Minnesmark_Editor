@@ -213,7 +213,7 @@ public class MmModelEvent {
 		}
 	}
 	else {
-		JOptionPane.showMessageDialog(null, "entered data");
+		//JOptionPane.showMessageDialog(null, "entered data");
 		MmObjWriter objWriter = new MmObjWriter(destinationPath+"/osg_obj/"+this.modelFile);
 		objWriter.setImageSrcPath(sourcePath);
 		objWriter.beginSave(destinationPath+"/osg_obj/"+this.modelFile);
@@ -245,7 +245,7 @@ public class MmModelEvent {
 				    des = new FileOutputStream(destinationPath+"/osg_obj/"+desPath).getChannel();
 			     }
 			     
-			     JOptionPane.showMessageDialog(null, "Entered");
+			     //JOptionPane.showMessageDialog(null, "Entered");
 			     
 			     if(desPath.contains(".obj"))
 			     {

@@ -27,6 +27,7 @@ import javax.swing.*;
 import org.jdesktop.swingx.mapviewer.GeoPosition;
 
 import mmEvents.MmAddGlobalMarkers;
+import mmLanguage.MmLanguage;
 import mmMap.MmMapViewer;
 import mmStationEvents.*;
 
@@ -65,6 +66,8 @@ public class MmAccordionMenu extends JPanel  {
 	MmStartEvents startEvents;
 	
 	JFrame mainWindow;
+	
+	int language;
 	 
 	
 	public MmAccordionMenu()
@@ -79,6 +82,14 @@ public class MmAccordionMenu extends JPanel  {
 		
 	}
 	
+	public int getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(int language) {
+		this.language = language;
+	}
+
 	public JFrame getMainWindow() {
 		return mainWindow;
 	}
@@ -177,9 +188,12 @@ public class MmAccordionMenu extends JPanel  {
 			
 	}
 	
+	
+	
 	public void addLabelItems(String menu,ArrayList<JLabel> texts)
 	{
 		MmAccordionMenuItems items = new MmAccordionMenuItems();
+		items.setLanguage(language);
 		
 		if(menu.equals("markers"))
 		{
@@ -193,7 +207,7 @@ public class MmAccordionMenu extends JPanel  {
         {
 			if(item.getName().equals(menu))
 			{
-	 	        item.getItemPanel().addMenuItem(items.getScrollPaneItem());
+			    item.getItemPanel().addMenuItem(items.getScrollPaneItem());
 				item.getItemPanel().updateUI();
 		        item.getMenuItem().add(items);	
 			}
@@ -439,6 +453,53 @@ public class MmAccordionMenu extends JPanel  {
         }
 	}
 	
+	public void setLanguageText(String text,String menu)
+	{
+		if(this.mainItems.get(0).getName().equals(menu))
+		{
+			this.mainItems.get(0).setLanguageText(MmLanguage.language[language][2]);
+			JButton bt = this.mainItems.get(0).getMenuItem().get(1).getButtonItem();
+			bt.setText(MmLanguage.language_button[language][0]);
+		}
+		
+		if(this.mainItems.get(1).getName().equals(menu))
+		{
+			this.mainItems.get(1).setLanguageText(MmLanguage.language[language][3]);
+			JButton bt = this.mainItems.get(1).getMenuItem().get(1).getButtonItem();
+			bt.setText(MmLanguage.language_button[language][1]);
+			JButton bt1 = this.mainItems.get(1).getMenuItem().get(2).getButtonItem();
+			bt1.setText(MmLanguage.language_button[language][2]);
+		}
+		
+		if(this.mainItems.get(2).getName().equals(menu))
+		{
+			this.mainItems.get(2).setLanguageText(MmLanguage.language[language][4]);
+			JButton bt = this.mainItems.get(2).getMenuItem().get(1).getButtonItem();
+			bt.setText(MmLanguage.language_button[language][1]);
+			JButton bt1 = this.mainItems.get(2).getMenuItem().get(2).getButtonItem();
+			bt1.setText(MmLanguage.language_button[language][2]);
+		}
+	}
+	
+	public void setSearchText(String text)
+	{
+		this.mainItems.get(0).getMenuItem().get(0).getTextField().setText(text);
+	}
+	
+	public void setMarkersText(ArrayList<String> texts)
+	{
+		
+		this.mainItems.get(1).getMenuItem().get(0).setMarkersText(texts);
+	}
+	
+	public void setStartTexts(ArrayList<String> texts)
+	{
+		
+		this.mainItems.get(2).getMenuItem().get(0).setMarkersText(texts);
+	}
+	
+	
+	
 	
 	public String convertString(String string) {
 		
@@ -521,7 +582,7 @@ public class MmAccordionMenu extends JPanel  {
 							}
 							else
 							{
-								JOptionPane.showMessageDialog(null, "Välja bilden");
+								JOptionPane.showMessageDialog(null, MmLanguage.language_mediaevents[language][11]);
 							}
 						}
 						else
@@ -666,7 +727,7 @@ public class MmAccordionMenu extends JPanel  {
 	        	   }
 	        	   else if(mainItems.get(i).getMenuItem().get(0).getLabels().size()==18)
 	        	   {	
-	        		  System.out.println("data1 "+mainItems.get(i).getMenuItem().size()); 
+	        		  //System.out.println("data1 "+mainItems.get(i).getMenuItem().size()); 
 	        		  int menuItemsSize= mainItems.get(i).getMenuItem().get(0).getLabels().size()-4;
 	        		  mainItems.get(i).getItemPanel().setVisible(true); 
 	        	      mainItems.get(i).getItemPanel().setSize(this.getWidth()-5,(menuItemsSize)/2*40);
@@ -676,7 +737,7 @@ public class MmAccordionMenu extends JPanel  {
 	        	   }
 	        	   else if(!mainItems.get(i).getMenuItem().get(0).getLabels().isEmpty())
 	        	   {	
-	        		  System.out.println("data2 "+mainItems.get(i).getMenuItem().size()); 
+	        		  //System.out.println("data2 "+mainItems.get(i).getMenuItem().size()); 
 	        		  int menuItemsSize= mainItems.get(i).getMenuItem().get(1).getLabels().size()+8;
 	        		  mainItems.get(i).getItemPanel().setVisible(true); 
 	        	      mainItems.get(i).getItemPanel().setSize(this.getWidth()-5,(menuItemsSize)/2*40);
