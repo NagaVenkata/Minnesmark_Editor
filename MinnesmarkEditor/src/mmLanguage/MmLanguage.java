@@ -16,13 +16,13 @@ public class MmLanguage {
 	
 	public static String language_exception[][]=new String[][]{{"Kan inte spara json-filen","Kan inte flytta stationen. Andra punkter är för nära","Kan inte flytta svängpunkten. Andra punkter är för nära","Kan inte lägga till en station. Andra punkter är för nära.","Vill du ta bort svängpunkten?","Vill du ta bort stationen?","Stationen"},
 		                                                       {"Cannot save the json filen","Cannot move the station. Other points are too close","Cannot move the turning point. Other points are too close","Cannot add a station. Other points are too close.","Do you want to delete the turning point?","Do you want to delete the station?","Station"}};
-	
+		
 	
 	public static String language_jsonException[][] = new String[][]{{"Bilden hittades inte","Modellfilen hittades inte","Ljudfilen hittades inte","Videofilen hittades inte"},
 		                                                             {"Image file not found","Model file not found","Sound file not found","Video file not found"}};
 	
-	public static String language_events[][] = new String[][]{{":skatt",":Modell",":Panorama","Lägg till media som spelas på stationen"},
-		                                                      {":treasure",":Model",":Panorama","Add media that plays at the station"}};
+	public static String language_events[][] = new String[][]{{":skatt",":Modell",":Panorama","Lägg till media som spelas på stationen","Mediefiler"},
+		                                                      {":treasure",":Model",":Panorama","Add media that plays at the station","Media files"}};
 	
 	public static String language_button[][] = new String[][]{{"Sök","Lägg till media","Ta bort media"},
 		                                                      {"Search","Add media","Delete media"}};
@@ -52,5 +52,7 @@ public class MmLanguage {
 		                                                      {"Search","Click the text to enter the latitude","Click the text to enter the longitude"}};
 	
 	public static String language_options[][] = new String[][]{{"Ja","Nej","Avbryt"},{"Yes","No","Cancel"}};
+	
+	public static String language_print[][]  = new String[][]{{"Markör","Media"},{"Marker","Media"}};
 	
 }

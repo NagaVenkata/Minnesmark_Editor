@@ -537,8 +537,9 @@ public class MmAccordionMenu extends JPanel  {
 		    if(item.getName().equals(menu))
 		    {
 		        JLabel lb  =  item.getMenuItem().get(0).getLabels().get(index);
-		        lb.setText(lb.getText()+":"+itemName+" Mediefiler");
+		        lb.setText(lb.getText()+":"+itemName+" "+MmLanguage.language_events[language][4]);
 		        lb.setName(lb.getName());
+		        
 		        //item.getMenuItem().get(0).getScrollPaneItem().revalidate();
 		        break;
 		    }

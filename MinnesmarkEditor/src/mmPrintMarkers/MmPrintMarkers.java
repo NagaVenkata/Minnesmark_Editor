@@ -11,6 +11,7 @@ import java.util.*;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+import mmLanguage.MmLanguage;
 import mmStationEvents.MmGlobalMarkerEvents;
 
 public class MmPrintMarkers implements Printable {
@@ -18,14 +19,20 @@ public class MmPrintMarkers implements Printable {
 	ImageIcon img;
 	MmGlobalMarkerEvents events;
 	
-	public MmPrintMarkers(String imageName,MmGlobalMarkerEvents event)
+	int language;
+	
+	
+
+	public MmPrintMarkers(String imageName,MmGlobalMarkerEvents event,int lang)
 	{
 		img = new ImageIcon(imageName);
 		//events = new MmGlobalMarkerEvents(); 
 		
 		events = event;
 		
-		JOptionPane.showMessageDialog(null, events.getMarker().getMarkerEvent());
+		this.language = lang;
+		
+		//JOptionPane.showMessageDialog(null, events.getMarker().getMarkerEvent());
 	}
 
 	@Override
@@ -54,8 +61,8 @@ public class MmPrintMarkers implements Printable {
        //g2d.drawString("Hi Printer", 100, 100);
        g2d.drawImage(img.getImage(),150,150,null);
        
-       g2d.drawString("Markör:"+"patt.marker"+Integer.toString(events.getMarkerIndex()+1), 100, img.getIconHeight()+450);
-       g2d.drawString("Media:"+events.getMarkerMediaFiles(), 100, img.getIconHeight()+475);
+       g2d.drawString(MmLanguage.language_print[language][0]+":"+"patt.marker"+Integer.toString(events.getMarkerIndex()+1), 100, img.getIconHeight()+450);
+       g2d.drawString(MmLanguage.language_print[language][1]+":"+events.getMarkerMediaFiles(), 100, img.getIconHeight()+475);
        
        
        
@@ -64,6 +71,15 @@ public class MmPrintMarkers implements Printable {
        
 		
 		
+	}
+	
+	
+	public int getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(int language) {
+		this.language = language;
 	}
 
 }

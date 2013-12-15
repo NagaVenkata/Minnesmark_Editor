@@ -764,6 +764,18 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 			}
 			
 		});
+        
+        
+        exit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.exit(0);
+				
+			}
+			
+		});
 		
 		
 		newTrail = new JMenuItem(MmLanguage.language_menu[language][2],KeyEvent.VK_N);
@@ -1403,14 +1415,14 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 	    			if(!accordionMenu.getGlobalMarkerEvents().isEmpty())
 	    			{
 	    				index=accordionMenu.getGlobalMarkerEvents().get(0).getMarkerIndex();
-	    			    pBook.append(new MmPrintMarkers(System.getProperty("user.dir")+"/new markers/pattern"+Integer.toString(index+1)+".png" ,accordionMenu.getGlobalMarkerEvents().get(0)), printer.defaultPage());
+	    			    pBook.append(new MmPrintMarkers(System.getProperty("user.dir")+"/new markers/pattern"+Integer.toString(index+1)+".png" ,accordionMenu.getGlobalMarkerEvents().get(0),language), printer.defaultPage());
 	    			}    
 	    			
 					for(int i=1;i<accordionMenu.getGlobalMarkerEvents().size();i++)
 					{		
 					   index = accordionMenu.getGlobalMarkerEvents().get(i).getMarkerIndex();
 					   
-					   pBook.append(new MmPrintMarkers(System.getProperty("user.dir")+"/new markers/pattern"+Integer.toString(index+1)+".png" ,accordionMenu.getGlobalMarkerEvents().get(i)), printer.defaultPage());
+					   pBook.append(new MmPrintMarkers(System.getProperty("user.dir")+"/new markers/pattern"+Integer.toString(index+1)+".png" ,accordionMenu.getGlobalMarkerEvents().get(i),language), printer.defaultPage());
 					
 					   //JOptionPane.showMessageDialog(null, "marker index "+index);
 					  			   

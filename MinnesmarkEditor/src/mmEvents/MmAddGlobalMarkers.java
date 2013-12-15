@@ -575,7 +575,7 @@ public class MmAddGlobalMarkers extends JPanel {
 					
 					if(station.getActualLabelsCount()!=0)
 					{
-						string += ":"+station.getActualLabelsCount()+" mediefiler ";
+						string += ":"+station.getActualLabelsCount()+" "+MmLanguage.language_events[language][4];
 					}
 														
 				    markerLabel.setText(string);
@@ -1000,10 +1000,10 @@ public class MmAddGlobalMarkers extends JPanel {
 	    		pPageFormat.setPaper(pPaper);
 	    		pPageFormat = printer.pageDialog(pPageFormat);
 	    		Book pBook = new Book();
-	    		pBook.append(new MmPrintMarkers("/Users/Umapathi/Desktop/brick.gif",null), printer.defaultPage());
-	    		pBook.append(new MmPrintMarkers("/Users/Umapathi/Desktop/brickNrm.gif",null), pPageFormat);
-	    		pBook.append(new MmPrintMarkers("/Users/Umapathi/Desktop/dirt_NRM.png",null), pPageFormat);
-	    		pBook.append(new MmPrintMarkers("/Users/Umapathi/Desktop/childrenAtPond_NRM.png",null), pPageFormat);
+	    		pBook.append(new MmPrintMarkers("/Users/Umapathi/Desktop/brick.gif",null,language), printer.defaultPage());
+	    		pBook.append(new MmPrintMarkers("/Users/Umapathi/Desktop/brickNrm.gif",null,language), pPageFormat);
+	    		pBook.append(new MmPrintMarkers("/Users/Umapathi/Desktop/dirt_NRM.png",null,language), pPageFormat);
+	    		pBook.append(new MmPrintMarkers("/Users/Umapathi/Desktop/childrenAtPond_NRM.png",null,language), pPageFormat);
 	    		printer.setPageable(pBook);
 	    		printer.print();
 	    			
