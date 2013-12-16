@@ -405,6 +405,8 @@ public class MmStationEvents {
 		
 		//JOptionPane.showMessageDialog(null, this.stationName+"  "+nextStationIndex);
 		
+		gpsRadius = 10;
+		
 		try {
 			   stationEvent.put("name", this.stationName);
 			   stationEvent.put("type", "region");

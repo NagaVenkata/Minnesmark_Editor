@@ -1950,7 +1950,7 @@ public class MmMapViewer extends JPanel implements Printable {
 	          float pntDist = new Float(dist * meterConversion).floatValue();
 	       
 	          	       
-	          if(pntDist>50)
+	          if(pntDist>35)
 	          {	   
 	    	      insertPnt=true;
 	    	      continue;
@@ -2258,13 +2258,15 @@ public class MmMapViewer extends JPanel implements Printable {
 				 //for(int j=0;j<events.getStations().get(i).getItemsCollected().size();j++)
 				 {
 					  //JOptionPane.showMessageDialog(null, "objects collect "+events.getStations().get(i).getItemsCollected().size()+"   "+count);
-					  count+=events.getStations().get(i).getItemsCollected().size();
+					 if(!events.getStations().get(i).getItemsCollected().isEmpty())
+					     count+=events.getStations().get(i).getItemsCollected().size();
 				 }
 		    }
 			
 			for(int i=0;i<markerEvents.size();i++)
 			{
-				count+=markerEvents.get(i).getCollectedItems();
+				if(markerEvents.get(i).getCollectedItems()!=0)
+				    count+=markerEvents.get(i).getCollectedItems();
 			}
 			
 		    
