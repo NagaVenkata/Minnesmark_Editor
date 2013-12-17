@@ -229,6 +229,8 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 			    bt1.setText(MmLanguage.language_mediaevents[language][4]);
 			else
 				bt1.setText(MmLanguage.language_mediaevents[language][5]);
+			
+			bt1.setEnabled(false);
 		}
 		
 		if((textStrings[0].contains(".txt")))
@@ -415,7 +417,8 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 				}   
 				else if(isAudio_VideoFile(lb.getText()))
 				{
-					bt2.setEnabled(true);
+					//bt2.setEnabled(true);
+					bt2.setEnabled(false);
 				    audioPlayer.setAudioFile(lb.getName());
 				    
 				    if(isAudioFile(lb.getText()))
@@ -509,10 +512,14 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 		if(isAudio_VideoFile(textStrings[0]))
 		{
 			bt1.setText(MmLanguage.language_mediaevents[language][5]);
+			bt1.setEnabled(false);
 		}
 		
 		if(isAudioFile(textStrings[0]))
+		{	
 		    bt1.setText(MmLanguage.language_mediaevents[language][4]);
+		    bt1.setEnabled(false);
+		}    
 		
 		if((textStrings[0].contains(".txt")))
 		{
@@ -608,14 +615,16 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 				{
 				    audioPlayer.setAudioFile(lb.getName());
 				    audioPlayer.videoPlay(mainWindow);	
-				    bt2.setEnabled(true);
+				    //bt2.setEnabled(true);
+				    bt2.setEnabled(false);
 							    
 				}
 				else if(isAudioFile(lb.getName()))
 				{
 					 audioPlayer.setAudioFile(lb.getName());  
 					 audioPlayer.audioPlay(mainWindow);
-					 bt2.setEnabled(true);
+					 //bt2.setEnabled(true);
+					 bt2.setEnabled(false);
 				}
 				
 				if((lb.getText().contains(".txt")))
