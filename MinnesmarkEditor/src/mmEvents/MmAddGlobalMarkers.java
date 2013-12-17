@@ -639,7 +639,29 @@ public class MmAddGlobalMarkers extends JPanel {
 		   eventProperties.setLanguageText();
 		}   
 		
-		    
+		if(!globalMarkerEvents.isEmpty())
+		{ 	
+			int count=0;
+			String string = null;
+			
+			string = markerLabel.getText();
+			
+			String[] str = markerLabel.getText().split(":");
+			
+			if(str.length==2)
+			{
+				string = markerLabel.getText().replace(":"+str[1], "");
+				
+			}
+			
+			if(station.getActualLabelsCount()!=0)
+			{
+				string += ":"+station.getActualLabelsCount()+" "+MmLanguage.language_events[language][4];
+			}
+												
+		    markerLabel.setText(string);
+		    station.setMediaText(markerLabel.getText());
+		}    
 		
 		
 	}

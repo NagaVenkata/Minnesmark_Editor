@@ -480,8 +480,7 @@ public class MmAccordionMenu extends JPanel  {
 			bt1.setText(MmLanguage.language_button[language][2]);
 		}
 		
-		markerEvents.setLanguage(language);
-		markerEvents.setLanguageText();
+		
 	}
 	
 	public void setSearchText(String text)
@@ -493,6 +492,9 @@ public class MmAccordionMenu extends JPanel  {
 	{
 		
 		this.mainItems.get(1).getMenuItem().get(0).setMarkersText(texts);
+		
+		markerEvents.setLanguage(language);
+		markerEvents.setLanguageText();
 	}
 	
 	public void setStartTexts(ArrayList<String> texts)
