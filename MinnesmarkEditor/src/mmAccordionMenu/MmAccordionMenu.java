@@ -616,10 +616,14 @@ public class MmAccordionMenu extends JPanel  {
 				public void actionPerformed(ActionEvent arg0) {
 					// TODO Auto-generated method stub
 					
-					int index = item.getMenuItem().get(1).getMarkerSelected();
+					int index = item.getMenuItem().get(0).getMarkerSelected();
 					
-					item.getMenuItem().get(1).removeSelectedItem(index);
+					item.getMenuItem().get(0).removeSelectedItem(index);
 					
+					if(index==0)
+					{
+						item.getMenuItem().get(0).setMarkerSelectedText(MmLanguage.language_startMedia[language][0]);
+					}
 				    	
 				}
 	  	    	

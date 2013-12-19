@@ -632,6 +632,12 @@ public class MmMapViewer extends JPanel implements Printable {
         		{ 
         			isPointPresent = mousePos.get(i).isPointInRegion(new MmMousePoints(e.getX(),e.getY()));
         			
+        			/*if(e.getClickCount()==2)
+        			{
+        				JOptionPane.showMessageDialog(null, e.getX()+" "+e.getY());
+        				eventsDialog.setVisible(false);
+        			}*/
+        			
         			if(!isPointPresent)
         				continue;
         			else
@@ -2435,12 +2441,22 @@ public class MmMapViewer extends JPanel implements Printable {
 		
 		if(!startEvents.getTexts().isEmpty())
 		{
-			for(int i=1;i<2;i++)
+			if(startEvents.getTextPaths().size()>=2)
+			{	
+			   for(int i=1;i<2;i++)
+			   {
+				   if(!startEvents.eventNames[i].isEmpty())
+				   {
+					   startActionArray.put(startEvents.eventNames[i]);
+				   }
+			   }	   
+			}
+			else
 			{
-				if(!startEvents.eventNames[i].isEmpty())
-				{
-					startActionArray.put(startEvents.eventNames[i]);
-				}
+				if(!startEvents.eventNames[0].isEmpty())
+			    {
+					 startActionArray.put(startEvents.eventNames[0]);
+				 }
 			}
 		}
 		
@@ -2502,7 +2518,7 @@ public class MmMapViewer extends JPanel implements Printable {
 			{
 				if(globalMarkers.get(i).getNumberOfEvents()!=0)
 				{	
-				   if(i==globalMarkers.size()-1)
+				   if(i==globalMarkers.size()-1 && events.getStations().isEmpty())
 				   {
 					   globalMarkers.get(i).setLastMarker(true);
 				   }

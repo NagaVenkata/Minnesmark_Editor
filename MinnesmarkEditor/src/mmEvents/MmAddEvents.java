@@ -133,6 +133,7 @@ public class MmAddEvents extends JPanel {
 		 addButton = new JButton("+   "+MmLanguage.language_button[language][1]);
 		 minusButton = new JButton("-   "+MmLanguage.language_button[language][2]);
 		 JButton okButton = new JButton("Ok");
+		 JButton attrButton = new JButton("attributes");
 		 
 		 pane = new JScrollPane(eventPanel);
 		 pane.setBorder(BorderFactory.createEtchedBorder());
@@ -568,7 +569,7 @@ public class MmAddEvents extends JPanel {
 		 buttonPanel.add(addButton);
 		 buttonPanel.add(minusButton);
 		 buttonPanel.add(okButton);
-		
+		 //buttonPanel.add(attrButton);
 
 		 
 		 JPanel panel1 = new JPanel();

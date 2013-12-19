@@ -264,8 +264,8 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
                 
         
 	    accordionMenu.addLabelItems("start",texts1);
-	    accordionMenu.addButtonItem("start", MmLanguage.language_button[0][0],"ok");
-	    accordionMenu.addButtonItem("start", MmLanguage.language_button[0][1],"cancel");
+	    accordionMenu.addButtonItem("start", MmLanguage.language_button[0][1],"ok");
+	    accordionMenu.addButtonItem("start", MmLanguage.language_button[0][2],"cancel");
 	    accordionMenu.addItems("start");
 	    //accordionMenu.buttonActions("start");
 	    accordionMenu.startMenuButtonActions();
@@ -971,7 +971,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 					}
 				}*/
 				
-			   JOptionPane.showMessageDialog(null, map.getSavedState());
+			   //JOptionPane.showMessageDialog(null, map.getSavedState());
 				
 				if(map.getSavedState())
 				{	
