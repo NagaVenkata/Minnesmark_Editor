@@ -1041,7 +1041,71 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 				
 				if(!map.getSavedState() && map.isFileOpen())
 				{
-				    SaveFile();
+					Object[] options = {MmLanguage.language_options[language][0],
+							MmLanguage.language_options[language][1],
+							MmLanguage.language_options[language][2]};
+					
+					int option = JOptionPane.showOptionDialog(null, MmLanguage.language_fileOptions[language][0], MmLanguage.language_fileOptions[language][1], JOptionPane.YES_NO_CANCEL_OPTION,0,null,options,options[2]);
+					
+				    if(option==JOptionPane.OK_OPTION)
+				    {
+				       SaveFile();
+				    
+				       map.resetMapContents();
+				    }
+				    
+				    if(option==JOptionPane.NO_OPTION)
+				    {  
+				 	   //accordionMenu.getGlobalMarkerEvents().clear();
+					   accordionMenu.clearContent();
+					   resetStartContent();
+					   accordionMenu.getStartEvents().imageEvents.clear();
+					   accordionMenu.getStartEvents().audioEvents.clear();
+					   accordionMenu.getStartEvents().videoEvents.clear();
+					   accordionMenu.getStartEvents().messageEvents.clear();
+				       map.resetMapContents();
+				       
+				       JFileChooser openFile = new JFileChooser();
+						
+						openFile.setAcceptAllFileFilterUsed(false);
+						
+						
+						
+						FileNameExtensionFilter filter = new FileNameExtensionFilter(
+						        "JSON files", "json");
+						
+						openFile.addChoosableFileFilter(filter);
+						openFile.setFileFilter(filter);
+						
+						option = openFile.showOpenDialog(null);
+						
+					    if(option == JFileChooser.APPROVE_OPTION)
+					    {
+					    	
+					    	resetStartContent();
+						    accordionMenu.getStartEvents().imageEvents.clear();
+							accordionMenu.getStartEvents().audioEvents.clear();
+							accordionMenu.getStartEvents().videoEvents.clear();
+							accordionMenu.getStartEvents().messageEvents.clear();
+							
+					    	map.resetMapContents();
+						    map.showStationEventWindow();
+					        map.readJSONFileContents(openFile.getSelectedFile().getAbsolutePath(),accordionMenu);
+					        map.setFileOpen(true);
+					        map.setSaved(false);
+					    }    
+					
+					    if(option == JFileChooser.CANCEL_OPTION)
+					    {
+					    	
+					    	if(!map.isFileOpen())
+					    	{
+					    	
+						        map.showStationEventWindow();
+					    	}    
+					    }
+				    }
+					
 				}
 				else
 				{

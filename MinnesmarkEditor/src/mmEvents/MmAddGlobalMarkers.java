@@ -145,6 +145,8 @@ public class MmAddGlobalMarkers extends JPanel {
 	      
 	     images[0] = img;
 	     images[1] = img1;
+	     
+	     
 		 
 		 
 		 eventPanel.addMouseListener(new MouseListener() {
@@ -827,6 +829,10 @@ public class MmAddGlobalMarkers extends JPanel {
 	
 	public void addEvent()
 	{
+		
+		if(station!=null)
+		   currentIndex = station.getActualLabelsCount();
+		
         JFileChooser fileChooser = new JFileChooser();
 		
 		fileChooser.setAcceptAllFileFilterUsed(false);

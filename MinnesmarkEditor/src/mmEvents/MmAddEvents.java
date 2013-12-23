@@ -554,9 +554,13 @@ public class MmAddEvents extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				// TODO Auto-generated method stub
+				
+				
 				eventDialog.setVisible(false);
 				if(dialogFrame!=null)
 				  dialogFrame.setVisible(false);
+				
+				
 				
 				/*int stationIndex = stationEvents.indexOf(station);
 				station.setStationName("station"+Integer.toString(stationIndex+1));
@@ -1053,6 +1057,8 @@ public class MmAddEvents extends JPanel {
 		fileChooser.addChoosableFileFilter(MediaFilter);
 		fileChooser.setFileFilter(MediaFilter);
 		
+		if(station!=null)
+			currentIndex = station.getNumberOfEvents();
 		
 		
 		int val = fileChooser.showOpenDialog(null);

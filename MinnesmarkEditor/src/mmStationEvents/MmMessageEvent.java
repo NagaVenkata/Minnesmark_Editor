@@ -127,6 +127,7 @@ public class MmMessageEvent {
 
 	public void JSONActions()
 	{
+	
 		
 		BufferedReader br;
 		try {
@@ -142,6 +143,7 @@ public class MmMessageEvent {
 	                       line = br.readLine();
 	                }
 	                this.message = sb.toString();
+	                
 	              }     
 		            catch (FileNotFoundException e1) {
 			        // TODO Auto-generated catch block
@@ -162,6 +164,7 @@ public class MmMessageEvent {
 			attributes.put("fileName", this.fileName);
 			attributes.put("message", this.message);
 			attributes.put("buttonTitle", "Stäng");
+			attributes.put("collectItem", collectItem);
 			events.put("attributes", attributes);
 			
 			actions.put("message-disappeared", action);
@@ -178,42 +181,53 @@ public class MmMessageEvent {
 			  
 			  File file = new File(destinationPath+"/messages");
 			  
-			  String[] desPath = sourcePath.split("/");
+			  File desFilePath = new File(sourcePath);
+			  String desPath = desFilePath.getName();
               
 			  File desFile = new File(destinationPath+"/messages/"+desPath);
+			  
+			  
 			  
 			  if(!desFile.exists())
 			  {	  
 			     if(file.isDirectory())
 			     {
-				    src = new FileInputStream(sourcePath).getChannel(); 
-			        des = new FileOutputStream(destinationPath+"/messages/"+desPath[desPath.length-1]).getChannel();
+			    	src = new FileInputStream(sourcePath).getChannel(); 
+			        des = new FileOutputStream(destinationPath+"/messages/"+desPath).getChannel();
+			    	 
+			         
 			     }
 			     else
 			     {
-				    file.mkdir();
-				    src = new FileInputStream(sourcePath).getChannel();
-				    des = new FileOutputStream(destinationPath+"/messages/"+desPath[desPath.length-1]).getChannel();
+			    	file.mkdir();
+				    
+				       src = new FileInputStream(sourcePath).getChannel();
+				       des = new FileOutputStream(destinationPath+"/messages/"+desPath).getChannel();
+			    	
 			     }
 			  }
 			  
 			  
 			  try {
-				des.transferFrom(src, 0, src.size());
+				    if(des!=null)
+				        des.transferFrom(src, 0, src.size());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,e);
 		}
 
 		finally
 		{
 			try {
-				src.close();
-				des.close();
+				  if(src!=null)
+				  {
+				     src.close();
+				     des.close();
+				  }   
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

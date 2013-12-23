@@ -68,6 +68,8 @@ public class MmGlobalMarkerEvents {
 		
 		this.markerIndex = -1;
 		
+		current_index = 0;
+		
 	}
 	
 	public MmGlobalMarkerEvents(String name)
@@ -348,6 +350,8 @@ public class MmGlobalMarkerEvents {
 		JLabel lb = null; 
 			   
 		int i=0;
+		
+		currentLabelIndex = 0;
 			    
 			   
 		while(currentLabelIndex<labels.size())
@@ -381,51 +385,54 @@ public class MmGlobalMarkerEvents {
 				
 				
 				   
-			    if(((lb.getText().contains(".jpg"))||(lb.getText().contains(".png"))||(lb.getText().contains(".bmp"))) && !(lb.getText().contains("Panorama")) && (!(lb.getText().contains("Model"))||!(lb.getText().contains("model"))))
+			    if(((lb.getText().contains(".jpg"))||(lb.getText().contains(".png"))||(lb.getText().contains(".bmp"))) && (!(lb.getText().contains("Panorama")) &&!(lb.getText().contains("model"))))
 			    { 	
-			    	  
+			    	
+			    	
+			    	if(!(lb.getText().contains(":Model")))
+			    	{	
+			    	    System.out.println("label text1 "+lb.getText());	 
 			    	 
-			    	 
-			    	 MmImageEvent imageEvent = new MmImageEvent(); 
-			    	 imageEvent.setEventName("marker"+Integer.toString(markerIndex+1)+"_image");
-			    	 markerEvent.addActions(imageEvent.getEventName());
-					 String[] attrs = lb.getText().split(":");
+			    	    MmImageEvent imageEvent = new MmImageEvent(); 
+			    	    imageEvent.setEventName("marker"+Integer.toString(markerIndex+1)+"_image");
+			    	    markerEvent.addActions(imageEvent.getEventName());
+					    String[] attrs = lb.getText().split(":");
 					  
-					 if(attrs.length<=1)
-					 {	   
+					    if(attrs.length<=1)
+					    {	   
 						   imageEvent.setImageFile(attrs[0]);
 						   imageEvent.setCollectItem(false);
-					 }
+					    }
 					 
-					 if(attrs.length==2)
-					 { 	   
+					    if(attrs.length==2)
+					    { 	   
 						   imageEvent.setImageFile(attrs[0]);
 					       imageEvent.setCollectItem(true);
 					       collectItems.add(new Integer(collectItems.size()+1));
-					 }
+					    }
 					   
 					  				   
-					  imageEvent.setSourcePath(lb.getName());
-					  imageEvent.setDestinationPath(this.saveFilePath);
-					  imageEvent.makeJSONObject();
-					  imageEvent.JSONActions();
-					  imageEvents.add(imageEvent);
-			    	  currentLabelIndex++;
-			    	  System.out.println("currentLabelIndex "+currentLabelIndex+"  "+labels.size());
-			    	  if(currentLabelIndex<labels.size())
-			    	  {	
+					    imageEvent.setSourcePath(lb.getName());
+					    imageEvent.setDestinationPath(this.saveFilePath);
+					    imageEvent.makeJSONObject();
+					    imageEvent.JSONActions();
+					    imageEvents.add(imageEvent);
+			    	    currentLabelIndex++;
+			    	    System.out.println("currentLabelIndex "+currentLabelIndex+"  "+labels.size());
+			    	    if(currentLabelIndex<=labels.size())
+			    	    {	
 			    		   if(!createImageEvent(imageEvent))
 			    	    	   break;
-			    	  }   
-			    	  else
-			    	  {
-			    		 if(isLastMarker)
-			    		 {
-			    			 imageEvent.addActions("Done");
-			    		 }
-			    		 break;
-			    	  }		 
-			    	  
+			    	    }   
+			    	    else
+			    	    {
+			    		   if(isLastMarker)
+			    		   {
+			    			   imageEvent.addActions("Done");
+			    		   }
+			    		   break;
+			    	    }		 
+			    	}  
 			    	 			            
 			      } 
 			    
@@ -455,7 +462,7 @@ public class MmGlobalMarkerEvents {
 			    	  panoramaEvent.JSONActions();
 			    	  panoramaEvents.add(panoramaEvent);
 			    	  currentLabelIndex++;
-			    	  if(currentLabelIndex<labels.size())
+			    	  if(currentLabelIndex<=labels.size())
 			    	  {	  
 				          if(!createPanoramaEvent(panoramaEvent))
 				        	  break;
@@ -500,7 +507,7 @@ public class MmGlobalMarkerEvents {
 					  audioEvent.JSONActions();
 			    	  audioEvents.add(audioEvent);
 			    	  currentLabelIndex++;
-			    	  if(currentLabelIndex<labels.size())
+			    	  if(currentLabelIndex<=labels.size())
 			    	  {	  
 				           if(!createAudioEvent(audioEvent))
 				        	   break;
@@ -541,7 +548,7 @@ public class MmGlobalMarkerEvents {
 					  videoEvent.JSONActions();
 			    	  videoEvents.add(videoEvent);
 			    	  currentLabelIndex++;
-			    	  if(currentLabelIndex<labels.size())
+			    	  if(currentLabelIndex<=labels.size())
 			    	  {	
 			    	     if(!createVideoEvent(videoEvent))
 			    	    	 break;
@@ -689,7 +696,7 @@ public class MmGlobalMarkerEvents {
 			    	   messageEvents.add(messageEvent);
 			    	   currentLabelIndex++;
 			    	   
-			    	   if(currentLabelIndex<labels.size())
+			    	   if(currentLabelIndex<=labels.size())
 			    	   {	
 			    	     if(!createMessageEvent(messageEvent))
 			    	    	 break;
@@ -838,7 +845,7 @@ public class MmGlobalMarkerEvents {
 			        
 				    
 				    currentLabelIndex++;
-				    if(currentLabelIndex<labels.size())
+				    if(currentLabelIndex<=labels.size())
 				    {	
 				    	//JOptionPane.showMessageDialog(null, "Entered image event");
 				    	nextImageEvent.makeJSONObject();
@@ -950,7 +957,7 @@ public class MmGlobalMarkerEvents {
 							  videoEvent.makeJSONObject();
 					    	  videoEvents.add(videoEvent);
 					    	  currentLabelIndex++;
-					    	  if(currentLabelIndex<labels.size())
+					    	  if(currentLabelIndex<=labels.size())
 					    	  {	
 					    	     if(!createVideoEvent(videoEvent))
 					    	    	 return false;
@@ -1000,7 +1007,7 @@ public class MmGlobalMarkerEvents {
 							  modelEvent.makeJSONObject();
 					    	  modelEvents.add(modelEvent);
 					    	  currentLabelIndex++;
-					    	  if(currentLabelIndex<labels.size())
+					    	  if(currentLabelIndex<=labels.size())
 					    	  {	
 					    	     if(!createModelEvent(modelEvent))
 					    	    	 return false;
@@ -1026,12 +1033,12 @@ public class MmGlobalMarkerEvents {
 								  }
 								  messageEvent.setSourcePath(lb.getName());
 								  messageEvent.setDestinationPath(this.saveFilePath);
-								  imageEvent.addActions(imageEvent.getEventName());
+								  imageEvent.addActions(messageEvent.getEventName());
 								  imageEvent.JSONActions();
-								  imageEvent.makeJSONObject();
-						    	  imageEvents.add(imageEvent);
+								  messageEvent.makeJSONObject();
+						    	  messageEvents.add(messageEvent);
 						    	  currentLabelIndex++;
-						    	  if(currentLabelIndex<labels.size())
+						    	  if(currentLabelIndex<=labels.size())
 						    	  {	
 						    	     if(!createMessageEvent(messageEvent))
 						    	    	 return false;
@@ -1044,6 +1051,10 @@ public class MmGlobalMarkerEvents {
 		 if(labels.size()>=currentLabelIndex)
 		 {	
 				System.out.println("label index "+currentLabelIndex+" labels size "+labels.size());
+				if(isLastMarker)
+			    {
+			    	imageEvent.addActions("Done");
+			    }
 				imageEvent.JSONActions();
 				return false;
 		 }
@@ -1101,7 +1112,7 @@ public class MmGlobalMarkerEvents {
 			   panoramaEvent.makeJSONObject();
 		       currentLabelIndex++;
 		       
-		       if(currentLabelIndex<labels.size())
+		       if(currentLabelIndex<=labels.size())
 			    {	
 			    	
 			    	nextPanoramaEvent.makeJSONObject();
@@ -1181,7 +1192,7 @@ public class MmGlobalMarkerEvents {
 		    	  videoEvents.add(videoEvent);
 		    	  currentLabelIndex++;
 		    	  
-		    	  if(currentLabelIndex<labels.size())
+		    	  if(currentLabelIndex<=labels.size())
 		    	  {	
 		    	     if(!createVideoEvent(videoEvent))
 		    	    	 return false;
@@ -1232,7 +1243,7 @@ public class MmGlobalMarkerEvents {
 		    	  modelEvents.add(modelEvent);
 		    	  currentLabelIndex++;
 		    	  
-		    	  if(currentLabelIndex<labels.size())
+		    	  if(currentLabelIndex<=labels.size())
 		    	  {	
 		    	     if(!createModelEvent(modelEvent))
 		    	    	 return false;
@@ -1263,7 +1274,7 @@ public class MmGlobalMarkerEvents {
 					  panoramaEvent.makeJSONObject();
 			    	  panoramaEvents.add(panoramaEvent);
 			    	  currentLabelIndex++;
-			    	  if(currentLabelIndex<labels.size())
+			    	  if(currentLabelIndex<=labels.size())
 			    	  {	
 			    	     if(!createMessageEvent(messageEvent))
 			    	    	 return false;
@@ -1316,7 +1327,10 @@ public class MmGlobalMarkerEvents {
 		if(labels.size()>=currentLabelIndex)
 		{	
 			System.out.println("label index "+currentLabelIndex+" labels size "+labels.size());
-			
+			if(isLastMarker)
+		    {
+		    	panoramaEvent.addActions("Done");
+		    }
 			panoramaEvent.JSONActions();
 			return false;
 		}
@@ -1434,7 +1448,7 @@ public class MmGlobalMarkerEvents {
 				  videoEvent.makeJSONObject();
 		    	  videoEvents.add(videoEvent);
 		    	  currentLabelIndex++;
-		    	  if(currentLabelIndex<labels.size())
+		    	  if(currentLabelIndex<=labels.size())
 		    	  {	
 		    	     if(!createVideoEvent(videoEvent))
 		    	    	 return false;
@@ -1483,7 +1497,7 @@ public class MmGlobalMarkerEvents {
 				  modelEvent.makeJSONObject();
 		    	  modelEvents.add(nextModelEvent);
 		    	  currentLabelIndex++;
-		    	  if(currentLabelIndex<labels.size())
+		    	  if(currentLabelIndex<=labels.size())
 		    	  {	
 		    		  nextModelEvent.makeJSONObject();	
 				      nextModelEvent.JSONActions();
@@ -1522,7 +1536,7 @@ public class MmGlobalMarkerEvents {
 			      modelEvents.add(modelEvent);
 			      currentLabelIndex++;
 			    	 
-			      if(currentLabelIndex<labels.size())
+			      if(currentLabelIndex<=labels.size())
 			      {	
 			    	   if(!createMessageEvent(messageEvent))
 			    		   return false;
@@ -1575,7 +1589,10 @@ public class MmGlobalMarkerEvents {
 		if(labels.size()>=currentLabelIndex)
 		{	
 			System.out.println("label index "+currentLabelIndex+" labels size "+labels.size());
-			
+			if(isLastMarker)
+		    {
+		    	modelEvent.addActions("Done");
+		    }
 			modelEvent.JSONActions();
 			return false;
 		}
@@ -1630,7 +1647,7 @@ public class MmGlobalMarkerEvents {
 			   panoramaEvent.setDestinationPath(this.saveFilePath);
 			   panoramaEvent.makeJSONObject();
 			   currentLabelIndex++;
-			   if(createPanoramaEvent(panoramaEvent))
+			   if(!createPanoramaEvent(panoramaEvent))
 				  return false; 
 		       
 		       
@@ -1667,7 +1684,7 @@ public class MmGlobalMarkerEvents {
 		       
 		       currentLabelIndex++;
 		       
-		       if(currentLabelIndex<labels.size())
+		       if(currentLabelIndex<=labels.size())
 		       {	   
 		         nextAudioEvent.makeJSONObject();
 		    	
@@ -1709,7 +1726,7 @@ public class MmGlobalMarkerEvents {
 				  videoEvent.makeJSONObject();
 		    	  videoEvents.add(videoEvent);
 		    	  currentLabelIndex++;
-		    	  if(currentLabelIndex<labels.size())
+		    	  if(currentLabelIndex<=labels.size())
 		    	  {
 		    		 System.out.println("video event in audio "+lb.getText());
 		    	     if(!createVideoEvent(videoEvent))
@@ -1760,7 +1777,7 @@ public class MmGlobalMarkerEvents {
 				  modelEvent.makeJSONObject();
 		    	  modelEvents.add(modelEvent);
 		    	  currentLabelIndex++;
-		    	  if(currentLabelIndex<labels.size())
+		    	  if(currentLabelIndex<=labels.size())
 		    	  {	
 		    	     if(!createModelEvent(modelEvent))
 		    	    	 return false;
@@ -1791,7 +1808,7 @@ public class MmGlobalMarkerEvents {
 					  audioEvent.makeJSONObject();
 			    	  audioEvents.add(audioEvent);
 			    	  currentLabelIndex++;
-			    	  if(currentLabelIndex<labels.size())
+			    	  if(currentLabelIndex<=labels.size())
 			    	  {	
 			    	     if(!createMessageEvent(messageEvent))
 			    	    	 return false;
@@ -1845,6 +1862,10 @@ public class MmGlobalMarkerEvents {
 		if(labels.size()>=currentLabelIndex)
 		{	
 			System.out.println("label index "+currentLabelIndex+" labels size "+labels.size());
+			if(isLastMarker)
+		    {
+		    	audioEvent.addActions("Done");
+		    }
 			audioEvent.JSONActions();
 			return false;
 		}		
@@ -1953,7 +1974,7 @@ public class MmGlobalMarkerEvents {
 				  nextVideoEvent.setDestinationPath(this.saveFilePath);
 				  
 		    	  currentLabelIndex++;
-		    	  if(currentLabelIndex<labels.size())
+		    	  if(currentLabelIndex<=labels.size())
 		    	  {	
 		    		  nextVideoEvent.makeJSONObject();
 				    	
@@ -2009,7 +2030,7 @@ public class MmGlobalMarkerEvents {
 				  modelEvent.makeJSONObject();
 		    	  modelEvents.add(modelEvent);
 		    	  currentLabelIndex++;
-		    	  if(currentLabelIndex<labels.size())
+		    	  if(currentLabelIndex<=labels.size())
 		    	  {	
 		    	     if(!createModelEvent(modelEvent))
 		    	    	 return false;
@@ -2041,7 +2062,7 @@ public class MmGlobalMarkerEvents {
 					  videoEvent.makeJSONObject();
 			    	  videoEvents.add(videoEvent);
 			    	  currentLabelIndex++;
-			    	  if(currentLabelIndex<labels.size())
+			    	  if(currentLabelIndex<=labels.size())
 			    	  {	
 			    	     if(!createMessageEvent(messageEvent))
 			    	    	 return false;
@@ -2082,7 +2103,7 @@ public class MmGlobalMarkerEvents {
 						    videoEvent.addActions(imageEvent.getEventName());
 						    videoEvent.JSONActions();
 						    currentLabelIndex++;
-					    	if(currentLabelIndex<labels.size())
+					    	if(currentLabelIndex<=labels.size())
 					    	{	
 					    	     if(!createImageEvent(imageEvent))
 					    	    	 return false;
@@ -2097,6 +2118,10 @@ public class MmGlobalMarkerEvents {
 		if(labels.size()>=currentLabelIndex)
 		{	
 			System.out.println("label index "+currentLabelIndex+" labels size "+labels.size());
+			if(isLastMarker)
+		    {
+		    	videoEvent.addActions("Done");
+		    }
 			videoEvent.JSONActions();
 			return false;
 		}
@@ -2210,7 +2235,7 @@ public class MmGlobalMarkerEvents {
 				  videoEvent.makeJSONObject();
 		    	  videoEvents.add(videoEvent);
 		    	  currentLabelIndex++;
-		    	  if(currentLabelIndex<labels.size())
+		    	  if(currentLabelIndex<=labels.size())
 		    	  {	
 		    	     if(!createVideoEvent(videoEvent))
 		    	    	 return false;
@@ -2221,7 +2246,7 @@ public class MmGlobalMarkerEvents {
 		      if(lb.getText().contains(".obj") || lb.getText().contains("Model"))
 		      { 	  
 		    	
-		    	  
+		    	   
 				 MmModelEvent modelEvent = new MmModelEvent();
 				 if(modelEvents.size()==0)
 					  modelEvent.setEventName("marker"+Integer.toString(markerIndex+1)+"_model");
@@ -2262,7 +2287,7 @@ public class MmGlobalMarkerEvents {
 				  modelEvent.makeJSONObject();
 		    	  modelEvents.add(modelEvent);
 		    	  currentLabelIndex++;
-		    	  if(currentLabelIndex<labels.size())
+		    	  if(currentLabelIndex<=labels.size())
 		    	  {	
 		    	     if(!createModelEvent(modelEvent))
 		    	    	 return false;
@@ -2292,7 +2317,7 @@ public class MmGlobalMarkerEvents {
 					  nextMessageEvent.setDestinationPath(this.saveFilePath);
 					  
 			    	  currentLabelIndex++;
-			    	  if(currentLabelIndex<labels.size())
+			    	  if(currentLabelIndex<=labels.size())
 			    	  {	
 			    		  nextMessageEvent.makeJSONObject();
 					    	
@@ -2315,8 +2340,7 @@ public class MmGlobalMarkerEvents {
 					   imageEvent.setEventName("marker"+Integer.toString(markerIndex+1)+"_image");
 				   else
 					   imageEvent.setEventName("marker"+Integer.toString(markerIndex+1)+"_"+Integer.toString(audioEvents.size())+"_image");
-				   imageEvent.addActions(imageEvent.getEventName());
-				   imageEvent.JSONActions();
+				   
 				   imageEvents.add(imageEvent);
 				      
 				      String[] attrs = lb.getText().split(":");
@@ -2332,6 +2356,7 @@ public class MmGlobalMarkerEvents {
 						  imageEvent.setCollectItem(true);
 						  collectItems.add(new Integer(collectItems.size()+1));
 					  }
+					  JOptionPane.showMessageDialog(null, lb.getName());
 					  imageEvent.setSourcePath(lb.getName());	  
 					  imageEvent.setDestinationPath(this.saveFilePath);
 					  imageEvent.makeJSONObject();
@@ -2352,6 +2377,10 @@ public class MmGlobalMarkerEvents {
 		if(labels.size()>=currentLabelIndex)
 		{	
 			System.out.println("label index "+currentLabelIndex+" labels size "+labels.size());
+			if(isLastMarker)
+		    {
+		    	messageEvent.addActions("Done");
+		    }
 			messageEvent.JSONActions();
 			return false;
 		}

@@ -128,11 +128,15 @@ public class MmImageEvent {
 			  			  
 			  File file = new File(destinationPath+"/images");
 			  
+			  
+			  
 			  File desFilePath = new File(sourcePath);
 			  String desPath = desFilePath.getName();
 			  
 			  
               File desFile = new File(destinationPath+"/images/"+desPath);
+              
+              
               
              			  
 			  if(!desFile.exists())
@@ -158,11 +162,11 @@ public class MmImageEvent {
 					     des.transferFrom(src, 0, src.size());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null,e);
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,e);
 		}
 
 		finally
