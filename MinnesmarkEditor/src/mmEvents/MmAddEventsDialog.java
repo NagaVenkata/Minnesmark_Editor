@@ -78,6 +78,8 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 	JFrame mainWindow;
 
     int language;
+    
+    JButton button;
 	
 
 
@@ -188,6 +190,8 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 		panelHeight=200;
 		componentIndex=index;
 		
+		
+		
 		setBorder(BorderFactory.createEmptyBorder(20, 5, 5, 5));
 		
 		textPanel = panel;
@@ -219,8 +223,10 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 				
 		if(isImageFile(textStrings[0]))
 		{
+			
 			panoramaChkbx.setEnabled(true);
 			bt1.setText(MmLanguage.language_mediaevents[language][10]);
+			bt1.setEnabled(true);
 		}
 		
 		if(isAudio_VideoFile(textStrings[0]))
@@ -259,6 +265,11 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 			chkbx.setEnabled(false);	
 		}
 		
+		
+		
+		
+		
+		
 		textStrings = ((JLabel) textPanel.getComponent(componentIndex)).getText().split(":");
 		
 		panoramaChkbx.addActionListener(new ActionListener(){
@@ -273,6 +284,9 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 			}
 			
 		});
+		
+		
+		
 		
 		cmbgChkbx.addActionListener(new ActionListener(){
 
@@ -332,6 +346,15 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 			cmbgChkbx.setEnabled(true);
 		}
 		
+		JLabel lb = (JLabel) textPanel.getComponent(1);
+		
+		if(marker.getActualLabelsCount()>1)
+		{
+			cmbgChkbx.setEnabled(false);
+		}
+		else
+			cmbgChkbx.setEnabled(true);
+		
 		
 		System.out.println("data "+textStrings.length);
 	
@@ -374,6 +397,7 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 				        lb.setText(lb.getText()+":"+MmLanguage.language_mediaevents[language][8]);
 				    else
 			            lb.setText(lb.getText()+":"+MmLanguage.language_mediaevents[language][9]);
+					
 				}
 				
 				if(chkbx.isSelected())

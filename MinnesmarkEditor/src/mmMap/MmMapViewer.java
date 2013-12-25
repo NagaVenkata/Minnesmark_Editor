@@ -338,11 +338,7 @@ public class MmMapViewer extends JPanel implements Printable {
 		mapKit.getMainMap().setPanEnabled(true);
 		mapKit.getMainMap().setZoomEnabled(false);
 		
-		
-		
-	    
-	    
-            
+		    
 	    GridBagConstraints constraints = new GridBagConstraints(); 
 	    
 	    constraints.anchor = GridBagConstraints.NORTH;
@@ -644,6 +640,7 @@ public class MmMapViewer extends JPanel implements Printable {
         			{
         				isPointPresent=true;
         				eventsDialog.setVisible(true);
+        				events.setGeoIndex(index);
         				events.updateStationEvents(geoPos.get(index));
         				index=i;
         				break;
@@ -1189,7 +1186,7 @@ public class MmMapViewer extends JPanel implements Printable {
 		        	    
 		    
 		eventsDialog.pack();
-		eventsDialog.setSize(425, 150);
+		eventsDialog.setSize(425, 200);
 		eventsDialog.setVisible(false);
 		
 		
@@ -1817,7 +1814,7 @@ public class MmMapViewer extends JPanel implements Printable {
 	       
 	       
 	       	       
-	           if(pntDist>50)
+	           if(pntDist>35)
 	           {	   
 	    	      insertPnt=true;
 	    	      continue;
@@ -1907,7 +1904,7 @@ public class MmMapViewer extends JPanel implements Printable {
 	       
 	       
 	       	       
-	           if(pntDist>50)
+	           if(pntDist>35)
 	           {	   
 	    	      insertPnt1=true;
 	    	      continue;
@@ -3971,7 +3968,7 @@ public class MmMapViewer extends JPanel implements Printable {
 			    			 File filename = new File(openFileName.getParent()+"/messages/"+attributes.get("fileName").toString());
 				    		 
 				    		 if(filename.exists())
-				    		     events.getStations().get(index).setLabelsText(attrs,filename.getAbsolutePath());
+				    			 menuItems.getGlobalMarkers().getStations().get(markerIndex).setLabelsText(attrs,filename.getAbsolutePath());
 				    		 
 			    			 break;
 			    	   }	  

@@ -9,6 +9,8 @@ import org.jdesktop.swingx.mapviewer.GeoPosition;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -17,6 +19,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 
@@ -82,6 +85,13 @@ public class MmAddEvents extends JPanel {
 	
 	MmAddEventsDialog eventProperties,eventProperties1;
 	
+	JLabel latLabel,lanLabel;
+	JTextField latText,lanText;
+	
+	int geoIndex;
+	
+
+	
 
 	public MmAddEvents(JDialog frame1)
 	{
@@ -133,7 +143,19 @@ public class MmAddEvents extends JPanel {
 		 addButton = new JButton("+   "+MmLanguage.language_button[language][1]);
 		 minusButton = new JButton("-   "+MmLanguage.language_button[language][2]);
 		 JButton okButton = new JButton("Ok");
-		 JButton attrButton = new JButton("attributes");
+		 
+		 JPanel latPanel = new JPanel();
+		 JPanel lanPanel = new JPanel();
+		 
+		 latLabel = new JLabel("Latitude:");
+		 lanLabel = new JLabel("Longitude:");
+		 
+		 latText = new JTextField(7);
+		 lanText = new JTextField(7);
+		 
+		 
+		 
+		
 		 
 		 pane = new JScrollPane(eventPanel);
 		 pane.setBorder(BorderFactory.createEtchedBorder());
@@ -555,11 +577,21 @@ public class MmAddEvents extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				// TODO Auto-generated method stub
 				
+				station.setLatLon(new Double(latText.getText()), new Double(lanText.getText()));
+				map.geoPos.remove(geoIndex);
+				map.geoPos.add(geoIndex,new GeoPosition(new Double(latText.getText()),new Double(lanText.getText())));
 				
-				eventDialog.setVisible(false);
-				if(dialogFrame!=null)
-				  dialogFrame.setVisible(false);
-				
+				if(map.checkDistance())
+				{		
+				    eventDialog.setVisible(false);
+				    if(dialogFrame!=null)
+				       dialogFrame.setVisible(false);
+				    map.drawPoints();
+				}    
+				else
+				{
+					JOptionPane.showMessageDialog(null, MmLanguage.language_exception[language][1]);
+				}
 				
 				
 				/*int stationIndex = stationEvents.indexOf(station);
@@ -573,14 +605,30 @@ public class MmAddEvents extends JPanel {
 		 buttonPanel.add(addButton);
 		 buttonPanel.add(minusButton);
 		 buttonPanel.add(okButton);
-		 //buttonPanel.add(attrButton);
-
+		
+		 latPanel.add(latLabel);
+		 latPanel.add(latText);
+		 
+		 lanPanel.add(lanLabel);
+		 lanPanel.add(lanText);
+		 
+		 FlowLayout layout = new FlowLayout();
+		 
+         JPanel latitudePanel = new JPanel();
+         
+         latitudePanel.setLayout(layout);
+		 
+         //latitudePanel.setBorder(BorderFactory.createEmptyBorder(5,5,0,0));
+         latitudePanel.add(latPanel);
+         latitudePanel.add(lanPanel);
+         
 		 
 		 JPanel panel1 = new JPanel();
 		 
 		 panel1.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 0));
 		 panel1.add(buttonPanel);
 		 
+		 add(latitudePanel,BorderLayout.NORTH);
 		 add(panel1,BorderLayout.SOUTH);
 		 eventDialog.add(this);
         
@@ -595,6 +643,14 @@ public class MmAddEvents extends JPanel {
 
 	public void setLanguage(int language) {
 		this.language = language;
+	}
+	
+	public int getGeoIndex() {
+		return geoIndex;
+	}
+
+	public void setGeoIndex(int geoIndex) {
+		this.geoIndex = geoIndex;
 	}
 
 	public void setLanguageText()
@@ -679,8 +735,10 @@ public class MmAddEvents extends JPanel {
 			 eventPanel.updateUI();
 			    
 		}   
-			 
-		
+		 
+				
+		latText.setText(Double.toString(station.getLatitude()));
+	    lanText.setText(Double.toString(station.getLongitude()));
 	}
 	
 	public void updateStationGeoPosition(int index,GeoPosition point)
@@ -743,6 +801,20 @@ public class MmAddEvents extends JPanel {
 	     
 	     eventPanel.repaint();
 		 eventPanel.updateUI();
+		 
+		 BigDecimal bd = new BigDecimal(station.getLatitude());
+			
+		 BigDecimal bd1 = bd.setScale(6, 6);
+			
+		 latText.setText(Double.toString(bd1.doubleValue()));
+		 
+		 bd = new BigDecimal(station.getLongitude());
+			
+		 bd1 = bd.setScale(6, 6);
+		 
+		 lanText.setText(Double.toString(bd1.doubleValue()));
+		 
+		 
 		 
 	}
 	

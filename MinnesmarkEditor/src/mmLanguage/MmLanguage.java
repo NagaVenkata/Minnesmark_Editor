@@ -33,14 +33,14 @@ public class MmLanguage {
 	public static String language_startMedia[][] = new String[][]{{"Lägg till en uppstartsbild","Lägg till media som spelas när rundvandringen startar"},
 		                                                          {"Add a start image","Add media that plays when a trial starts"}};
 	
-	public static String language_mediaevents[][] = new String[][]{{"Panorama","Med kamerabakgrund","Mediafilen är en skatt","Stopp","Spela upp ljudet","Spela upp videon","Visa texten","skatt","Model","model","Visa bilden","Välj en bild"},
+	public static String language_mediaevents[][] = new String[][]{{"Panorama","Med kamerabakgrund","Mediafilen är en skatt","Stopp","Spela upp ljudet","Spela upp videon","Visa texten","skatt","Modell","modell","Visa bilden","Välj en bild"},
 		                                                           {"Panorama","With camera background",/*"The media file is a treasure"*/"Mark media as treasure","Stop","Play the sound","Play the video","View the text","treasure","Model","model","View the image","Choose an image"}};
 	
 	public static String language_fileOptions[][] = new String[][]{{"Spara fil","Spara","Filen finns redan. Vill du ersätta den?"},
 		                                                           {"Save file","Save","The file already exists. Do you want to replace it?"}}; 
 	
-	public static String language_mediaException[][] = new String[][]{{"Bildens bredd och höjd ska vara under 512 pixlar för att göra den som en 3D-modell.\n Men bildens bredd och höjd är ","Bilden hittades inte"},
-		                                                              {"The image width and height should be less than 512 to make it a 3D model.\n But the image width and height is ","The image was not found"}};
+	public static String language_mediaException[][] = new String[][]{{"Bildens bredd och höjd ska vara under 512 pixlar för att göra den som en 3D-modell.\n Men bildens bredd och höjd är ","Bilden hittades inte","Kan inte lägga till media, eftersome frösta media är 3D modell som binder till markören. Ta bort 3D mediafilen eller ta bort modell egenskap till lägga media."},
+		                                                              {"The image width and height should be less than 512 to make it a 3D model.\n But the image width and height is ","The image was not found","Cannot add media, because the first event is a 3D model binded to the marker. Remove 3D file or remove model property to add media."}};
 	
 	public static String language_printException[][] = new String[][]{{"Det finns inga stationer eller markörer att skriva ut"},
 		                                                              {"There are no stations or markers to print"}};

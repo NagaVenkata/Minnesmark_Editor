@@ -476,7 +476,7 @@ public class MmMapStationMarkers extends JPanel {
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(mainPanel, "Kan inte lägga till en station");
+					JOptionPane.showMessageDialog(mainPanel, MmLanguage.language_exception[language][1]);
 					markerWindows.get(markerIndex).setVisible(false);
 				}
 				

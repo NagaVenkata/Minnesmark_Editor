@@ -380,8 +380,11 @@ public class MmAddGlobalMarkers extends JPanel {
 			public void actionPerformed(ActionEvent event) {
 				// TODO Auto-generated method stub
 	           
-				
-				addEvent();
+				if(!(station.getLabels().get(0).getText().contains(MmLanguage.language_mediaevents[language][8])||
+				   station.getLabels().get(0).getText().contains(MmLanguage.language_mediaevents[language][9])))
+				      addEvent();
+				else
+					JOptionPane.showMessageDialog(null, MmLanguage.language_mediaException[language][2]);
 								
 				eventPanel.repaint();
 			    eventPanel.updateUI();
