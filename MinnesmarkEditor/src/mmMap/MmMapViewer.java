@@ -868,8 +868,10 @@ public class MmMapViewer extends JPanel implements Printable {
         	           {
         	        	  if(swingPos.get(i).isSwingPointPresent(event.getPoint()))
         	        	  {
-        	        		
-        	        		 int option = JOptionPane.showConfirmDialog(null, MmLanguage.language_exception[language][4]);
+        	        		  Object[] options = {MmLanguage.language_options[language][0],
+        								MmLanguage.language_options[language][1],
+        								MmLanguage.language_options[language][2]};
+        	        		 int option = JOptionPane.showOptionDialog(null, MmLanguage.language_exception[language][4], MmLanguage.language_fileOptions[language][1], JOptionPane.YES_NO_CANCEL_OPTION,0,null,options,options[2]);
         	        		 //JOptionPane.showMessageDialog(null, "swing pos size "+swingPos.size());
         	        		 if(option==JOptionPane.OK_OPTION)
         	        		 {	 
