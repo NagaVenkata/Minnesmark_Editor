@@ -6,7 +6,6 @@
 	<classpathentry kind="src" path="markers"/>
 	<classpathentry kind="src" path="osg_obj"/>
 	<classpathentry kind="src" path="Images"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="lib" path="/Users/Umapathi/Desktop/MinnesmarkEditor/bin/java-json.jar"/>
 	<classpathentry kind="lib" path="/Users/Umapathi/Desktop/MinnesmarkEditor/bin/swingx-ws.jar"/>
 	<classpathentry kind="lib" path="/Users/Umapathi/Desktop/MinnesmarkEditor/bin/swingx-0.9.7.jar"/>
@@ -27,5 +26,6 @@
 	<classpathentry kind="lib" path="/Users/Umapathi/Desktop/MinnesmarkEditor/bin/commons-logging-api-1.1.3.jar"/>
 	<classpathentry kind="lib" path="/Users/Umapathi/Desktop/MinnesmarkEditor/bin/jna.jar"/>
 	<classpathentry kind="lib" path="/Users/Umapathi/Desktop/MinnesmarkEditor/bin/vlcj-2.4.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

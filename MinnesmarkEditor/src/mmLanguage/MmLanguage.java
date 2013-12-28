@@ -48,8 +48,8 @@ public class MmLanguage {
 	public static String language_menu_languages[][] = new String[][]{{"Svenska","Engelska"},{"Swedish","English"}};
 		                                                              
 	
-	public static String language_search[][] = new String[][]{{"Sök","Klicka på texten för att skriva in latituden","Klicka på texten för att skriva in longituden"},
-		                                                      {"Search","Click the text to enter the latitude","Click the text to enter the longitude"}};
+	public static String language_search[][] = new String[][]{{"Sök","Klicka på texten för att skriva in latituden","Klicka på texten för att skriva in longituden","Latitud","Longitud"},
+		                                                      {"Search","Click the text to enter the latitude","Click the text to enter the longitude","Latitude","Longitude"}};
 	
 	public static String language_options[][] = new String[][]{{"Ja","Nej","Avbryt"},{"Yes","No","Cancel"}};
 	

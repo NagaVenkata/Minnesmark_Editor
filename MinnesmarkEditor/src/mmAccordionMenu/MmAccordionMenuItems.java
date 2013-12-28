@@ -181,7 +181,8 @@ public class MmAccordionMenuItems  {
 			public void actionPerformed(ActionEvent event) {
 				// TODO Auto-generated method stub
 				
-				 String[] strings = textField.getText().split("\\s+");
+				 searchArea();
+				 /*String[] strings = textField.getText().split("\\s+");
 				 
 				 				 
 				 
@@ -248,7 +249,7 @@ public class MmAccordionMenuItems  {
 		            	 //JOptionPane.showMessageDialog(null, jsonArray.length());
 		             }
 		             
-		             /*JSONArray placeAttrs = new JSONArray(jsonTokens);
+		             JSONArray placeAttrs = new JSONArray(jsonTokens);
 		             for(int i=0;i<placeAttrs.length();i++)
 		             {
 		            	 try
@@ -266,7 +267,7 @@ public class MmAccordionMenuItems  {
 		            	 }
 		            	 
 		            	 
-		             }*/
+		             }
 		             
 		             
 				  }
@@ -277,7 +278,7 @@ public class MmAccordionMenuItems  {
 				
 				//JOptionPane.showMessageDialog(null, textField.getText());
 				
-				/*WebService.setUserName("umapathi"); // add your username here
+				 WebService.setUserName("umapathi"); // add your username here
 				 
 				  ToponymSearchCriteria searchCriteria = new ToponymSearchCriteria();
 				  searchCriteria.setQ(textField.getText());
@@ -356,7 +357,81 @@ public class MmAccordionMenuItems  {
 		});
 	}
 	
-	
+	public void searchArea()
+	{
+		String[] strings = textField.getText().split("\\s+");
+		 
+		 
+		 
+		 String str = "http://maps.googleapis.com/maps/api/geocode/json?address=";
+		 
+		if(strings.length>0)
+		 {
+			 for(int i=0;i<strings.length-1;i++)
+			     str +=strings[i]+"+";
+		 }
+		 
+		 str+=strings[strings.length-1]+",+";
+		 
+		
+		 try
+		  {
+		     URL url = new URL(str+"SE&sensor=false");
+		     //JOptionPane.showMessageDialog(null, url.getQuery());
+		     
+		     
+		     InputStream is = url.openStream();
+		     InputStreamReader is1 = new InputStreamReader(is);
+            StringBuilder sb=new StringBuilder();
+            BufferedReader br = new BufferedReader(is1);
+            String read = br.readLine();
+
+            while(read != null) {
+                   //System.out.println(read);
+                   sb.append(read);
+                   read =br.readLine();
+
+             }
+               
+            //JOptionPane.showMessageDialog(null, sb.toString());
+            //System.out.println("data "+sb.toString());
+            
+            String jsonContent = sb.toString();
+            JSONTokener jsonTokens = new JSONTokener(jsonContent);
+            
+            JSONObject jsonObject = new JSONObject(jsonTokens);
+            
+            //JOptionPane.showMessageDialog(null, jsonObject);
+            //JOptionPane.showMessageDialog(null, jsonObject.get("results"));
+            
+            if(!jsonObject.isNull("results"))
+            {
+           	 JSONArray jsonArray = new JSONArray(jsonObject.get("results").toString());
+           	 //JOptionPane.showMessageDialog(null, jsonArray.get(0));
+           	 jsonObject = (JSONObject) jsonArray.getJSONObject(0).getJSONObject("geometry");
+           	 jsonObject = (JSONObject)jsonObject.get("location");
+           	 
+           	 //JOptionPane.showMessageDialog(null, jsonObject.get("lat"));
+           	 //JOptionPane.showMessageDialog(null, jsonObject.get("lng"));
+           	 
+           	 latitude = (Double)jsonObject.get("lat");
+		         longitude = (Double)jsonObject.get("lng");
+		         
+		         map.getMap().getMainMap().setAddressLocation(new GeoPosition(latitude,longitude));
+				 map.getMap().setZoom(1);
+		         
+		      }
+            
+            
+            
+            
+		  }
+		  catch(Exception e)
+		  {
+			  JOptionPane.showMessageDialog(null, e);
+		  }
+
+	}
 	
 	public JPanel getSearchItemPanel()
 	{
@@ -410,8 +485,8 @@ public class MmAccordionMenuItems  {
 	
 	public void addGeoFields()
 	{
-		latitudeField.setText("latitude");
-		longitudeField.setText("longitude");
+		latitudeField.setText(MmLanguage.language_search[language][3]);
+		longitudeField.setText(MmLanguage.language_search[language][4]);
 		
 		latitudeField.setToolTipText(MmLanguage.language_search[language][1]);
 		
@@ -428,6 +503,21 @@ public class MmAccordionMenuItems  {
 		return Double.parseDouble(longitudeField.getText());
 	}
 	
+	public void setLatLanText()
+	{
+		latitudeField.setText(MmLanguage.language_search[language][3]);
+		longitudeField.setText(MmLanguage.language_search[language][4]);
+	}
+	
+	public JTextField getLatitudeText()
+	{
+		return latitudeField;
+	}
+	
+	public JTextField getLongitudeText()
+	{
+		return longitudeField;
+	}
 	
 	public JPanel getGeoItemPanel()
 	{

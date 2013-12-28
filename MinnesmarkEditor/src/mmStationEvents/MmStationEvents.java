@@ -1368,7 +1368,6 @@ public class MmStationEvents {
 				        imageEvent.makeJSONObject();
 				        imageEvent.JSONActions();
 					    imageEvents.add(imageEvent);
-					    imageEvent.addActions(imageEvent.getEventName());
 					    currentLabelIndex++;
 					    
 					    panoramaEvent.addActions(imageEvent.getEventName());

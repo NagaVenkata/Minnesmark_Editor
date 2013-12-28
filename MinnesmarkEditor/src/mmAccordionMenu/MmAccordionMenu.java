@@ -352,7 +352,12 @@ public class MmAccordionMenu extends JPanel  {
 					public void actionPerformed(ActionEvent event) {
 						// TODO Auto-generated method stub
 						
-					   map.getMap().getMainMap().setAddressLocation(new GeoPosition(item.getMenuItem().get(0).getLatitude(),item.getMenuItem().get(0).getLongitude()));	
+					    if(!item.getMenuItem().get(0).getTextFieldsText().equals(""))
+					    {
+					    	item.getMenuItem().get(0).searchArea();
+					    }
+					    else
+						   map.getMap().getMainMap().setAddressLocation(new GeoPosition(item.getMenuItem().get(0).getLatitude(),item.getMenuItem().get(0).getLongitude()));	
 					   
 					       		      
 					}
@@ -460,6 +465,7 @@ public class MmAccordionMenu extends JPanel  {
 			this.mainItems.get(0).setLanguageText(MmLanguage.language[language][2]);
 			JButton bt = this.mainItems.get(0).getMenuItem().get(1).getButtonItem();
 			bt.setText(MmLanguage.language_button[language][0]);
+			setSearchText(":"+MmLanguage.language_search[language][0]);
 		}
 		
 		if(this.mainItems.get(1).getName().equals(menu))
@@ -485,7 +491,10 @@ public class MmAccordionMenu extends JPanel  {
 	
 	public void setSearchText(String text)
 	{
+		
 		this.mainItems.get(0).getMenuItem().get(0).getTextField().setText(text);
+		this.mainItems.get(0).getMenuItem().get(0).getLatitudeText().setText(MmLanguage.language_search[language][3]);
+		this.mainItems.get(0).getMenuItem().get(0).getLongitudeText().setText(MmLanguage.language_search[language][4]);
 	}
 	
 	public void setMarkersText(ArrayList<String> texts)

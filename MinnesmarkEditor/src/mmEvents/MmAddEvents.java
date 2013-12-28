@@ -581,7 +581,9 @@ public class MmAddEvents extends JPanel {
 				map.geoPos.remove(geoIndex);
 				map.geoPos.add(geoIndex,new GeoPosition(new Double(latText.getText()),new Double(lanText.getText())));
 				
-				if(map.checkDistance())
+				
+				
+				if(map.geoPos.size()==1 || map.checkDistance())
 				{		
 				    eventDialog.setVisible(false);
 				    if(dialogFrame!=null)

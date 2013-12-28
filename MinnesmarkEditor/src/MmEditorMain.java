@@ -980,6 +980,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 					accordionMenu.getStartEvents().audioEvents.clear();
 					accordionMenu.getStartEvents().videoEvents.clear();
 					accordionMenu.getStartEvents().messageEvents.clear();
+					accordionMenu.setSearchText(":"+MmLanguage.language_search[language][0]);
 				    map.resetMapContents();
 				}
 				else
@@ -993,7 +994,12 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 				    if(option==JOptionPane.OK_OPTION)
 				    {
 				       SaveFile();
-				    
+				       accordionMenu.clearContent();
+					   accordionMenu.getStartEvents().imageEvents.clear();
+					   accordionMenu.getStartEvents().audioEvents.clear();
+					   accordionMenu.getStartEvents().videoEvents.clear();
+					   accordionMenu.getStartEvents().messageEvents.clear();
+					   accordionMenu.setSearchText(":"+MmLanguage.language_search[language][0]);
 				       map.resetMapContents();
 				    }	
 				
@@ -1006,6 +1012,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 					   accordionMenu.getStartEvents().audioEvents.clear();
 					   accordionMenu.getStartEvents().videoEvents.clear();
 					   accordionMenu.getStartEvents().messageEvents.clear();
+					   accordionMenu.setSearchText(":"+MmLanguage.language_search[language][0]);
 				       map.resetMapContents();
 				    }
 				}    
