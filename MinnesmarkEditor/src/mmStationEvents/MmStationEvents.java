@@ -876,7 +876,7 @@ public class MmStationEvents {
 			        
 			        if(attrs.length==2)
 			        {	
-			        	nextImageEvent.setImageType(attrs[0]);
+			        	nextImageEvent.setImageFile(attrs[0]);
 			        	nextImageEvent.setCollectItem(true);
 			        	collectItems.add(new Integer(collectItems.size()+1));
 			        	

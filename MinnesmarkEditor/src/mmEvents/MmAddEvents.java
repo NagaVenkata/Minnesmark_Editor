@@ -11,6 +11,11 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -90,6 +95,10 @@ public class MmAddEvents extends JPanel {
 	
 	int geoIndex;
 	
+    String stationIndex;
+    
+    JLabel stationLabel;
+	
 
 	
 
@@ -103,6 +112,7 @@ public class MmAddEvents extends JPanel {
 		
 		dialogFrame = null;
 		
+		stationLabel = new JLabel();
 						
 		//frame.setLocation(0,0);
 		 //this.frame.setPreferredSize(new Dimension(400,200));
@@ -607,6 +617,11 @@ public class MmAddEvents extends JPanel {
 		 buttonPanel.add(addButton);
 		 buttonPanel.add(minusButton);
 		 buttonPanel.add(okButton);
+		 
+		 
+		 
+		 if(station!=null && station.getStationIndex()!=0)
+		    stationLabel = new JLabel("Station"+Integer.toString(station.getStationIndex()));
 		
 		 latPanel.add(latLabel);
 		 latPanel.add(latText);
@@ -614,15 +629,63 @@ public class MmAddEvents extends JPanel {
 		 lanPanel.add(lanLabel);
 		 lanPanel.add(lanText);
 		 
-		 FlowLayout layout = new FlowLayout();
+		 //FlowLayout layout = new FlowLayout();
 		 
          JPanel latitudePanel = new JPanel();
          
-         latitudePanel.setLayout(layout);
+         latitudePanel.setLayout(new GridBagLayout());
+         
+         GridBagConstraints gbc = new GridBagConstraints();
+         
+         gbc.fill  = GridBagConstraints.HORIZONTAL;
+         
+         gbc.weightx=0.5;
+         
+         gbc.gridx = 0;
+         gbc.gridy = 0;
+         
+         latitudePanel.add(new JLabel(""),gbc);
+         
+         gbc.fill  = GridBagConstraints.HORIZONTAL;
+         
+         gbc.weightx=0.5;
+         
+         gbc.gridx = 1;
+         gbc.gridy = 0;
+         
+         
+         latitudePanel.add(stationLabel,gbc);
+         
+         gbc.fill  = GridBagConstraints.HORIZONTAL;
+         
+         gbc.weightx=0.5;
+         
+         gbc.gridx = 2;
+         gbc.gridy = 0;
+         
+         
+         
+         latitudePanel.add(new JLabel(" "),gbc);
+         
+         gbc.fill = GridBagConstraints.HORIZONTAL;
+         
+         gbc.gridx = 0;
+         gbc.gridy = 1;
+         
+         latitudePanel.add(latPanel,gbc);
+         
+         gbc.fill = GridBagConstraints.HORIZONTAL;
+         
+         gbc.gridx = 1;
+         gbc.gridy = 1;
+         
+         latitudePanel.add(lanPanel,gbc);
+         
 		 
          //latitudePanel.setBorder(BorderFactory.createEmptyBorder(5,5,0,0));
+        /* latitudePanel.add(stationLabel);
          latitudePanel.add(latPanel);
-         latitudePanel.add(lanPanel);
+         latitudePanel.add(lanPanel);*/
          
 		 
 		 JPanel panel1 = new JPanel();
@@ -637,6 +700,27 @@ public class MmAddEvents extends JPanel {
 		 
 		
 	}
+	
+	
+	public String getStationIndex() {
+		return stationIndex;
+	}
+
+	public void setStationIndex(String stationIndex) {
+		this.stationIndex = stationIndex;
+		stationLabel.setText("Station"+stationIndex);
+		stationLabel.setFont(new Font(stationLabel.getName(),Font.BOLD,18));
+		
+	}
+	
+	/*public void paint(Graphics g)
+	{
+		Graphics2D graphics = (Graphics2D) g;
+		
+		graphics.drawRoundRect(0, 0, 425, 200, 15, 15);
+		
+		
+	}*/
 	
 	public int getLanguage() {
 		return language;

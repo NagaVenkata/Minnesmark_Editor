@@ -130,6 +130,8 @@ public class MmMarkerEvent {
 			events.put("type", "marker");
 			attributes.put("markerName", "patt.marker"+Integer.toString(this.makerIndex));
 			attributes.put("modelName", this.modelFile);
+			File desFilePath = new File(sourcePath);
+			attributes.put("markerSize", desFilePath.length());
 			
 			if(collectItem)
 			     attributes.put("collectItem", true);

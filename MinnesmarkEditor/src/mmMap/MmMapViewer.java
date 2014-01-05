@@ -8,6 +8,8 @@ import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -16,7 +18,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.print.Book;
 import java.awt.print.PageFormat;
@@ -640,6 +644,7 @@ public class MmMapViewer extends JPanel implements Printable {
         			{
         				isPointPresent=true;
         				eventsDialog.setVisible(true);
+        				events.setStationIndex(Integer.toString(index+1));
         				events.setGeoIndex(index);
         				events.updateStationEvents(geoPos.get(index));
         				index=i;
@@ -1191,7 +1196,19 @@ public class MmMapViewer extends JPanel implements Printable {
 		eventsDialog.setSize(425, 200);
 		eventsDialog.setVisible(false);
 		
+		//eventsDialog.setOpacity(0.95f);
 		
+		
+		eventsDialog.addComponentListener(new ComponentAdapter() {
+            // Give the window an elliptical shape.
+            // If the window is resized, the shape is recalculated here.
+            @Override
+            public void componentResized(ComponentEvent e) {
+            	//eventsDialog.setShape(new Ellipse2D.Double(0,0,eventsDialog.getWidth()+50,eventsDialog.getHeight()+50));
+            	
+            	eventsDialog.setShape(new RoundRectangle2D.Double(0,0,eventsDialog.getWidth(),eventsDialog.getHeight(),25,25));
+            }
+        });
 		
 	    
 	   /* markerFrame2.setSize(300, 125);
@@ -2452,10 +2469,10 @@ public class MmMapViewer extends JPanel implements Printable {
 			}
 			else
 			{
-				if(!startEvents.eventNames[0].isEmpty())
+				if(!startEvents.eventNames[0].isEmpty() && !startEvents.eventNames[0].equals("BackGroundImage"))
 			    {
 					 startActionArray.put(startEvents.eventNames[0]);
-				 }
+				}
 			}
 		}
 		

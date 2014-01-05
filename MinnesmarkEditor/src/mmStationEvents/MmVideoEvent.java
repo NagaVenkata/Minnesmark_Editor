@@ -138,6 +138,8 @@ public class MmVideoEvent {
 			   events.put("type", "video");
 			   attributes.put("filename", this.videoFile);
 			   attributes.put("filetype", "m4v");
+			   File desFilePath = new File(sourcePath);
+			   attributes.put("fileSize", desFilePath.length());
 			   
 			   attributes.put("collectItem", collectItem);
 				

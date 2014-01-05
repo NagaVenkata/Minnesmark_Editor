@@ -78,7 +78,9 @@ public class MmImageEvent {
 			   eventType.put("name",this.eventName);
 			   eventType.put("type","image");
 			   attributes.put("imageName", this.imageFile);
-			   attributes.put("imagetype", imageType);
+			   File desFilePath = new File(sourcePath);
+			   
+			   attributes.put("imageSize", desFilePath.length());
 			   
 			   
 			   BufferedImage readImage = null;
@@ -95,6 +97,8 @@ public class MmImageEvent {
 			   attributes.put("width", this.width);
 			   attributes.put("height", this.height);
 			   attributes.put("collectItem", collectItem);
+			   
+			   
 			   
 			   eventType.put("attributes", attributes);
 			  
@@ -145,6 +149,7 @@ public class MmImageEvent {
 			      {
 				      src = new FileInputStream(sourcePath).getChannel(); 
 			          des = new FileOutputStream(destinationPath+"/images/"+desPath).getChannel();
+			          
 			      }
 			      else
 			      {

@@ -107,6 +107,8 @@ public class MmPanoramaEvent {
 			   attributes.put("imageName", this.panoramaFile);
 			   this.fileExtension = this.panoramaFile.substring(this.panoramaFile.lastIndexOf('.')+1,this.panoramaFile.length());
 			   attributes.put("imagetype", this.fileExtension);
+			   File desFilePath = new File(sourcePath);
+			   attributes.put("imageSize", desFilePath.length());
 			   
 			   if(collectItem)
 				    attributes.put("collectItem", true);
