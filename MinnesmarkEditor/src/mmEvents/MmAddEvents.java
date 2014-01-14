@@ -20,9 +20,13 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -224,11 +228,26 @@ public class MmAddEvents extends JPanel {
 					    eventProperties1.setMainWindow(mainWindow);
 					    frame2.pack();
 					    frame2.setSize(400, 150);
+					    dialogFrame = frame2;
+					    
+					    
+					    dialogFrame.addComponentListener( new ComponentAdapter(){
+
+							@Override
+							public void componentResized(ComponentEvent e) {
+								// TODO Auto-generated method stub
+								RoundRectangle2D.Double rect = new RoundRectangle2D.Double(0,0,dialogFrame.getWidth(),dialogFrame.getHeight(),25,25);
+								dialogFrame.setShape(rect);
+							}
+
+												    	
+					    });
+
 					    frame2.setContentPane(eventProperties1);
 					    frame2.setLocation(eventDialog.getLocation().x+25, eventDialog.getLocation().y+50);
 					    frame2.setVisible(true); 
 					    frame2.toFront();
-					    dialogFrame = frame2;
+					    
 								
 				    }    
 					else if(!lb.getText().contains("patt"))
@@ -240,10 +259,23 @@ public class MmAddEvents extends JPanel {
 						eventProperties.setMainWindow(mainWindow);
 					    frame2.pack();
 					    frame2.setSize(400, 150);
+					    dialogFrame = frame2;
+					    
+					    dialogFrame.addComponentListener( new ComponentAdapter(){
+
+							@Override
+							public void componentResized(ComponentEvent e) {
+								// TODO Auto-generated method stub
+								dialogFrame.setShape(new RoundRectangle2D.Double(0,0,dialogFrame.getWidth(),dialogFrame.getHeight(),25,25));
+							}
+
+												    	
+					    });
+					    
 					    frame2.setContentPane(eventProperties);
 					    frame2.setLocation(eventDialog.getLocation().x+25, eventDialog.getLocation().y+50);
 					    frame2.setVisible(true);
-					    dialogFrame = frame2;
+					    
 							
 					}
 					

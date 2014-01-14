@@ -344,6 +344,7 @@ public class MmGlobalMarkerEvents {
 		markerEvent.setMarkerIndex(markerIndex+1);
 		markerEvent.setDestinationPath(saveFilePath);
 		
+		
 			
 		//writeMarkerFile(saveFilePath);
 			   
@@ -718,7 +719,7 @@ public class MmGlobalMarkerEvents {
 			     
 			      if(i>=labels.size())
 			      {	  
-			    	  System.out.println("index in loop "+i+"  "+currentLabelIndex);
+			    	  //System.out.println("index in loop "+i+"  "+currentLabelIndex);
 			    	  break;
 			      }	 
 			      

@@ -1205,8 +1205,7 @@ public class MmMapViewer extends JPanel implements Printable {
             @Override
             public void componentResized(ComponentEvent e) {
             	//eventsDialog.setShape(new Ellipse2D.Double(0,0,eventsDialog.getWidth()+50,eventsDialog.getHeight()+50));
-            	
-            	eventsDialog.setShape(new RoundRectangle2D.Double(0,0,eventsDialog.getWidth(),eventsDialog.getHeight(),25,25));
+               eventsDialog.setShape(new RoundRectangle2D.Double(0,0,eventsDialog.getWidth(),eventsDialog.getHeight(),25,25));
             }
         });
 		
