@@ -126,8 +126,8 @@ public class MmMarkerEvent {
 	{
 		try 
 		{
-			JOptionPane.showMessageDialog(null, sourcePath);
-			this.setSourcePath(System.getProperty("user.dir")+"/markers/"+"patt.marker"+Integer.toString(this.makerIndex));
+			//JOptionPane.showMessageDialog(null, sourcePath);
+			this.setSourcePath(System.getProperty("user.dir")+"/new markers/"+"patt.marker"+Integer.toString(this.makerIndex));
 			events.put("name",this.eventName);
 			events.put("type", "marker");
 			attributes.put("markerName", "patt.marker"+Integer.toString(this.makerIndex));
@@ -185,7 +185,7 @@ public class MmMarkerEvent {
 			  
 			  
 			  //markers source file markers directory 
-			  this.setSourcePath(System.getProperty("user.dir")+"/markers/"+"patt.marker"+Integer.toString(this.makerIndex));
+			  this.setSourcePath(System.getProperty("user.dir")+"/new markers/"+"patt.marker"+Integer.toString(this.makerIndex));
 			  
 			  File desFilePath = new File(sourcePath);
 			  String desPath = desFilePath.getName();

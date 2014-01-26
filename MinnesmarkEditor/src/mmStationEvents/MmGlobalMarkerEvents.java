@@ -386,11 +386,11 @@ public class MmGlobalMarkerEvents {
 				
 				
 				   
-			    if(((lb.getText().contains(".jpg"))||(lb.getText().contains(".png"))||(lb.getText().contains(".bmp"))) && (!(lb.getText().contains("Panorama")) &&!(lb.getText().contains("model"))))
+			    if(isImage(lb.getText()))
 			    { 	
 			    	
 			    	
-			    	if(!(lb.getText().contains(":Model")))
+			    	if(!(lb.getText().contains(":Model")) && !(lb.getText().contains("model")))
 			    	{	
 			    	    System.out.println("label text1 "+lb.getText());	 
 			    	 
@@ -419,7 +419,7 @@ public class MmGlobalMarkerEvents {
 					    imageEvent.JSONActions();
 					    imageEvents.add(imageEvent);
 			    	    currentLabelIndex++;
-			    	    System.out.println("currentLabelIndex "+currentLabelIndex+"  "+labels.size());
+			    	    //System.out.println("currentLabelIndex "+currentLabelIndex+"  "+labels.size());
 			    	    if(currentLabelIndex<=labels.size())
 			    	    {	
 			    		   if(!createImageEvent(imageEvent))
@@ -427,7 +427,7 @@ public class MmGlobalMarkerEvents {
 			    	    }   
 			    	    else
 			    	    {
-			    		   if(isLastMarker)
+			    		   //if(isLastMarker)
 			    		   {
 			    			   imageEvent.addActions("Done");
 			    		   }
@@ -470,7 +470,7 @@ public class MmGlobalMarkerEvents {
 			    	  } 
 			    	  else
 			    	  {
-			    		  if(isLastMarker)
+			    		  //if(isLastMarker)
 				    	  {
 				    		  panoramaEvent.addActions("Done");
 				    	  } 
@@ -515,7 +515,7 @@ public class MmGlobalMarkerEvents {
 			    	  } 
 			    	  else
 			    	  {		  
-			    		  if(isLastMarker)
+			    		  //if(isLastMarker)
 				    	  {
 				    		  audioEvent.addActions("Done");
 				    	  } 
@@ -556,7 +556,7 @@ public class MmGlobalMarkerEvents {
 			    	  }   
 			    	  else
 			    	  {	  
-			    		  if(isLastMarker)
+			    		  //if(isLastMarker)
 				    	  {
 				    		  videoEvent.addActions("Done");
 				    	  } 
@@ -673,7 +673,7 @@ public class MmGlobalMarkerEvents {
 			      
 			      if(lb.getText().contains(".txt"))
 			      { 	  
-			    	   System.out.println("index in loop2 "+i+"  "+currentLabelIndex);
+			    	   //System.out.println("index in loop2 "+i+"  "+currentLabelIndex);
 					   MmMessageEvent messageEvent = new MmMessageEvent();
 					   messageEvent.setEventName("marker"+Integer.toString(markerIndex+1)+"_message");
 					   markerEvent.addActions(messageEvent.getEventName());
@@ -704,7 +704,7 @@ public class MmGlobalMarkerEvents {
 			    	  }   
 			    	  else
 			    	  {	  
-			    		  if(isLastMarker)
+			    		  //if(isLastMarker)
 				    	  {
 				    		  messageEvent.addActions("Done");
 				    	  } 
@@ -801,7 +801,7 @@ public class MmGlobalMarkerEvents {
 		   
 		    if(labels.get(currentLabelIndex).getText().isEmpty())
 		    {
-		    	if(isLastMarker)
+		    	//if(isLastMarker)
 		    	{
 		    		imageEvent.addActions("Done");
 		    	} 
@@ -812,7 +812,7 @@ public class MmGlobalMarkerEvents {
 		
 		    
 
-		if((lb.getText().contains(".jpg"))||(lb.getText().contains(".png"))||(lb.getText().contains(".bmp")))
+		if(isImage(lb.getText()))
 	    {
 		      
 		  	  System.out.println("label in image event"+lb.getText());  
@@ -1052,7 +1052,7 @@ public class MmGlobalMarkerEvents {
 		 if(labels.size()>=currentLabelIndex)
 		 {	
 				System.out.println("label index "+currentLabelIndex+" labels size "+labels.size());
-				if(isLastMarker)
+				//if(isLastMarker)
 			    {
 			    	imageEvent.addActions("Done");
 			    }
@@ -1076,7 +1076,7 @@ public class MmGlobalMarkerEvents {
 		   
 		   if(labels.get(currentLabelIndex).getText().isEmpty())
 		   {
-			   if(isLastMarker)
+			   //if(isLastMarker)
 		       {
 		    	   panoramaEvent.addActions("Done");
 		       }
@@ -1284,7 +1284,7 @@ public class MmGlobalMarkerEvents {
 
 		   
 		
-		      if((lb.getText().contains(".jpg"))||(lb.getText().contains(".png"))||(lb.getText().contains(".bmp"))||(lb.getText().contains("Panorama")))
+		      if(isImage(lb.getText()))
 		      {
 		    	  
 		    	  MmImageEvent imageEvent = new MmImageEvent();
@@ -1328,7 +1328,7 @@ public class MmGlobalMarkerEvents {
 		if(labels.size()>=currentLabelIndex)
 		{	
 			System.out.println("label index "+currentLabelIndex+" labels size "+labels.size());
-			if(isLastMarker)
+			//if(isLastMarker)
 		    {
 		    	panoramaEvent.addActions("Done");
 		    }
@@ -1348,7 +1348,7 @@ public class MmGlobalMarkerEvents {
 		   
 		   if(labels.get(currentLabelIndex).getText().isEmpty())
 		   {
-			   if(isLastMarker)
+			   //if(isLastMarker)
 		       {
 		    	   modelEvent.addActions("Done");
 		       } 
@@ -1546,7 +1546,7 @@ public class MmGlobalMarkerEvents {
 
 		   
 		
-		      if((lb.getText().contains(".jpg"))||(lb.getText().contains(".png"))||(lb.getText().contains(".bmp"))||(lb.getText().contains("Panorama")))
+		      if(isImage(lb.getText()))
 		      {
                   
 		    	  MmImageEvent imageEvent = new MmImageEvent();
@@ -1590,7 +1590,7 @@ public class MmGlobalMarkerEvents {
 		if(labels.size()>=currentLabelIndex)
 		{	
 			System.out.println("label index "+currentLabelIndex+" labels size "+labels.size());
-			if(isLastMarker)
+			//if(isLastMarker)
 		    {
 		    	modelEvent.addActions("Done");
 		    }
@@ -1612,7 +1612,7 @@ public class MmGlobalMarkerEvents {
 		   
 		   if(labels.get(currentLabelIndex).getText().isEmpty())
 		   {
-			   if(isLastMarker)
+			   //if(isLastMarker)
 		       {
 		    	   audioEvent.addActions("Done");
 		       }
@@ -1818,7 +1818,7 @@ public class MmGlobalMarkerEvents {
 
 		   
 		
-		      if((lb.getText().contains(".jpg"))||(lb.getText().contains(".png"))||(lb.getText().contains(".bmp"))||(lb.getText().contains("Panorama")))
+		      if(isImage(lb.getText()))
 		      {
                   
 		    	  MmImageEvent imageEvent = new MmImageEvent();
@@ -1863,7 +1863,7 @@ public class MmGlobalMarkerEvents {
 		if(labels.size()>=currentLabelIndex)
 		{	
 			System.out.println("label index "+currentLabelIndex+" labels size "+labels.size());
-			if(isLastMarker)
+			//if(isLastMarker)
 		    {
 		    	audioEvent.addActions("Done");
 		    }
@@ -1882,7 +1882,7 @@ public class MmGlobalMarkerEvents {
 		   
 		   if(labels.get(currentLabelIndex).getText().isEmpty())
 		   {
-			   if(isLastMarker)
+			   //if(isLastMarker)
 		       {
 		    	   videoEvent.addActions("Done");
 		       }
@@ -2071,7 +2071,7 @@ public class MmGlobalMarkerEvents {
 			      }
 		   
 		
-		      if((lb.getText().contains(".jpg"))||(lb.getText().contains(".png"))||(lb.getText().contains(".bmp"))||(lb.getText().contains("Panorama")))
+		      if(isImage(lb.getText()))
 		      {
 			      if(currentLabelIndex<labels.size())
 			      {
@@ -2119,7 +2119,7 @@ public class MmGlobalMarkerEvents {
 		if(labels.size()>=currentLabelIndex)
 		{	
 			System.out.println("label index "+currentLabelIndex+" labels size "+labels.size());
-			if(isLastMarker)
+			//if(isLastMarker)
 		    {
 		    	videoEvent.addActions("Done");
 		    }
@@ -2140,7 +2140,7 @@ public class MmGlobalMarkerEvents {
 		   
 		   if(labels.get(currentLabelIndex).getText().isEmpty())
 		   {
-			   if(isLastMarker)
+			   //if(isLastMarker)
 		       {
 		    	   messageEvent.addActions("Done");
 		       }
@@ -2333,7 +2333,7 @@ public class MmGlobalMarkerEvents {
 
 		   
 		
-		      if((lb.getText().contains(".jpg"))||(lb.getText().contains(".png"))||(lb.getText().contains(".bmp")) &&(!(lb.getText().contains("Panorama") && !(lb.getText().contains("Model")))))
+		      if(isImage(lb.getText()))
 		      {
 			      		    	  
 		    	   MmImageEvent imageEvent = new MmImageEvent();
@@ -2378,7 +2378,7 @@ public class MmGlobalMarkerEvents {
 		if(labels.size()>=currentLabelIndex)
 		{	
 			System.out.println("label index "+currentLabelIndex+" labels size "+labels.size());
-			if(isLastMarker)
+			//if(isLastMarker)
 		    {
 		    	messageEvent.addActions("Done");
 		    }
@@ -2405,6 +2405,29 @@ public class MmGlobalMarkerEvents {
 		return count;
 	}
 	
+	//checks waether the file name is an Image 
+	public boolean isImage(String imageName)
+	{
+		String[] images = {
+				".png",".PNG",".jpg",".JPG",".jpeg",".JPEG",".gif",".GIF",".tiff",".TIFF",".bmp",".BMP"
+		};
+		
+		String imageExt = imageName;
+		
+		//imageExt = imageName.substring(imageName.length()-4, imageName.length());
+		
+		for(int i=0;i<images.length;i++)
+		{
+			if(imageExt.contains(images[i]) && !(imageExt.contains("Panorama")))
+			{
+				return true;
+			}
+			else
+				continue;
+		}
+		
+		return false;
+	}
 		
 	public ArrayList<MmMarkerEvent> getMarkerEvents()
 	{

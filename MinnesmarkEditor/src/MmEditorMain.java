@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -49,6 +51,7 @@ import java.util.*;
 
 import mmFileManager.MmFileSelector;
 
+import com.apple.eawt.Application;
 import com.sun.jna.NativeLibrary;
 
 
@@ -119,10 +122,17 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 	     
 	     addMainLedInterface();
 	     
+	     
+	     
 	     	     
 	     
 	     window.setJMenuBar(menuBar);
+	     setIconImage(new ImageIcon(getClass().getResource("/Icon.png")).getImage());
 	     window.setTitle("Minnesmark Editor");
+	     
+	     Application.getApplication().setDockIconImage(
+	             new ImageIcon(getClass().getResource("/Icon.png")).getImage());
+	     
 	    
 	     splitPane.setLeftComponent(scrollPaneLeft);
 	     
@@ -291,7 +301,19 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 		scrollPaneRight.setPreferredSize(new Dimension(500,600));
 		
 		
+		JScrollBar scrollBar = scrollPaneRight.getVerticalScrollBar();
 		
+		scrollBar.addAdjustmentListener(new AdjustmentListener() {
+
+			@Override
+			public void adjustmentValueChanged(AdjustmentEvent e) {
+				// TODO Auto-generated method stub
+				
+				//System.out.println(" adjust value  "+e.getValue());
+				map.setScrollBarAdjustValue(e.getValue());
+			}
+			
+		});
 		
 	}
 	
@@ -360,7 +382,9 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 							MmLanguage.language_options[language][1],
 							MmLanguage.language_options[language][2]};
 					
-					int option = JOptionPane.showOptionDialog(null, MmLanguage.language_fileOptions[language][0], MmLanguage.language_fileOptions[language][1], JOptionPane.YES_NO_CANCEL_OPTION,0,null,options,options[2]);
+					ImageIcon icon = new ImageIcon(getClass().getResource("/exclamation.png"));
+					
+					int option = JOptionPane.showOptionDialog(null, MmLanguage.language_fileOptions[language][0], MmLanguage.language_fileOptions[language][1], JOptionPane.YES_NO_CANCEL_OPTION,0,icon,options,options[2]);
 					
 				   if(option==JOptionPane.OK_OPTION)
 				   {
@@ -537,7 +561,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 						 {
 							  JLabel label = accordionPanels.get(lastFrame).eventsDialog.componentPanel.getLabels().get(j);
 							  JCheckBox checkBox = accordionPanels.get(lastFrame).eventsDialog.componentPanel.getCheckBoxes().get(j);
-							  System.out.println("label text "+label.getName());
+							  //System.out.println("label text "+label.getName());
 							  label.setVisible(false);
 							  checkBox.setVisible(false);
 							  label=null;
@@ -989,7 +1013,9 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 							MmLanguage.language_options[language][1],
 							MmLanguage.language_options[language][2]};
 					
-					int option = JOptionPane.showOptionDialog(null, MmLanguage.language_fileOptions[language][0], MmLanguage.language_fileOptions[language][1], JOptionPane.YES_NO_CANCEL_OPTION,0,null,options,options[2]);
+				    ImageIcon icon = new ImageIcon(getClass().getResource("/exclamation.png"));
+				
+					int option = JOptionPane.showOptionDialog(null, MmLanguage.language_fileOptions[language][0], MmLanguage.language_fileOptions[language][1], JOptionPane.YES_NO_CANCEL_OPTION,0,icon,options,options[2]);
 					
 				    if(option==JOptionPane.OK_OPTION)
 				    {
@@ -1052,7 +1078,9 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 							MmLanguage.language_options[language][1],
 							MmLanguage.language_options[language][2]};
 					
-					int option = JOptionPane.showOptionDialog(null, MmLanguage.language_fileOptions[language][0], MmLanguage.language_fileOptions[language][1], JOptionPane.YES_NO_CANCEL_OPTION,0,null,options,options[2]);
+					ImageIcon icon = new ImageIcon(getClass().getResource("/exclamation.png"));
+					
+					int option = JOptionPane.showOptionDialog(null, MmLanguage.language_fileOptions[language][0], MmLanguage.language_fileOptions[language][1], JOptionPane.YES_NO_CANCEL_OPTION,0,icon,options,options[2]);
 					
 				    if(option==JOptionPane.OK_OPTION)
 				    {
@@ -1309,7 +1337,9 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 							MmLanguage.language_options[language][1],
 							MmLanguage.language_options[language][2]};
 					
-					int option = JOptionPane.showOptionDialog(null, MmLanguage.language_fileOptions[language][0], MmLanguage.language_fileOptions[language][1], JOptionPane.YES_NO_CANCEL_OPTION,0,null,options,options[2]);
+					ImageIcon icon = new ImageIcon(getClass().getResource("/exclamation.png"));
+					
+					int option = JOptionPane.showOptionDialog(null, MmLanguage.language_fileOptions[language][0], MmLanguage.language_fileOptions[language][1], JOptionPane.YES_NO_CANCEL_OPTION,0,icon,options,options[2]);
 					if(option==JOptionPane.OK_OPTION)
 					{	
 					    JFileChooser saveFile = new JFileChooser();

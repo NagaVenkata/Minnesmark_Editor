@@ -262,9 +262,10 @@ public class MmMapViewer extends JPanel implements Printable {
     //language settings
    	int language;
 	
-
+    int scrollBarAdjustValue;
 	
 
+	
 	public MmMapViewer()
 	{
 		panel=this;
@@ -322,6 +323,8 @@ public class MmMapViewer extends JPanel implements Printable {
 	    
 	    getMapCurrentLocation();
 	    
+	    setScrollBarAdjustValue(0);
+	    
 	    
 	    
 	    //mapKit.getMainMap().setCenterPosition(new GeoPosition(56.034054,12.738867));
@@ -336,7 +339,7 @@ public class MmMapViewer extends JPanel implements Printable {
 		mapKit.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		((DefaultTileFactory)mapKit.getMainMap().getTileFactory()).setThreadPoolSize(8);
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		mapKit.setPreferredSize(new Dimension(toolkit.getScreenSize().width-460,toolkit.getScreenSize().height-200));
+		mapKit.setPreferredSize(new Dimension(toolkit.getScreenSize().width-460,toolkit.getScreenSize().height-175));
 		add(mapKit);
 		mapKit.setAddressLocationShown(true);
 		mapKit.getMainMap().setPanEnabled(true);
@@ -1125,6 +1128,15 @@ public class MmMapViewer extends JPanel implements Printable {
 	public JFrame getMainWindow() {
 		return mainWindow;
 	}
+	
+	public int getScrollBarAdjustValue() {
+		return scrollBarAdjustValue;
+	}
+
+	public void setScrollBarAdjustValue(int scrollBarAdjustValue) {
+		this.scrollBarAdjustValue = scrollBarAdjustValue;
+	}
+
 
 	public void setMainWindow(JFrame mainWindow) {
 		this.mainWindow = mainWindow;
@@ -4842,7 +4854,7 @@ public class MmMapViewer extends JPanel implements Printable {
                 // convert from viewport to world bitmap
                 final Rectangle rect = mapKit.getMainMap().getViewportBounds();
                 
-                
+                rect.height+=getScrollBarAdjustValue();
                 
                 System.out.println("rect "+rect);
                 

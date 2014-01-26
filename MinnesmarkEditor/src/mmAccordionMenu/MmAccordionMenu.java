@@ -202,7 +202,7 @@ public class MmAccordionMenu extends JPanel  {
 		
 		for(int i=0;i<texts.size();i++)
 			items.addLabelItems(texts.get(i),menu);
-	   System.out.println("Size "+texts.size());
+	   //System.out.println("Size "+texts.size());
 		for(MmAccordionMainItem item: getMenuItems())
         {
 			if(item.getName().equals(menu))
@@ -789,7 +789,7 @@ public class MmAccordionMenu extends JPanel  {
 	     	        if (val == JFileChooser.APPROVE_OPTION) {
 	     	    	   File file = fileChooser.getSelectedFile();
 	     	  	       label.setText(file.getName());
-	     	  	       System.out.println(label.getName());
+	     	  	       //System.out.println(label.getName());
 	     	  	       uploadFile(file,label.getName());
 	     	       }  
 	               
@@ -804,7 +804,7 @@ public class MmAccordionMenu extends JPanel  {
 	            public void mousePressed(MouseEvent e) {
 	                MmAccordionMainItem item = (MmAccordionMainItem) e.getSource();
 	                
-	                System.out.println(" selected item "+item);
+	                //System.out.println(" selected item "+item);
 	                item.selected = !item.selected;
 	                item.setSelectedMenuIcon();
 	                for(int i=0;i<mainItems.size();i++)
