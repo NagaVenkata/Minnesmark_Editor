@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 
 import javax.swing.*;
 
-import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
+
 
 import java.net.*;
 
@@ -33,7 +33,7 @@ public class MmAudioVideoPlayer {
 	AudioInputStream aiffAudioStream = null; 
 	Clip aiffPlayer = null;
 	
-	EmbeddedMediaPlayerComponent mediaPlayerComponent = null;
+	//EmbeddedMediaPlayerComponent mediaPlayerComponent = null;
 	
 	JDialog mediaDialog = null;
 	
@@ -60,7 +60,7 @@ public class MmAudioVideoPlayer {
 		
 		mediaDialog.setTitle("Media Player");
 
-		if(mediaPlayerComponent==null)
+		/*if(mediaPlayerComponent==null)
 		   mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
 
 		mediaDialog.setContentPane(mediaPlayerComponent);
@@ -70,7 +70,7 @@ public class MmAudioVideoPlayer {
 		mediaDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		mediaDialog.setVisible(true);
 
-        mediaPlayerComponent.getMediaPlayer().playMedia(audio_video_filename);
+        mediaPlayerComponent.getMediaPlayer().playMedia(audio_video_filename); */
 
         
 		
@@ -88,7 +88,7 @@ public class MmAudioVideoPlayer {
 		    
 		    
 
-		   if(mediaPlayerComponent==null)
+		/*   if(mediaPlayerComponent==null)
 		      mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
 		   
 		  
@@ -104,7 +104,7 @@ public class MmAudioVideoPlayer {
 		
 		
 
-          mediaPlayerComponent.getMediaPlayer().playMedia(audio_video_filename);
+          mediaPlayerComponent.getMediaPlayer().playMedia(audio_video_filename); */
 	   }   
        catch(Exception e)
        {
@@ -143,7 +143,7 @@ public class MmAudioVideoPlayer {
 	
 	public void stopMP3AudioClip()
 	{
-		mediaPlayerComponent.getMediaPlayer().stop();
+		//mediaPlayerComponent.getMediaPlayer().stop();
 		
 		mediaDialog.setVisible(false);
 	}
@@ -173,7 +173,7 @@ public class MmAudioVideoPlayer {
 	
 	public void  audioStop()
 	{
-        mediaPlayerComponent.getMediaPlayer().stop();
+       // mediaPlayerComponent.getMediaPlayer().stop();
 		
 		mediaDialog.setVisible(false);
 		

@@ -127,7 +127,7 @@ public class MmMarkerEvent {
 		try 
 		{
 			//JOptionPane.showMessageDialog(null, sourcePath);
-			this.setSourcePath(System.getProperty("user.dir")+"/new markers/"+"patt.marker"+Integer.toString(this.makerIndex));
+			this.setSourcePath(System.getProperty("user.dir")+"/globalmarkers/"+"patt.marker"+Integer.toString(this.makerIndex));
 			events.put("name",this.eventName);
 			events.put("type", "marker");
 			attributes.put("markerName", "patt.marker"+Integer.toString(this.makerIndex));
@@ -183,9 +183,8 @@ public class MmMarkerEvent {
 			  
 			  File file = new File(destinationPath+"/markers");
 			  
-			  
 			  //markers source file markers directory 
-			  this.setSourcePath(System.getProperty("user.dir")+"/new markers/"+"patt.marker"+Integer.toString(this.makerIndex));
+			  this.setSourcePath(System.getProperty("user.dir")+"/globalmarkers/"+"patt.marker"+Integer.toString(this.makerIndex));
 			  
 			  File desFilePath = new File(sourcePath);
 			  String desPath = desFilePath.getName();
@@ -245,6 +244,78 @@ public class MmMarkerEvent {
 			
 		}
 		
+		writeMarkerImageFiles(this.makerIndex);
+		
+   }
+	
+   public void writeMarkerImageFiles(int markerIndex)
+   {
+	    FileChannel src = null,des=null;
+		try {
+			  
+			  
+			  File file = new File(destinationPath+"/markers");
+			  
+			  //markers source file markers directory 
+			  this.setSourcePath(System.getProperty("user.dir")+"/globalmarkers/"+"pattern"+Integer.toString(this.makerIndex)+".png");
+			  
+			  File desFilePath = new File(sourcePath);
+			  String desPath = desFilePath.getName();
+			  
+			  
+			  
+			  File desFile = new File(destinationPath+"/markers/"+desPath);
+			  			  
+			 //JOptionPane.showMessageDialog(null, "destination file exists "+ desFile.exists());
+			  
+			  if(!desFile.exists())
+			  {
+				 //JOptionPane.showMessageDialog(null, "destination file "+ desFile.getPath()+"  "+desFile.getName());
+			     if(file.isDirectory())
+			     {
+			        //JOptionPane.showMessageDialog(null, sourcePath+"  "+destinationPath); 
+				    src = new FileInputStream(sourcePath).getChannel(); 
+			        des = new FileOutputStream(destinationPath+"/markers/"+desPath).getChannel();
+			     }
+			     else
+			     {
+				    file.mkdir();
+				    src = new FileInputStream(sourcePath).getChannel();
+				    des = new FileOutputStream(destinationPath+"/markers/"+desPath).getChannel();
+			     }
+			     
+			     try {
+					  
+		                if(src!=null)
+						   des.transferFrom(src, 0, src.size());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			  }
+			  
+			  
+			  
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		finally
+		{
+			try {
+				if(src!=null)
+				{	
+				   src.close();
+				   des.close();
+				}   
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
    }
 	
 	

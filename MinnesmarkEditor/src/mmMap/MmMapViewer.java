@@ -262,9 +262,10 @@ public class MmMapViewer extends JPanel implements Printable {
     //language settings
    	int language;
 	
-    int scrollBarAdjustValue;
+    int scrollbarAdjustX,scrollbarAdjustY;
 	
 
+	
 	
 	public MmMapViewer()
 	{
@@ -323,7 +324,9 @@ public class MmMapViewer extends JPanel implements Printable {
 	    
 	    getMapCurrentLocation();
 	    
-	    setScrollBarAdjustValue(0);
+	    
+	    setScrollbarAdjustX(0);
+	    setScrollbarAdjustY(0);
 	    
 	    
 	    
@@ -339,7 +342,7 @@ public class MmMapViewer extends JPanel implements Printable {
 		mapKit.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		((DefaultTileFactory)mapKit.getMainMap().getTileFactory()).setThreadPoolSize(8);
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		mapKit.setPreferredSize(new Dimension(toolkit.getScreenSize().width-460,toolkit.getScreenSize().height-175));
+		mapKit.setPreferredSize(new Dimension(toolkit.getScreenSize().width-460,toolkit.getScreenSize().height-200));
 		add(mapKit);
 		mapKit.setAddressLocationShown(true);
 		mapKit.getMainMap().setPanEnabled(true);
@@ -1129,13 +1132,22 @@ public class MmMapViewer extends JPanel implements Printable {
 		return mainWindow;
 	}
 	
-	public int getScrollBarAdjustValue() {
-		return scrollBarAdjustValue;
+	public int getScrollbarAdjustX() {
+		return scrollbarAdjustX;
 	}
 
-	public void setScrollBarAdjustValue(int scrollBarAdjustValue) {
-		this.scrollBarAdjustValue = scrollBarAdjustValue;
+	public void setScrollbarAdjustX(int scrollbarAdjustX) {
+		this.scrollbarAdjustX = scrollbarAdjustX;
 	}
+
+	public int getScrollbarAdjustY() {
+		return scrollbarAdjustY;
+	}
+
+	public void setScrollbarAdjustY(int scrollbarAdjustY) {
+		this.scrollbarAdjustY = scrollbarAdjustY;
+	}
+
 
 
 	public void setMainWindow(JFrame mainWindow) {
@@ -2316,6 +2328,22 @@ public class MmMapViewer extends JPanel implements Printable {
 			
 			eventsArray.put(numCollectItems);
 			
+			if(!markerEvents.isEmpty())
+			{		
+			
+                MmMarkerDetectEvent detectMarker = new MmMarkerDetectEvent();
+             
+			    detectMarker.makeJSONObject();
+			
+			    eventsArray.put(detectMarker.getMarkerDetectEvent());
+			
+                MmMarkerUnDetectEvent undetectMarker = new MmMarkerUnDetectEvent();
+			
+			    undetectMarker.makeJSONObject();
+			
+			    eventsArray.put(undetectMarker.getMarkerUnDetectEvent());
+			}    
+			
 			try
 			{
 				JSONObject doneEvent = new JSONObject();
@@ -2335,8 +2363,11 @@ public class MmMapViewer extends JPanel implements Printable {
 			}
 			catch(Exception e)
 			{
-				
+				JOptionPane.showMessageDialog(null, "Exception in writing done event "+e);
 			}
+			
+			
+			
 		   
 		}
 		catch(Exception e)
@@ -2834,7 +2865,7 @@ public class MmMapViewer extends JPanel implements Printable {
 				object.put("type", "marker");
 				
 				JSONObject attribute = new JSONObject();
-				attribute.put("markerName", "patt.map_marker"+Integer.toString(i+2));
+				attribute.put("markerName", "patt.map_marker"+Integer.toString(i+1));
 				attribute.put("modelName", "base.osg");
 				object.put("attributes", attribute);
 				jsonObjects.put(object);
@@ -2844,14 +2875,14 @@ public class MmMapViewer extends JPanel implements Printable {
 				else
 					startActionArray.put("mapMarker"+Integer.toString(i+1));
 				
-				writeMarkerFiles("patt.map_marker"+Integer.toString(i+2),filePath);
+				writeMarkerFiles("patt.map_marker"+Integer.toString(i+1),filePath);
 				
 				JSONObject object1 = new JSONObject();
 				object1.put("name", "mapEditMarker"+Integer.toString(i+1));
 				object1.put("type", "editModel");
 				
 				JSONObject attribute1 = new JSONObject();
-				attribute1.put("markerName", "patt.map_marker"+Integer.toString(i+2));
+				attribute1.put("markerName", "patt.map_marker"+Integer.toString(i+1));
 				attribute1.put("modelName", "diamond.osg");
 				object1.put("attributes", attribute1);
 				jsonObjects.put(object1);
@@ -2868,18 +2899,23 @@ public class MmMapViewer extends JPanel implements Printable {
 	
 	public boolean writeMarkerFiles(String markerFile, String filePath)
 	{
+		JOptionPane.showMessageDialog(null, "filepath "+filePath);
 		FileChannel src = null,des=null;
+		//FileChannel markerImage_src = null,markerImage_des=null;
 		try {
 			  
 			  
 			  File file = new File(filePath+"/markers");
 			  
-			  String sourcePath = System.getProperty("user.dir")+"/markers/"+markerFile;
+			  String sourcePath = System.getProperty("user.dir")+"/mapmarkers/"+markerFile;
 			  
+			 
 			  			  
 			  String[] desPath = sourcePath.split("/");
 			  
-			  File desFile = new File(filePath+"/markers/"+desPath[desPath.length-1]);
+			  File desFile = new File(filePath+"/markers/"+markerFile);
+			  
+			  JOptionPane.showMessageDialog(null, "destination "+desFile.getAbsolutePath());
 			  
 			  if(!desFile.exists())
 			  {	  
@@ -2891,6 +2927,7 @@ public class MmMapViewer extends JPanel implements Printable {
 			     else
 			     {
 				    file.mkdir();
+				    JOptionPane.showMessageDialog(null, file.isDirectory()+"  "+file.getAbsolutePath());
 				    src = new FileInputStream(sourcePath).getChannel();
 				    des = new FileOutputStream(filePath+"/markers/"+desPath[desPath.length-1]).getChannel();
 			     }
@@ -2930,6 +2967,8 @@ public class MmMapViewer extends JPanel implements Printable {
 			}
 			
 		}
+		
+		writeMarkerImageFiles(new String(markerFile.substring(markerFile.indexOf(".")+1, markerFile.length()))+".png",filePath);
 		
 		return true;
 
@@ -3014,6 +3053,79 @@ public class MmMapViewer extends JPanel implements Printable {
 		}
 		
 		return true;
+	}
+	
+	public boolean writeMarkerImageFiles(String markerImage,String filePath)
+	{
+		FileChannel src = null,des=null;
+		
+		try {
+			  
+			  
+			  File file = new File(filePath+"/markers");
+			  
+			  String sourcePath = System.getProperty("user.dir")+"/mapmarkers/"+markerImage;
+			  
+			 
+			  			  
+			  String[] desPath = sourcePath.split("/");
+			  
+			  File desFile = new File(filePath+"/markers/"+markerImage);
+			  
+			  //JOptionPane.showMessageDialog(null, "destination "+desFile.getAbsolutePath());
+			  
+			  if(!desFile.exists())
+			  {	  
+			     if(file.isDirectory())
+			     {
+				    src = new FileInputStream(sourcePath).getChannel(); 
+			        des = new FileOutputStream(filePath+"/markers/"+desPath[desPath.length-1]).getChannel();
+			     }
+			     else
+			     {
+				    file.mkdir();
+				    //JOptionPane.showMessageDialog(null, file.isDirectory()+"  "+file.getAbsolutePath());
+				    src = new FileInputStream(sourcePath).getChannel();
+				    des = new FileOutputStream(filePath+"/markers/"+desPath[desPath.length-1]).getChannel();
+			     }
+			  }   
+			  
+			  
+			  
+			  try {
+				  if(des!=null)
+					     des.transferFrom(src, 0, src.size());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null, e);
+				e.printStackTrace();
+				return false;
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, e);
+			e.printStackTrace();
+			return false;
+		}
+
+		finally
+		{
+			try {
+				  if(src!=null)
+				  {	
+				     src.close();
+				     des.close();
+				  }
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(null, e);
+				e.printStackTrace();
+				return false;
+			}
+			
+		}
+		
+		return false;
 	}
 	
 	public ArrayList<MmStationEvents> getStations()
@@ -3135,6 +3247,7 @@ public class MmMapViewer extends JPanel implements Printable {
 				
 		menuItems = menuItem;
 		
+		menuItems.getGlobalMarkers().setGlobalMarkers();
 		
 		
 		//JOptionPane.showMessageDialog(null, "filename "+fileName);
@@ -3165,8 +3278,6 @@ public class MmMapViewer extends JPanel implements Printable {
 	                   {	   
 	                      	                      
 	                	  parseJsonObject((JSONObject) readJSONObjects.get(i),i);
-	                	  
-	                	  
 	                                	  
 	                   }   
 	                }
@@ -3583,8 +3694,6 @@ public class MmMapViewer extends JPanel implements Printable {
 		    	  
 			      JSONObject attributes = (JSONObject) jsonObject.get("attributes");
 			      
-			      
-			      
 			      /*Every event belong to a particular station. Every event starts with station name.
 	    		   To get the stations related event indexOf method is used, which returns the first occurrence of station name with index
 	    		   in current string. The index should be zero that is every events station name */
@@ -3629,7 +3738,7 @@ public class MmMapViewer extends JPanel implements Printable {
 							     attrs +=MmLanguage.language_events[language][0];
 			    			 }    
 			    			 File imageFile = new File(openFileName.getParent()+"/images/"+attributes.get("imageName").toString());
-					    		
+					         JOptionPane.showMessageDialog(null, "markers "+menuItems.getGlobalMarkers().getStations().size());		
 				    		 if(imageFile.exists())
 							     menuItems.getGlobalMarkers().getStations().get(markerIndex).setLabelsText(attrs,imageFile.getAbsolutePath());
 				    		 else
@@ -3671,9 +3780,6 @@ public class MmMapViewer extends JPanel implements Printable {
 					          action = array.get(i).toString();
 					       
 					   }
-					   
-					   
-					   
 					   
 					   for(int i=0;i<readJSONObjects.length();i++)
 					   {
@@ -3764,7 +3870,7 @@ public class MmMapViewer extends JPanel implements Printable {
 		}   
 		catch(Exception e)
 		{
-			JOptionPane.showMessageDialog(null, e);
+			JOptionPane.showMessageDialog(null, "Image event exception "+e);
 		}
 	}
 	
@@ -4669,7 +4775,9 @@ public class MmMapViewer extends JPanel implements Printable {
 		    	    }    
 		    	    else
 		    	    { 	
-		    	      menuItems.getGlobalMarkers().addStation(jsonObject.get("name").toString(), markerIndex);
+		    	      //menuItems.getGlobalMarkers().addStation(jsonObject.get("name").toString(), markerIndex);
+		    	      
+		    	      
 		    	      
 		    	      JSONObject actions = (JSONObject) jsonObject.get("actions");
 						
@@ -4783,7 +4891,7 @@ public class MmMapViewer extends JPanel implements Printable {
 			}
 			catch(Exception e)
 			{
-				JOptionPane.showMessageDialog(null, "message "+e);
+				JOptionPane.showMessageDialog(null, "Maker read exception "+e);
 			}
 		}    
 		
@@ -4854,7 +4962,18 @@ public class MmMapViewer extends JPanel implements Printable {
                 // convert from viewport to world bitmap
                 final Rectangle rect = mapKit.getMainMap().getViewportBounds();
                 
-                rect.height+=getScrollBarAdjustValue();
+                System.out.println("width adjust "+getScrollbarAdjustX()+"  "+getScrollbarAdjustY());
+                
+                System.out.println("rect "+rect);
+                
+                int imageIndex=0;
+                
+                
+                /*rect.x-=getScrollbarAdjustX();
+                rect.y-=getScrollbarAdjustY();
+                
+                rect.width+=getScrollbarAdjustX();
+                rect.height+=getScrollbarAdjustY();*/
                 
                 System.out.println("rect "+rect);
                 
@@ -4896,21 +5015,24 @@ public class MmMapViewer extends JPanel implements Printable {
 
                 int lastX = -1;
                 int lastY = -1;
-                for (int i=0;i<events.getStations().size();i++) {
-                    // convert geo to world bitmap pixel
-                	GeoPosition gp = new GeoPosition(events.getStations().get(i).getLatitude(),events.getStations().get(i).getLongitude());
-                    final Point2D pt = mapKit.getMainMap().getTileFactory().geoToPixel(gp, mapKit.getMainMap().getZoom());
-                    if (lastX != -1 && lastY != -1) {
-                        g.drawLine(lastX, lastY, (int) (pt.getX()-rect.x), (int) (pt.getY()-rect.y));
+                
+                if(events!=null)
+                {	
+                   for (int i=0;i<events.getStations().size();i++) {
+                      // convert geo to world bitmap pixel
+                	  GeoPosition gp = new GeoPosition(events.getStations().get(i).getLatitude(),events.getStations().get(i).getLongitude());
+                      final Point2D pt = mapKit.getMainMap().getTileFactory().geoToPixel(gp, mapKit.getMainMap().getZoom());
+                      if (lastX != -1 && lastY != -1) {
+                           g.drawLine(lastX, lastY, (int) (pt.getX()-rect.x), (int) (pt.getY()-rect.y));
                         
-                    }
-                    lastX = (int) (pt.getX()-rect.x);
-                    lastY = (int) (pt.getY()-rect.y);
+                      }
+                      lastX = (int) (pt.getX()-rect.x);
+                      lastY = (int) (pt.getY()-rect.y);
                     
                     
                     
+                  }
                 }
-
                 
                 for (final GeoPosition gp : geoPos) {
                     // convert geo to world bitmap pixel
@@ -4928,7 +5050,7 @@ public class MmMapViewer extends JPanel implements Printable {
                 
                 //g.drawImage(geoMarker, -geoMarker.getHeight(null)/2+5, -geoMarker.getHeight(null)/2-15, null);
                 
-                int imageIndex=0;
+                imageIndex=0;
                 
                 for (final GeoPosition gp : geoPos) {
                     // convert geo to world bitmap pixel
@@ -4978,6 +5100,8 @@ public class MmMapViewer extends JPanel implements Printable {
                 	}
                 }*/
                 
+                if(events!=null)
+                {	
                 for(int i=0;i<events.getStations().size();i++)
                 {
                 	if(events.getStations().get(i).getStationType())
@@ -4993,7 +5117,7 @@ public class MmMapViewer extends JPanel implements Printable {
                 }
                 else
                 {
-                	int imageIndex=0;
+                	
                     
                     for (final GeoPosition gp : geoPos) {
                         // convert geo to world bitmap pixel
@@ -5030,7 +5154,7 @@ public class MmMapViewer extends JPanel implements Printable {
                 
                 updateMapMarkerPositions(rect.x,rect.y);
                  
-                
+              } 
                 
                 
             }

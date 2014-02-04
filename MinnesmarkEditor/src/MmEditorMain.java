@@ -43,8 +43,8 @@ import mmFileManager.*;
 
 import org.apache.commons.vfs2.FileObject;
 
-import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
-import uk.co.caprica.vlcj.runtime.RuntimeUtil;
+//import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
+//import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 
 import java.util.*;
@@ -123,9 +123,6 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 	     addMainLedInterface();
 	     
 	     
-	     
-	     	     
-	     
 	     window.setJMenuBar(menuBar);
 	     setIconImage(new ImageIcon(getClass().getResource("/Icon.png")).getImage());
 	     window.setTitle("Minnesmark Editor");
@@ -163,6 +160,8 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 	    		//accordionPanel.setPreferredSize(new Dimension(splitPane.getDividerLocation(),accordionPanel.getHeight()));
 	    	}
 	    });
+	     
+	     
 	    
 	     
 	     window.add(splitPane);
@@ -301,20 +300,42 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 		scrollPaneRight.setPreferredSize(new Dimension(500,600));
 		
 		
-		JScrollBar scrollBar = scrollPaneRight.getVerticalScrollBar();
+        JScrollBar hscrollBar = scrollPaneRight.getHorizontalScrollBar();
 		
-		scrollBar.addAdjustmentListener(new AdjustmentListener() {
+		hscrollBar.addAdjustmentListener(new AdjustmentListener() {
+
+			@Override
+			public void adjustmentValueChanged(AdjustmentEvent e) {
+				// TODO Auto-generated method stub
+				
+				System.out.println(" adjust value  "+e.getValue());
+				map.setScrollbarAdjustX(e.getValue());
+				map.drawPoints();
+				//map.repaint();
+			}
+			
+		});
+
+		
+		JScrollBar vscrollBar = scrollPaneRight.getVerticalScrollBar();
+		
+		vscrollBar.addAdjustmentListener(new AdjustmentListener() {
 
 			@Override
 			public void adjustmentValueChanged(AdjustmentEvent e) {
 				// TODO Auto-generated method stub
 				
 				//System.out.println(" adjust value  "+e.getValue());
-				map.setScrollBarAdjustValue(e.getValue());
+				map.setScrollbarAdjustY(e.getValue());
+				map.drawPoints();
+				//map.repaint();
 			}
 			
 		});
 		
+		
+        		
+        		
 	}
 	
 	public void addMmWindowListener()
@@ -1516,14 +1537,14 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 	    			if(!accordionMenu.getGlobalMarkerEvents().isEmpty())
 	    			{
 	    				index=accordionMenu.getGlobalMarkerEvents().get(0).getMarkerIndex();
-	    			    pBook.append(new MmPrintMarkers(System.getProperty("user.dir")+"/new markers/pattern"+Integer.toString(index+1)+".png" ,accordionMenu.getGlobalMarkerEvents().get(0),language), printer.defaultPage());
+	    			    pBook.append(new MmPrintMarkers(System.getProperty("user.dir")+"/globalmarkers/pattern"+Integer.toString(index+1)+".png" ,accordionMenu.getGlobalMarkerEvents().get(0),language), printer.defaultPage());
 	    			}    
 	    			
 					for(int i=1;i<accordionMenu.getGlobalMarkerEvents().size();i++)
 					{		
 					   index = accordionMenu.getGlobalMarkerEvents().get(i).getMarkerIndex();
 					   
-					   pBook.append(new MmPrintMarkers(System.getProperty("user.dir")+"/new markers/pattern"+Integer.toString(index+1)+".png" ,accordionMenu.getGlobalMarkerEvents().get(i),language), printer.defaultPage());
+					   pBook.append(new MmPrintMarkers(System.getProperty("user.dir")+"/globalmarkers/pattern"+Integer.toString(index+1)+".png" ,accordionMenu.getGlobalMarkerEvents().get(i),language), printer.defaultPage());
 					
 					   //JOptionPane.showMessageDialog(null, "marker index "+index);
 					  			   
@@ -1558,7 +1579,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), System.getProperty("user.dir") + File.separator + "lib" + File.separator + "VLC.app" + File.separator + "Contents"+  File.separator + "MacOS"+File.separator + "lib");
+        //NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), System.getProperty("user.dir") + File.separator + "lib" + File.separator + "VLC.app" + File.separator + "Contents"+  File.separator + "MacOS"+File.separator + "lib");
         //System.setProperty("jna.library.path", System.getProperty("user.dir") + File.separator + "lib" + File.separator + "VLC" + File.separator + "lib");
         
         

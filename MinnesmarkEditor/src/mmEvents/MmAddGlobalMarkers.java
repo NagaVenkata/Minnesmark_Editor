@@ -690,11 +690,49 @@ public class MmAddGlobalMarkers extends JPanel {
 		markerLabel = label;
 	}
 	
+	public void setGlobalMarkers()
+	{
+		
+		for(int i=0;i<18;i++)
+		{
+			station = new MmGlobalMarkerEvents();
+			station.setMarkerName("marker"+Integer.toString(i+1));
+			station.setMarkerIndex(i);
+			globalMarkerEvents.add(station);
+			eventPanel.removeAll();
+		    if(station.getLabels().isEmpty())
+			{	 
+				ArrayList<JLabel> stationLabels = new ArrayList<JLabel>(); 
+			    JLabel lb = new JLabel(MmLanguage.language[language][5]);
+			    lb.setName("label");
+			    stationLabels.add(lb);
+			    stationLabels.add(addLabels());
+			    stationLabels.add(addLabels());
+			    stationLabels.add(addLabels());
+			    
+			    station.setLabels(stationLabels);
+			    
+			    
+			    for(int j=0;j<station.getLabels().size();j++)
+					 eventPanel.add(station.getLabels().get(j));
+			    
+			    eventPanel.updateUI();
+			    
+			    //JOptionPane.showMessageDialog(null, "entered marker event");
+			    
+			}
+		
+		}
+		
+		
+	}
+	
 	public void addStation(String text,int index)
 	{
 		 
 		 
 		 boolean markerfound=false;
+		 
 		 
 		 if(globalMarkerEvents.isEmpty())
 		 {
@@ -716,14 +754,12 @@ public class MmAddGlobalMarkers extends JPanel {
 			    station.setLabels(stationLabels);
 			    
 			    
-			    
 			    for(int i=0;i<station.getLabels().size();i++)
 					 eventPanel.add(station.getLabels().get(i));
+			    
 			    eventPanel.updateUI();
 			    
 			 }   
-			 
-			 
 			 
 		 }
 		 else
@@ -734,7 +770,6 @@ public class MmAddGlobalMarkers extends JPanel {
 							 
 				 if(index==globalMarkerEvents.get(i).getMarkerIndex())
 				 {	
-					 
 					 station = globalMarkerEvents.get(i);
 					 markerfound=true;
 					 break;
@@ -822,6 +857,7 @@ public class MmAddGlobalMarkers extends JPanel {
 	    messageEvents = new ArrayList<MmMessageEvent>();
 	    modelEvents = new ArrayList<MmModelEvent>();
 	    globalMarkerEvents = new ArrayList<MmGlobalMarkerEvents>();
+	    
 	}
 	
 	public JLabel addLabels()
