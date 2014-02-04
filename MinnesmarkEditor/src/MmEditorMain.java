@@ -308,9 +308,9 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 			public void adjustmentValueChanged(AdjustmentEvent e) {
 				// TODO Auto-generated method stub
 				
-				System.out.println(" adjust value  "+e.getValue());
+				/*System.out.println(" adjust value  "+e.getValue());
 				map.setScrollbarAdjustX(e.getValue());
-				map.drawPoints();
+				map.drawPoints();*/
 				//map.repaint();
 			}
 			
@@ -326,15 +326,20 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 				// TODO Auto-generated method stub
 				
 				//System.out.println(" adjust value  "+e.getValue());
-				map.setScrollbarAdjustY(e.getValue());
-				map.drawPoints();
+				/*map.setScrollbarAdjustY(e.getValue());
+				map.drawPoints();*/
 				//map.repaint();
 			}
 			
 		});
 		
+		/*JOptionPane.showMessageDialog(null, menuBar.getX()+"  "+menuBar.getY());
+       
+		Point pt = new Point(window.getX(),window.getY());
 		
-        		
+		SwingUtilities.convertPointToScreen(pt, window);
+		
+		JOptionPane.showMessageDialog(null, pt+"  "+menuBar.getBounds());*/
         		
 	}
 	

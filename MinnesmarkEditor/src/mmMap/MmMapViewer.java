@@ -929,7 +929,7 @@ public class MmMapViewer extends JPanel implements Printable {
 				if(isPointPresent)
 				{
 					
-					if((event.getX()>0 && event.getX()<400) && (event.getY()>0 && event.getY()<125))
+					if((event.getX()>0 && event.getX()<400) && (event.getY()>0 && event.getY()<130))
 					{
 																	
 						int option = JOptionPane.showConfirmDialog(null, MmLanguage.language_exception[language][5],MmLanguage.language_exception[language][6],JOptionPane.YES_NO_OPTION);
@@ -1181,7 +1181,9 @@ public class MmMapViewer extends JPanel implements Printable {
         mapMarkersDialog = new JDialog(mainWindow);
 	    
 	    mapMarkersDialog.setSize(300, 125);
-	    mapMarkersDialog.setLocation(425,75);
+	    mapMarkersDialog.setLocation(425,66);
+	    
+	    
         
 		mapMarkerWindow = new MmMapStationMarkers(mapMarkersDialog,this);
 		mapMarkerWindow.setLanguage(language);
