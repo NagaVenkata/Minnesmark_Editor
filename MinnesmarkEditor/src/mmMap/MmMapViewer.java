@@ -2901,7 +2901,7 @@ public class MmMapViewer extends JPanel implements Printable {
 	
 	public boolean writeMarkerFiles(String markerFile, String filePath)
 	{
-		JOptionPane.showMessageDialog(null, "filepath "+filePath);
+		
 		FileChannel src = null,des=null;
 		//FileChannel markerImage_src = null,markerImage_des=null;
 		try {
@@ -2917,7 +2917,7 @@ public class MmMapViewer extends JPanel implements Printable {
 			  
 			  File desFile = new File(filePath+"/markers/"+markerFile);
 			  
-			  JOptionPane.showMessageDialog(null, "destination "+desFile.getAbsolutePath());
+			  //JOptionPane.showMessageDialog(null, "destination "+desFile.getAbsolutePath());
 			  
 			  if(!desFile.exists())
 			  {	  
@@ -2929,7 +2929,7 @@ public class MmMapViewer extends JPanel implements Printable {
 			     else
 			     {
 				    file.mkdir();
-				    JOptionPane.showMessageDialog(null, file.isDirectory()+"  "+file.getAbsolutePath());
+				    //JOptionPane.showMessageDialog(null, file.isDirectory()+"  "+file.getAbsolutePath());
 				    src = new FileInputStream(sourcePath).getChannel();
 				    des = new FileOutputStream(filePath+"/markers/"+desPath[desPath.length-1]).getChannel();
 			     }
