@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

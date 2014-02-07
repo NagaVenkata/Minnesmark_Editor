@@ -2378,7 +2378,7 @@ public class MmGlobalMarkerEvents {
 						  imageEvent.setCollectItem(true);
 						  collectItems.add(new Integer(collectItems.size()+1));
 					  }
-					  JOptionPane.showMessageDialog(null, lb.getName());
+					  //JOptionPane.showMessageDialog(null, lb.getName());
 					  imageEvent.setSourcePath(lb.getName());	  
 					  imageEvent.setDestinationPath(this.saveFilePath);
 					  imageEvent.makeJSONObject();
