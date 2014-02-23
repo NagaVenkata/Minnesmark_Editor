@@ -833,6 +833,8 @@ public class MmAccordionMenuItems  {
 		panel.revalidate();
 	}
 	
+	
+	
 	public void setMarkersText(ArrayList<String> texts)
 	{
 		
@@ -846,7 +848,7 @@ public class MmAccordionMenuItems  {
 	
 	public void resetContent()
 	{
-		for(int i=0;i<18;i++)
+		for(int i=0;i<14;i++)
 		{
 			labels.get(i).setText(MmLanguage.language_markers[language][i]);
 			labels.get(i).setName("patt.marker"+Integer.toString(i+1));
@@ -891,7 +893,7 @@ public class MmAccordionMenuItems  {
 		
 		
 		
-		for(int i=0;i<18;i++)
+		for(int i=0;i<14;i++)
 		{
 			labels.get(i).setBackground(Color.white);
 		}

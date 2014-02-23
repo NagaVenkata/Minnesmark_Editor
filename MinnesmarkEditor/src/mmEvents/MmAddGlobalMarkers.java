@@ -693,7 +693,7 @@ public class MmAddGlobalMarkers extends JPanel {
 	public void setGlobalMarkers()
 	{
 		
-		for(int i=0;i<18;i++)
+		for(int i=0;i<14;i++)
 		{
 			station = new MmGlobalMarkerEvents();
 			station.setMarkerName("marker"+Integer.toString(i+1));

@@ -125,13 +125,18 @@ public class MmImageEvent {
 			e.printStackTrace();
 		}
 		
+		
+		
 		FileChannel src = null,des=null;
+		
+		
 		
 		try 
 		{
 			  			  
 			  File file = new File(destinationPath+"/images");
 			  
+			  //JOptionPane.showMessageDialog(null, file.getAbsolutePath());
 			  
 			  
 			  File desFilePath = new File(sourcePath);

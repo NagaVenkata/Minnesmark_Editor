@@ -190,7 +190,7 @@ public class MmMapViewer extends JPanel implements Printable {
 	
 	ImageIcon icon;
 	
-	boolean isSaved;
+	boolean isSaved = false;
 	
 	String ledImage = null;
 	
@@ -2128,6 +2128,37 @@ public class MmMapViewer extends JPanel implements Printable {
 	
 	public void createJSONFile(String fileName,String filePath,ArrayList<MmGlobalMarkerEvents> markerEvents,MmStartEvents startEvents)
 	{
+		
+		File file1 = new File(fileName);
+		
+		action = new JSONArray();
+		
+		if(file1.exists())
+		{
+			if(!events.getStations().isEmpty())
+			{
+				
+				for(int i=0;i<events.getStations().size();i++)
+				{
+					events.getStations().get(i).clearContent();
+				}
+			}
+			
+			if(!markerEvents.isEmpty())
+			{
+				
+				for(int i=0;i<markerEvents.size();i++)
+				{
+					if(markerEvents.get(i).getNumberOfEvents()!=0)
+					{	
+					   
+					   markerEvents.get(i).clearContent();
+					}   
+				}
+			}
+			
+			startEvents.clearContent();
+		}
 	
 		action = new JSONArray();
 		JSONArray eventsArray = new JSONArray();
@@ -2272,7 +2303,7 @@ public class MmMapViewer extends JPanel implements Printable {
 		       for(int i=0;i<events.getStations().size();i++)
 		       {
 		    	   		   	   
-			   	   
+			   	  
 			   	  compassEvents(eventsArray,events.getStations().get(i));
 			   	  
 			   	   
@@ -2280,7 +2311,7 @@ public class MmMapViewer extends JPanel implements Printable {
 			   	   {	   
 			   	         events.getStations().get(i).writeJson(filePath,events.getStations().get(i+1));
 			   	   }   
-			   	       
+			   	   else    
                    if(events.getStations().size()==1 || i==events.getStations().size()-1)
 			   	   {
                 	   
@@ -2383,11 +2414,23 @@ public class MmMapViewer extends JPanel implements Printable {
 			   
 			   if(!fileName.contains(".json"))
 				   fileName = fileName+".json";
+			   
+			   File file = new File(fileName);
+			   
+			   if(file.exists())
+			   {
 				   
-			   FileWriter  writeJsonFile = new FileWriter(fileName);
-			   writeJsonFile.write(eventsArray.toString(4));
-	    	   writeJsonFile.flush();
-	    	   writeJsonFile.close();
+				   file.delete();
+			   }
+				
+			   if(!file.exists())
+			   {	
+				  
+			      FileWriter  writeJsonFile = new FileWriter(fileName);
+			      writeJsonFile.write(eventsArray.toString(4));
+	    	      writeJsonFile.flush();
+	    	      writeJsonFile.close();
+			   }   
 	       }
 	       catch(Exception e)
 	       {
@@ -2422,8 +2465,6 @@ public class MmMapViewer extends JPanel implements Printable {
 		JSONObject numRegionsAttributes = new JSONObject();
 		
 		
-			
-		
 		try {
 			
 			   trailName.put("name", "Title");
@@ -2457,8 +2498,6 @@ public class MmMapViewer extends JPanel implements Printable {
 			   
 			   numRegions.put("attributes",numRegionsAttributes);
 			   
-			   
-			   
 			   		   
 			   String ledName = title.getName();
 			   
@@ -2486,13 +2525,16 @@ public class MmMapViewer extends JPanel implements Printable {
 		}
 		
 		
-		
-		
-		
 		//writing start events data
+		
+		
 		
 		if(!startEvents.getTexts().isEmpty())
 		{
+			 for(int i=0;i<startEvents.getTexts().size();i++)
+			 {	 
+			    JOptionPane.showMessageDialog(null, "size of events "+startEvents.getTexts().get(i));
+			 }   
 			 startEvents.writeJson(filePath);
 			 startEvents.writeJsonObjects(jsonObjects);
 			 startEvents.writeBackgroundImage(jsonObjects);
@@ -2860,15 +2902,20 @@ public class MmMapViewer extends JPanel implements Printable {
 	{
 		try
 		{
+			
+			
 			for(int i=0;i<geoPos.size();i++)
 			{
 				JSONObject object = new JSONObject();
 				object.put("name", "mapMarker"+Integer.toString(i+1));
 				object.put("type", "marker");
 				
+				File desFilePath = new File(System.getProperty("user.dir")+"/mapmarkers/"+"patt.map_marker"+Integer.toString(i+1));
+				
 				JSONObject attribute = new JSONObject();
 				attribute.put("markerName", "patt.map_marker"+Integer.toString(i+1));
 				attribute.put("modelName", "base.osg");
+				attribute.put("markerSize",desFilePath.length());
 				object.put("attributes", attribute);
 				jsonObjects.put(object);
 				
@@ -2886,6 +2933,7 @@ public class MmMapViewer extends JPanel implements Printable {
 				JSONObject attribute1 = new JSONObject();
 				attribute1.put("markerName", "patt.map_marker"+Integer.toString(i+1));
 				attribute1.put("modelName", "diamond.osg");
+				attribute1.put("markerSize",desFilePath.length());
 				object1.put("attributes", attribute1);
 				jsonObjects.put(object1);
 				
@@ -3177,10 +3225,14 @@ public class MmMapViewer extends JPanel implements Printable {
 	
 	public boolean getSavedState()
 	{
-		
+		System.out.println("is saved "+isSaved);
+		return isSaved;
+	}
+	
+	public boolean getChangedState()
+	{
 		if(events.getSavedState() && mapMarkerWindow.getSavedState())
 			return true;
-			
 		return false;
 	}
 	
@@ -3246,10 +3298,15 @@ public class MmMapViewer extends JPanel implements Printable {
 	public void readJSONFileContents(String fileName,MmAccordionMenu menuItem)
 	{
 		//JSONParser mapParser = new JSONParser();
-				
+		
+		ledImage = null;
 		menuItems = menuItem;
 		
 		menuItems.getGlobalMarkers().setGlobalMarkers();
+		
+		menuItems.getStartEvents().setContent();
+		
+		
 		
 		
 		//JOptionPane.showMessageDialog(null, "filename "+fileName);
@@ -3394,12 +3451,25 @@ public class MmMapViewer extends JPanel implements Printable {
 		if(ledImage!=null)
 		{
 			menuItem.addMenuItem("start", ledImage,"",0);
+			
 		}	
 		
 		
 		for(int i=0;i<menuItems.getStartEvents().getTextPaths().size();i++)
 		{
-				menuItem.addMenuItem("start", menuItems.getStartEvents().getTexts().get(i),menuItems.getStartEvents().getTextPaths().get(i), i+1);
+			 
+			 if(!menuItems.getStartEvents().getTexts().get(i).isEmpty())
+			 {	 
+				 if(ledImage!=null)
+				 {	 
+				     if(!menuItems.getStartEvents().getTexts().get(i).contains(ledImage))
+			          menuItem.addMenuItem("start", menuItems.getStartEvents().getTexts().get(i),menuItems.getStartEvents().getTextPaths().get(i), i);
+				 }
+				 else
+					 menuItem.addMenuItem("start", menuItems.getStartEvents().getTexts().get(i),menuItems.getStartEvents().getTextPaths().get(i), i); 
+				 
+			 }		 
+			     
 		}
 		
 			
@@ -3417,13 +3487,13 @@ public class MmMapViewer extends JPanel implements Printable {
 	
 	public void parseJsonObject(JSONObject jsonObject,int index)
 	{
-	
+		
 		int stationIndex=-1;
 		try
 		{
 			if(!jsonObject.isNull("type"))
 			{	
-												
+													
 			   if(jsonObject.optString("type").equals("region"))
 			   {
 
@@ -3545,7 +3615,7 @@ public class MmMapViewer extends JPanel implements Printable {
 						   
 						   if(jsObject.optString("type").equals("audio"))
 						   {
-	 					       
+							   
 	 					       if(jsObject.get("name").toString().equals(action))
 	 					       {
 	 						       parseAudioEvent(jsObject);
@@ -3594,13 +3664,13 @@ public class MmMapViewer extends JPanel implements Printable {
 		    if(jsonObject.optString("type").equals("panorama"))
 			{
 				parsePanoramaEvent(jsonObject);
-			} 
+			}*/ 
 			   
 			   
-			if(jsonObject.optString("type").equals("message"))
+			if(jsonObject.optString("type").equals("message") && jsonObject.get("name").toString().indexOf("start")==0)
 			{
 				parseMessageEvent(jsonObject);
-			}*/
+			}
 			       
 			   
 			if(jsonObject.optString("type").equals("model"))
@@ -3609,7 +3679,7 @@ public class MmMapViewer extends JPanel implements Printable {
 			}
 			       
 			   
-			/*if(jsonObject.optString("type").equals("audio"))
+			if(jsonObject.optString("type").equals("audio") && jsonObject.get("name").toString().indexOf("start")==0)
 			{
 				parseAudioEvent(jsonObject);
 				
@@ -3617,10 +3687,10 @@ public class MmMapViewer extends JPanel implements Printable {
 			   
 			
 			   
-			if(jsonObject.optString("type").equals("video"))
+			if(jsonObject.optString("type").equals("video") && jsonObject.get("name").toString().indexOf("start")==0)
 			{
 				parseVideoEvent(jsonObject);
-			}*/
+			}
 			       
 			   
 			if(jsonObject.optString("type").equals("compass"))
@@ -3644,7 +3714,14 @@ public class MmMapViewer extends JPanel implements Printable {
 				JSONObject attributes = (JSONObject) jsonObject.get("attributes");
 				String attrs = attributes.get("ledImage").toString();
 				ledImage=attrs;
-								
+			    File filename = new File(openFileName.getParent()+"/images/"+attributes.get("ledImage").toString());
+	    		if(filename.exists())
+	    		{	  
+	    			menuItems.getStartEvents().getTexts().set(0, ledImage);	
+		            menuItems.getStartEvents().getTextPaths().set(0,filename.getAbsolutePath());
+		           
+		              
+	    		}					
 			}
 			
 			
@@ -3728,7 +3805,7 @@ public class MmMapViewer extends JPanel implements Printable {
 	    		   in current string. The index should be zero that is every events marker name */
 		    	  
 			      int markerIndex=-1;
-			      for(int i=1;i<19;i++)
+			      for(int i=1;i<15;i++)
 			      {
 			    	   if(jsonObject.get("name").toString().indexOf("marker"+Integer.toString(i))==0)
 			    	   {	  
@@ -3740,7 +3817,7 @@ public class MmMapViewer extends JPanel implements Printable {
 							     attrs +=MmLanguage.language_events[language][0];
 			    			 }    
 			    			 File imageFile = new File(openFileName.getParent()+"/images/"+attributes.get("imageName").toString());
-					         JOptionPane.showMessageDialog(null, "markers "+menuItems.getGlobalMarkers().getStations().size());		
+					         //JOptionPane.showMessageDialog(null, "markers "+menuItems.getGlobalMarkers().getStations().size());		
 				    		 if(imageFile.exists())
 							     menuItems.getGlobalMarkers().getStations().get(markerIndex).setLabelsText(attrs,imageFile.getAbsolutePath());
 				    		 else
@@ -3750,20 +3827,26 @@ public class MmMapViewer extends JPanel implements Printable {
 			    	   }	  
 			    			      
 			      }
-			      
-			     if(jsonObject.get("name").toString().indexOf("start")==0)
-				 {
+			     
+			     for(int i=1;i<5;i++)
+			     { 	 
+			        if(jsonObject.get("name").toString().indexOf("start"+Integer.toString(i))==0)
+				    {
 			    	 
-				     String attrs = attributes.get("imageName").toString();
-				     menuItems.getStartEvents().getTexts().add(attrs);
-				     File filename = new File(openFileName.getParent()+"/images/"+attributes.get("imageName").toString());
-		    		  if(filename.exists())
-		    		  {	  
-			              menuItems.getStartEvents().getTextPaths().add(filename.getAbsolutePath());
-			              
-		    		  }    
-		    		  else
-		    			  showMessage(MmLanguage.language_jsonException[language][0]);
+				        String attrs = attributes.get("imageName").toString();
+				        menuItems.getStartEvents().getTexts().set(i, attrs);
+				        File filename = new File(openFileName.getParent()+"/images/"+attributes.get("imageName").toString());
+		    		    if(filename.exists())
+		    		    {	  
+			               menuItems.getStartEvents().getTextPaths().set(i,filename.getAbsolutePath());
+		   
+			            }    
+		    		    else
+		    			   showMessage(MmLanguage.language_jsonException[language][0]);
+		    		    
+		    		    break;
+				    }   
+			        
 				 } 
 			     
 			     
@@ -3920,7 +4003,7 @@ public class MmMapViewer extends JPanel implements Printable {
 	    		   in current string. The index should be zero that is every events marker name */
 		    	  
 			      int markerIndex=-1;
-			      for(int i=1;i<19;i++)
+			      for(int i=1;i<15;i++)
 			      {
 			    	   if(jsonObject.get("name").toString().indexOf("marker"+Integer.toString(i))==0)
 			    	   {	  
@@ -4092,7 +4175,7 @@ public class MmMapViewer extends JPanel implements Printable {
 	    		   in current string. The index should be zero that is every events marker name */
 		    	  
 			      int markerIndex=-1;
-			      for(int i=1;i<19;i++)
+			      for(int i=1;i<15;i++)
 			      {
 			    	   if(jsonObject.get("name").toString().indexOf("marker"+Integer.toString(i))==0)
 			    	   {	  
@@ -4113,13 +4196,17 @@ public class MmMapViewer extends JPanel implements Printable {
 			    			      
 			      }
 			      
-			     
-			     if(jsonObject.get("name").toString().indexOf("start")==0)
-			     {
-			    	 String attrs = attributes.get("fileName").toString();
-			    	 menuItems.getStartEvents().getTexts().add(attrs);
-			    	 menuItems.getStartEvents().getTextPaths().add("");
-		    		 
+			     for(int i=1;i<5;i++)
+			     {	 
+			         if(jsonObject.get("name").toString().indexOf("start"+Integer.toString(i))==0)
+			         {
+			        	 
+			    	     String attrs = attributes.get("fileName").toString();
+			    	     menuItems.getStartEvents().getTexts().set(i, attrs);
+			    	     menuItems.getStartEvents().getTextPaths().set(i,"");
+			    	     break;
+			         }    
+			         
 			     }
 			     
 			     JSONObject actions = (JSONObject) jsonObject.get("actions");
@@ -4276,7 +4363,7 @@ public class MmMapViewer extends JPanel implements Printable {
 	    		   in current string. The index should be zero that is every events marker name */
 		    	  
 			      int markerIndex=-1;
-			      for(int i=1;i<19;i++)
+			      for(int i=1;i<15;i++)
 			      {
 			    	   if(jsonObject.get("name").toString().indexOf("marker"+Integer.toString(i))==0)
 			    	   {	  
@@ -4344,7 +4431,7 @@ public class MmMapViewer extends JPanel implements Printable {
 			          
 			           			      
 			      int markerIndex=-1;
-			      for(int i=1;i<19;i++)
+			      for(int i=1;i<15;i++)
 			      {
 			    	   if(jsonObject.get("name").toString().indexOf("marker"+Integer.toString(i))==0)
 			    	   {	  
@@ -4366,16 +4453,23 @@ public class MmMapViewer extends JPanel implements Printable {
 			     }
 				
 			      
-			     if(jsonObject.get("name").toString().indexOf("start")==0)
-				 {
-			    	 String attrs = attributes.get("filename").toString();
-				     menuItems.getStartEvents().getTexts().add(attrs);
+			     for(int i=1;i<5;i++)
+				 { 	 
+				    if(jsonObject.get("name").toString().indexOf("start"+Integer.toString(i))==0)
+				    {
+			    	    String attrs = attributes.get("filename").toString();
+				        menuItems.getStartEvents().getTexts().set(i, attrs);
 				     
-				     File filename = new File(openFileName.getParent()+"/audios/"+attributes.get("filename").toString());
-		    		 if(filename.exists())
-			               menuItems.getStartEvents().getTextPaths().add(filename.getAbsolutePath());
-		    		 else
-		    			  showMessage(MmLanguage.language_jsonException[language][2]);
+				        File filename = new File(openFileName.getParent()+"/audios/"+attributes.get("filename").toString());
+				     
+		    		    if(filename.exists())
+			                 menuItems.getStartEvents().getTextPaths().set(i,filename.getAbsolutePath());
+		    		    	
+		    		    else
+		    			     showMessage(MmLanguage.language_jsonException[language][2]);
+		    		    break;
+				    }  
+				    
 				 } 
 			     
 			     
@@ -4535,7 +4629,7 @@ public class MmMapViewer extends JPanel implements Printable {
 	    		   in current string. The index should be zero that is every events marker name */
 		    	  
 			      int markerIndex=-1;
-			      for(int i=1;i<19;i++)
+			      for(int i=1;i<15;i++)
 			      {
 			    	   if(jsonObject.get("name").toString().indexOf("marker"+Integer.toString(i))==0)
 			    	   {	  
@@ -4556,18 +4650,25 @@ public class MmMapViewer extends JPanel implements Printable {
 			      }
 			      
 			      
-			      		     
-		          if(jsonObject.get("name").toString().indexOf("start")==0)
-			      {
-		        	  //JOptionPane.showMessageDialog(null, "image Event "+jsonObject.get("name"));
-			          String attrs = attributes.get("filename").toString();
-			          menuItems.getStartEvents().getTexts().add(attrs);
+			      for(int i=1;i<5;i++)		  
+			      { 	  
+		             if(jsonObject.get("name").toString().indexOf("start"+Integer.toString(i))==0)
+			         {
+		        	    //JOptionPane.showMessageDialog(null, "image Event "+jsonObject.get("name"));
+		            	JOptionPane.showMessageDialog(null, i); 
+			            String attrs = attributes.get("filename").toString();
+			            String str = menuItems.getStartEvents().getTexts().set(i,attrs);
+			            str = attrs;
 			          
-			          File filename = new File(openFileName.getParent()+"/videos/"+attributes.get("filename").toString());
-		    		  if(filename.exists())
-			               menuItems.getStartEvents().getTextPaths().add(filename.getAbsolutePath());
-		    		  else
-		    			  showMessage(MmLanguage.language_jsonException[language][3]);
+			            File filename = new File(openFileName.getParent()+"/videos/"+attributes.get("filename").toString());
+		    		    if(filename.exists())	
+			                menuItems.getStartEvents().getTextPaths().set(i,filename.getAbsolutePath());
+		    		    	
+		    		    else
+		    			    showMessage(MmLanguage.language_jsonException[language][3]);
+		    		    
+		    		    break;
+			         }   
 			      } 
 		          
 		          

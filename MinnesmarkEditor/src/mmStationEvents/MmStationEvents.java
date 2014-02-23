@@ -76,6 +76,7 @@ public class MmStationEvents {
 		collectItems = new ArrayList<Integer>();
 		
 		otherActions = new ArrayList<String>();
+		action = new JSONArray();
 	}
 	
 	public MmStationEvents(String name)
@@ -398,6 +399,8 @@ public class MmStationEvents {
 		nextStation = next_station;
 		
 		stationIndex = -1;
+		
+		currentLabelIndex=0;
 				
 		this.saveFilePath = saveFilePath;
 		stationEvent = new JSONObject();
@@ -2592,15 +2595,14 @@ public class MmStationEvents {
 	{
 		
 		jsonEvents.put(stationEvent);
-		
-		
-		
-		
+			
 		/*for(int i=0;i<markerEvents.size();i++)
 			jsonEvents.put(markerEvents.get(i).getMarkerEvent());*/
 		
 		for(int i=0;i<imageEvents.size();i++)
 			jsonEvents.put(imageEvents.get(i).getImageEvent());
+		
+		
 		
 		for(int i=0;i<audioEvents.size();i++)
 			jsonEvents.put(audioEvents.get(i).getAudioEvent());
@@ -2618,6 +2620,20 @@ public class MmStationEvents {
 			jsonEvents.put(messageEvents.get(i).getMessageEvent());
 		
 		
+	}
+	
+	public void clearContent()
+	{
+	    stationEvent = null;
+	    action = null;
+		imageEvents.clear();
+		audioEvents.clear();
+		modelEvents.clear();
+		panoramaEvents.clear();
+		videoEvents.clear();
+		messageEvents.clear();
+		
+		action = new JSONArray();
 	}
 	
 }

@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -41,6 +43,7 @@ public class MmStartEvents {
     		eventNames[i] = "";
     	}
     	
+    	setContent();
     	
     }
     
@@ -60,11 +63,27 @@ public class MmStartEvents {
     }
     
     
-    public void addText(String text,String path)
+    public void addText(String text,String path,int index)
     {
-    	labelsText.add(text);
-    	pathsText.add(path);
+    	
+    	labelsText.set(index, text);
+    	pathsText.set(index,path);
+    	eventNames[index] ="";  
+    	
+    	
+    	
     }
+    
+    public void removeText(String text)
+    {
+    	//System.out.println(labelsText.size());
+    	int index = labelsText.indexOf(text);
+    	labelsText.set(index,"");
+    	pathsText.set(index,"");
+    	
+    	
+    }
+    
     
     //adds the event at paticular index
     public void addPaths(String path,int index)
@@ -86,11 +105,26 @@ public class MmStartEvents {
     	return pathsText;
     }
     
+    public void  setContent()
+    {
+    	labelsText.clear();
+    	pathsText.clear();
+    	for(int i=0;i<4;i++)
+    	{	
+    	    labelsText.add("");
+    	    pathsText.add("");
+    	    eventNames[i] ="";
+    	} 
+    	
+    	
+    }
+    
     
     public void writeJson(String saveFilePath)
     {
     	for(int i=0;i<labelsText.size();i++)
     	{
+    		
     		String text = labelsText.get(i);
     		if((text.contains("jpg"))||(text.contains("png"))||(text.contains("bmp")))
     		{
@@ -231,7 +265,8 @@ public class MmStartEvents {
 		    	 
 				  MmMessageEvent messageEvent = new MmMessageEvent();
 				  messageEvent.setEventName("start"+Integer.toString(i)+"_message");
-				  eventNames[i] = "start"+Integer.toString(i)+"_message";				  
+				  eventNames[i] = "start"+Integer.toString(i)+"_message";
+				  messageEvent.setMessageFile(new File(pathsText.get(i)).getName());
 				  messageEvent.setSourcePath(pathsText.get(i));
 				  messageEvent.setDestinationPath(saveFilePath);
 				  messageEvent.makeJSONObject();
@@ -273,6 +308,7 @@ public class MmStartEvents {
     {
     	try
     	{
+    		
     		startEvent = new JSONObject();
     		startEvent.put("name", "BackGroundImage");
     		startEvent.put("type", "backgroundimage");
@@ -368,6 +404,16 @@ public class MmStartEvents {
 			
 		}
 
+    }
+    
+    public void clearContent()
+    {
+    	audioEvents.clear();
+        videoEvents.clear();
+        imageEvents.clear();
+        messageEvents.clear();
+        
+       
     }
 
 }

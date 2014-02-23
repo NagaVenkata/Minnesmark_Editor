@@ -323,5 +323,11 @@ public class MmMarkerEvent {
 	{
 		return events;
 	}
+	
+	public void clearContent()
+	{
+		action = null;
+		action = new JSONArray();
+	}
 
 }

@@ -475,7 +475,7 @@ public class MmAddEvents extends JPanel {
 				 lb1.setOpaque(false);
 				 isSaved=false;		 
 				 
-				 map.setSaved(false);
+				 //map.setSaved(false);
 				 
 				 System.out.println("index "+index);
 				
@@ -833,7 +833,7 @@ public class MmAddEvents extends JPanel {
 		 station.setGPSRadius(gpsRadius);
 		 station.setStationType(stationType);
 		 stationEvents.add(station);
-		 map.setSaved(false);
+		 //map.setSaved(false);
 		 eventPanel.removeAll();
 		 currentIndex=0;
 		 if(station.getLabels().isEmpty())

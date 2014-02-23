@@ -60,7 +60,10 @@ public class MmAccordionMenu extends JPanel  {
 	
 	JDialog frame1; 
 	
+	boolean isStartEventsSaved;
 	
+	
+
 	String text;
 	
 	MmStartEvents startEvents;
@@ -593,7 +596,7 @@ public class MmAccordionMenu extends JPanel  {
 								lb.setBackground(Color.white);
 								lb.setText(openFile.getSelectedFile().getName());
 								lb.setName(openFile.getSelectedFile().getName());
-								startEvents.addText(openFile.getSelectedFile().getName(), openFile.getSelectedFile().getAbsolutePath());
+								startEvents.addText(openFile.getSelectedFile().getName(), openFile.getSelectedFile().getAbsolutePath(),index);
 							}
 							else
 							{
@@ -607,11 +610,14 @@ public class MmAccordionMenu extends JPanel  {
 						   lb.setBackground(Color.white);
 						   lb.setText(openFile.getSelectedFile().getName());
 						   lb.setName(openFile.getSelectedFile().getName());
-						   startEvents.addText(openFile.getSelectedFile().getName(), openFile.getSelectedFile().getAbsolutePath());
+						   startEvents.addText(openFile.getSelectedFile().getName(), openFile.getSelectedFile().getAbsolutePath(),index);
 						   
 				        }
 				    	
-					}	
+					}
+					
+					isStartEventsSaved = false; 
+				
 				    
 				}
 	  	    	
@@ -627,18 +633,39 @@ public class MmAccordionMenu extends JPanel  {
 					
 					int index = item.getMenuItem().get(0).getMarkerSelected();
 					
+					String  text = item.getMenuItem().get(0).getMarkerSelectedText();
+					
 					item.getMenuItem().get(0).removeSelectedItem(index);
 					
 					if(index==0)
 					{
+						startEvents.removeText(text);
 						item.getMenuItem().get(0).setMarkerSelectedText(MmLanguage.language_startMedia[language][0]);
 					}
-				    	
+					else
+					{
+						startEvents.removeText(text);
+						item.getMenuItem().get(0).setMarkerSelectedText(MmLanguage.language_startMedia[language][1]);
+					}
+				    
+					isStartEventsSaved = false;
 				}
 	  	    	
 	  	    });
 	  	  }
         }	    
+	}
+	
+	public boolean isStartEventsSaved() {
+		
+		return isStartEventsSaved;
+		
+	}
+
+	public void setStartEventsSaved(boolean isStartEventsSaved) {
+		
+		this.isStartEventsSaved = isStartEventsSaved;
+		
 	}
 	
 	 public void backgroundPaint(String menu,Color c) {
@@ -659,6 +686,39 @@ public class MmAccordionMenu extends JPanel  {
 	 public MmAddGlobalMarkers getMarkers()
 	 {
 		 return markerEvents;
+	 }
+	 
+	 public int getCurrentAtiveMarkersCount()
+	 {
+		 int count =0;
+		 
+		 for(int i=0;i<getGlobalMarkerEvents().size();i++)
+		 {
+			 if(getGlobalMarkerEvents().get(i).getNumberOfEvents()!=0)
+			 {
+				 count++;
+			 }
+		 }
+		 
+		 return count;
+	 }
+	 
+	 public boolean getMarkersSavedState()
+	 {
+		 
+		 if(getCurrentAtiveMarkersCount()!=0)
+		 {
+			return markerEvents.getSavedState();
+		 }
+		 
+		 return false;
+	 }
+	 
+	 public void setMarkerstSavedState(boolean save)
+	 {
+		 
+		 markerEvents.setSaved(save);
+		 
 	 }
 	 
 	 public void printMarker()

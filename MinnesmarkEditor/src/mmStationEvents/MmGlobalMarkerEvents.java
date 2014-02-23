@@ -281,6 +281,8 @@ public class MmGlobalMarkerEvents {
 	}
 	
 	
+	
+	
 	public void addMouseEvents()
 	{
 		for(int i=0;i<labels.size();i++)
@@ -338,7 +340,7 @@ public class MmGlobalMarkerEvents {
 		
 		this.saveFilePath = saveFilePath;
 		
-		
+		markerEvent = new MmMarkerEvent();
 		
 		markerEvent.setEventName(this.markerName);
 		markerEvent.setMarkerIndex(markerIndex+1);
@@ -934,7 +936,7 @@ public class MmGlobalMarkerEvents {
 						   }
 						   audioEvent.setSourcePath(lb.getName());
 						   audioEvent.setDestinationPath(this.saveFilePath);
-					       audioEvent.setAudioFileName(lb.getText());
+					       //audioEvent.setAudioFileName(lb.getText());
 					       audioEvent.makeJSONObject();
 					       currentLabelIndex++;
 					       if(!createAudioEvent(audioEvent))
@@ -961,7 +963,7 @@ public class MmGlobalMarkerEvents {
 								   videoEvent.setCollectItem(true);
 								   collectItems.add(new Integer(collectItems.size()+1));
 							   }
-							  videoEvent.setVideoFileName(lb.getText());
+							  //videoEvent.setVideoFileName(lb.getText());
 							  videoEvent.setSourcePath(lb.getName());
 							  videoEvent.setDestinationPath(this.saveFilePath);
 							  imageEvent.addActions(videoEvent.getEventName());
@@ -2495,6 +2497,20 @@ public class MmGlobalMarkerEvents {
 		for(int i=0;i<messageEvents.size();i++)
 			jsonEvents.put(messageEvents.get(i).getMessageEvent());
 		
+		
+	}
+	
+	public void clearContent()
+	{
+		markerEvent.clearContent();
+		markerEvent = null;
+		
+		imageEvents.clear();
+		audioEvents.clear();
+		modelEvents.clear();
+		panoramaEvents.clear();
+		videoEvents.clear();
+		messageEvents.clear();
 		
 	}
 	
