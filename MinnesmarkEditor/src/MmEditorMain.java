@@ -1208,7 +1208,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 				    save_file = null;
 				}
 				
-				if(!isSaved && map.isFileOpen())
+				if(!isSaved)
 				{
 					Object[] options = {MmLanguage.language_options[language][0],
 							MmLanguage.language_options[language][1],
