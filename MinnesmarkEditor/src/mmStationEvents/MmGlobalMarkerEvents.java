@@ -46,7 +46,7 @@ public class MmGlobalMarkerEvents {
     
     int currentLabelIndex=0;
     
-    boolean isLastMarker;
+    boolean isLastMarker = false;
     
    
 	
@@ -430,9 +430,10 @@ public class MmGlobalMarkerEvents {
 			    	    }   
 			    	    else
 			    	    {
-			    		   //if(isLastMarker)
+			    		   imageEvent.addActions("MarkerDetect");
+			    		   if(isLastMarker)
 			    		   {
-			    			   imageEvent.addActions("MarkerDetect");
+			    			   
 			    			   imageEvent.addActions("Done");
 			    		   }
 			    		   break;
@@ -476,8 +477,10 @@ public class MmGlobalMarkerEvents {
 			    	  else
 			    	  {
 			    		  //if(isLastMarker)
-				    	  {
-				    		  panoramaEvent.addActions("MarkerDetect");
+				    	   panoramaEvent.addActions("MarkerDetect");
+				    	if(isLastMarker)
+				    	{
+				    			   	  
 				    		  panoramaEvent.addActions("Done");
 				    	  } 
 			    		  break;
@@ -522,10 +525,10 @@ public class MmGlobalMarkerEvents {
 			    	  } 
 			    	  else
 			    	  {		  
-			    		  //if(isLastMarker)
+			    		  audioEvent.addActions("MarkerDetect");
+				    	  if(isLastMarker)
 				    	  {
-				    		  audioEvent.addActions("MarkerDetect");
-				    		  audioEvent.addActions("Done");
+				    		 audioEvent.addActions("Done");
 				    	  } 
 			    		  break;
 			    	  }	 
@@ -566,8 +569,11 @@ public class MmGlobalMarkerEvents {
 			    	  else
 			    	  {	  
 			    		  //if(isLastMarker)
+				    	  videoEvent.addActions("MarkerDetect");
+				    	  
+				    	  if(isLastMarker)
 				    	  {
-				    		  videoEvent.addActions("MarkerDetect");
+				    			   	  
 				    		  videoEvent.addActions("Done");
 				    	  } 
 			    		  break;
@@ -814,8 +820,10 @@ public class MmGlobalMarkerEvents {
 		    if(labels.get(currentLabelIndex).getText().isEmpty())
 		    {
 		    	//if(isLastMarker)
-		    	{
-		    		imageEvent.addActions("MarkerDetect");
+		    	imageEvent.addActions("MarkerDetect");
+		    	if(isLastMarker)
+		        {
+		    			   		
 		    		imageEvent.addActions("Done");
 		    	} 
 	    		imageEvent.JSONActions();
@@ -1066,8 +1074,10 @@ public class MmGlobalMarkerEvents {
 		 {	
 				System.out.println("label index "+currentLabelIndex+" labels size "+labels.size());
 				//if(isLastMarker)
-			    {
-			    	imageEvent.addActions("MarkerDetect");
+			    imageEvent.addActions("MarkerDetect");
+			    if(isLastMarker)
+		        {
+		    			    	
 			    	imageEvent.addActions("Done");
 			    }
 				imageEvent.JSONActions();
@@ -1091,8 +1101,10 @@ public class MmGlobalMarkerEvents {
 		   if(labels.get(currentLabelIndex).getText().isEmpty())
 		   {
 			   //if(isLastMarker)
-		       {
-		    	   panoramaEvent.addActions("MarkerDetect");
+		       panoramaEvent.addActions("MarkerDetect");
+		       if(isLastMarker)
+	    	   {
+	    			   	   
 		    	   panoramaEvent.addActions("Done");
 		       }
 			   panoramaEvent.JSONActions();
@@ -1365,8 +1377,10 @@ public class MmGlobalMarkerEvents {
 		   if(labels.get(currentLabelIndex).getText().isEmpty())
 		   {
 			   //if(isLastMarker)
-		       {
-		    	   modelEvent.addActions("MarkerDetect");
+		       modelEvent.addActions("MarkerDetect");
+		       if(isLastMarker)
+	    	   {
+	    			    	   
 		    	   modelEvent.addActions("Done");
 		       } 
 			   modelEvent.JSONActions();
@@ -1608,8 +1622,10 @@ public class MmGlobalMarkerEvents {
 		{	
 			System.out.println("label index "+currentLabelIndex+" labels size "+labels.size());
 			//if(isLastMarker)
-		    {
-		    	modelEvent.addActions("MarkerDetect");
+		    modelEvent.addActions("MarkerDetect");
+		    if(isLastMarker)
+	    	{
+	    			    	
 		    	modelEvent.addActions("Done");
 		    }
 			modelEvent.JSONActions();
@@ -1631,8 +1647,10 @@ public class MmGlobalMarkerEvents {
 		   if(labels.get(currentLabelIndex).getText().isEmpty())
 		   {
 			   //if(isLastMarker)
-		       {
-		    	   audioEvent.addActions("MarkerDetect");
+		       audioEvent.addActions("MarkerDetect");
+		       if(isLastMarker)
+	    	   {
+	    			         	   
 		    	   audioEvent.addActions("Done");
 		       }
 			   audioEvent.JSONActions();
@@ -1883,8 +1901,10 @@ public class MmGlobalMarkerEvents {
 		{	
 			System.out.println("label index "+currentLabelIndex+" labels size "+labels.size());
 			//if(isLastMarker)
-		    {
-		    	audioEvent.addActions("MarkerDetect");
+		    audioEvent.addActions("MarkerDetect");
+		    if(isLastMarker)
+	    	{
+	    			   	
 		    	audioEvent.addActions("Done");
 		    }
 			audioEvent.JSONActions();
@@ -1903,8 +1923,10 @@ public class MmGlobalMarkerEvents {
 		   if(labels.get(currentLabelIndex).getText().isEmpty())
 		   {
 			   //if(isLastMarker)
-		       {
-		    	   videoEvent.addActions("MarkerDetect");
+		       videoEvent.addActions("MarkerDetect");
+		       if(isLastMarker)
+	    	   {
+	    			   	   
 		    	   videoEvent.addActions("Done");
 		       }
 			   videoEvent.JSONActions();
@@ -2140,9 +2162,10 @@ public class MmGlobalMarkerEvents {
 		if(labels.size()>=currentLabelIndex)
 		{	
 			System.out.println("label index "+currentLabelIndex+" labels size "+labels.size());
-			//if(isLastMarker)
-		    {
-		    	videoEvent.addActions("MarkerDetect");
+			videoEvent.addActions("MarkerDetect");
+		    if(isLastMarker)
+	    	{
+	    			   	
 		    	videoEvent.addActions("Done");
 		    }
 			videoEvent.JSONActions();
@@ -2163,8 +2186,10 @@ public class MmGlobalMarkerEvents {
 		   if(labels.get(currentLabelIndex).getText().isEmpty())
 		   {
 			   //if(isLastMarker)
-		       {
-		    	   messageEvent.addActions("MarkerDetect");
+		       messageEvent.addActions("MarkerDetect");
+		       if(isLastMarker)
+	    	   {
+	    			   	   
 		    	   messageEvent.addActions("Done");
 		       }
 			   messageEvent.JSONActions();
@@ -2402,8 +2427,10 @@ public class MmGlobalMarkerEvents {
 		{	
 			System.out.println("label index "+currentLabelIndex+" labels size "+labels.size());
 			//if(isLastMarker)
-		    {
-		    	messageEvent.addActions("MarkerDetect");
+		    messageEvent.addActions("MarkerDetect");
+		    if(isLastMarker)
+	    	{
+	    			     	
 		    	messageEvent.addActions("Done");
 		    }
 			messageEvent.JSONActions();

@@ -2467,6 +2467,7 @@ public class MmMapViewer extends JPanel implements Printable {
 		
 		try {
 			
+			  
 			   trailName.put("name", "Title");
 			   trailName.put("type", "title");
 			   
@@ -2481,6 +2482,8 @@ public class MmMapViewer extends JPanel implements Printable {
 			   //number of regions events
 			   numRegions.put("name", "NumberOfRegions");
 			   numRegions.put("type", "NumberOfRegions");
+			   
+			   
 			   
 			   //JOptionPane.showMessageDialog(null, "geo pos "+geoPoints.size());
 			   
@@ -2513,8 +2516,16 @@ public class MmMapViewer extends JPanel implements Printable {
 			   initializeEvents.put("name", "launch");
 			   initializeEvents.put("type", "generic");
 			   
-			   if(!this.getStations().isEmpty() && (startEvents.getTexts().size()<=1))
+			   
+			   
+			   //if(!this.getStations().isEmpty() && (!startEvents.getTexts().isEmpty()))
+			   
+			   
+			   if(!this.getStations().isEmpty())
+			   {	
+				   
 			       startActionArray.put("compassView");
+			   }    
 			   
 			   action.put("Start");
 			   			   
@@ -2531,10 +2542,6 @@ public class MmMapViewer extends JPanel implements Printable {
 		
 		if(!startEvents.getTexts().isEmpty())
 		{
-			 for(int i=0;i<startEvents.getTexts().size();i++)
-			 {	 
-			    JOptionPane.showMessageDialog(null, "size of events "+startEvents.getTexts().get(i));
-			 }   
 			 startEvents.writeJson(filePath);
 			 startEvents.writeJsonObjects(jsonObjects);
 			 startEvents.writeBackgroundImage(jsonObjects);
@@ -2622,6 +2629,7 @@ public class MmMapViewer extends JPanel implements Printable {
 				{	
 				   if(i==globalMarkers.size()-1 && events.getStations().isEmpty())
 				   {
+					   
 					   globalMarkers.get(i).setLastMarker(true);
 				   }
 				   globalMarkers.get(i).writeJson(filePath);
