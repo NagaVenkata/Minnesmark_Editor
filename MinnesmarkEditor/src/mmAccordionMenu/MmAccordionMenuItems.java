@@ -582,7 +582,7 @@ public class MmAccordionMenuItems  {
 		
 		
 		
-		if(menuName.equals("start") &&  labels.size()<4)
+		//if(menuName.equals("start") &&  labels.size()<4)
 		{
 			lb.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
 			lb.setOpaque(false);

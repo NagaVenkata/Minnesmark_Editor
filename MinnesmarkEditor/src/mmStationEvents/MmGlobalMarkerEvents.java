@@ -177,7 +177,10 @@ public class MmGlobalMarkerEvents {
 		   }
 		
 		  if(eventsText.contains("<html>"))
+		  {
 		      eventsText +="</html>";
+		  }
+		  
 		}
 		
 		return eventsText;

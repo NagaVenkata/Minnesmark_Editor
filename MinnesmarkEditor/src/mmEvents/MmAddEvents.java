@@ -626,7 +626,8 @@ public class MmAddEvents extends JPanel {
 				
 				
 				if(map.geoPos.size()==1 || map.checkDistance())
-				{		
+				{	
+					
 				    eventDialog.setVisible(false);
 				    if(dialogFrame!=null)
 				       dialogFrame.setVisible(false);

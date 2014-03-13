@@ -20,11 +20,13 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.event.AncestorEvent;
@@ -257,7 +259,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
         ArrayList<JLabel> texts = new ArrayList<JLabel>();
         
         for(int i=0;i<14;i++)
-        	texts.add(addLabel(MmLanguage.language_markers[language][i],"patt.marker"+Integer.toString(i+1)));
+        	texts.add(addLabel(MmLanguage.language_markers[language][i],"patt.marker"+Integer.toString(i+1),i));
         
         
         
@@ -273,12 +275,12 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 	    //third menu
 	    accordionMenu.addMenu(MmLanguage.language[language][4], "start");
 	    ArrayList<JLabel> texts1 = new ArrayList<JLabel>();
-        texts1.add(addLabel(MmLanguage.language_startMedia[language][0],"text"));
-        texts1.add(addLabel(MmLanguage.language_startMedia[language][1],"text"));
-        texts1.add(addLabel(MmLanguage.language_startMedia[language][1],"text"));
-        texts1.add(addLabel(MmLanguage.language_startMedia[language][1],"text"));
-        texts1.add(addLabel("","text"));
-        texts1.add(addLabel("","text"));
+        texts1.add(addStartLabel(MmLanguage.language_startMedia[language][0],"text"));
+        texts1.add(addStartLabel(MmLanguage.language_startMedia[language][1],"text"));
+        texts1.add(addStartLabel(MmLanguage.language_startMedia[language][1],"text"));
+        texts1.add(addStartLabel(MmLanguage.language_startMedia[language][1],"text"));
+        texts1.add(addStartLabel("","text"));
+        texts1.add(addStartLabel("","text"));
                 
         
 	    accordionMenu.addLabelItems("start",texts1);
@@ -511,10 +513,32 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 	}
 	
 	
-	public JLabel addLabel(String text,String name)
+	public JLabel addStartLabel(String text,String name)
 	{
 		JLabel lb = new JLabel(text);
 		lb.setName(name);
+		return lb;
+	}
+	
+	public JLabel addLabel(String text,String name,int index)
+	{
+		JLabel lb = new JLabel(text);
+		lb.setName(name);
+		File imgname = new File(System.getProperty("user.dir")+"/globalmarkers/pattern"+Integer.toString(index+1)+".png");
+		Image img;
+		try {
+			img = ImageIO.read(imgname);
+			img = img.getScaledInstance(40,40,0);
+			
+			
+			//ImageIcon img = new ImageIcon();
+			
+			lb.setIcon(new ImageIcon(img));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		return lb;
 	}
