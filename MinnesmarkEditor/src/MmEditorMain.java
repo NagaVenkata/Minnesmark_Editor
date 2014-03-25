@@ -1121,6 +1121,10 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 				    accordionMenu.getStartEvents().clearContent();
 				    accordionMenu.setSearchText(":"+MmLanguage.language_search[language][0]);
 				    map.resetMapContents();
+				    map.setSaved(false);
+				    accordionMenu.setMarkerstSavedState(false);
+					accordionMenu.setStartEventsSaved(false); 
+				    
 				    window.setTitle("Untitled - "+windowTitle);
 				}
 				else
@@ -1735,7 +1739,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 	    			if(!map.getStations().isEmpty())
 	    			{
 	    				map.isPrintSelected=true;
-	    				pBook.append(map,printer.defaultPage());
+	    		        pBook.append(map,printer.defaultPage());
 	    			}		
 	    			
 	    			if(!accordionMenu.getGlobalMarkerEvents().isEmpty())

@@ -923,7 +923,7 @@ public class MmStationEvents {
 					if(panoramaEvents.size()==0)
 						panoramaEvent.setEventName("station"+Integer.toString(stationIndex)+"_panorama");
 					else
-						panoramaEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(audioEvents.size())+"_panorama");
+						panoramaEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(panoramaEvents.size())+"_panorama");
 						imageEvent.addActions(panoramaEvent.getEventName());
 						imageEvent.makeJSONObject();
 						panoramaEvents.add(panoramaEvent);
@@ -940,7 +940,8 @@ public class MmStationEvents {
 							panoramaEvent.setCollectItem(true);
 							collectItems.add(new Integer(collectItems.size()+1));
 						}	   
-						   
+						panoramaEvent.setSourcePath(lb.getName());
+						panoramaEvent.setDestinationPath(this.saveFilePath);
 						panoramaEvent.makeJSONObject();
 						currentLabelIndex++;
 						
@@ -1158,7 +1159,7 @@ public class MmStationEvents {
 			   if(panoramaEvents.size()==0)
 				   nextPanoramaEvent.setEventName("station"+Integer.toString(stationIndex)+"_panorama");
 			   else
-				   nextPanoramaEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(audioEvents.size())+"_panorama");
+				   nextPanoramaEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(panoramaEvents.size())+"_panorama");
 			   panoramaEvent.addActions(nextPanoramaEvent.getEventName());
 			   panoramaEvent.JSONActions();
 			   panoramaEvents.add(nextPanoramaEvent);
@@ -1193,9 +1194,9 @@ public class MmStationEvents {
 //			    	    
 //			    	}     
 			    	
-			        nextPanoramaEvent.JSONActions();
-				    panoramaEvents.add(nextPanoramaEvent);
-				    panoramaEvent.addActions(nextPanoramaEvent.getEventName());	
+			        //nextPanoramaEvent.JSONActions();
+				    //panoramaEvents.add(nextPanoramaEvent);
+				    //panoramaEvent.addActions(nextPanoramaEvent.getEventName());	
 				    
 				    if(!createPanoramaEvent(nextPanoramaEvent))
 				    	return false;
@@ -1447,7 +1448,7 @@ public class MmStationEvents {
 			   if(panoramaEvents.size()==0)
 				   panoramaEvent.setEventName("station"+Integer.toString(stationIndex)+"_panorama");
 			   else
-				   panoramaEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(audioEvents.size())+"_panorama");
+				   panoramaEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(panoramaEvents.size())+"_panorama");
 			   modelEvent.addActions(panoramaEvent.getEventName());
 			   modelEvent.JSONActions();
 			   panoramaEvents.add(panoramaEvent);
@@ -1724,7 +1725,7 @@ public class MmStationEvents {
 			   if(panoramaEvents.size()==0)
 				   panoramaEvent.setEventName("station"+Integer.toString(stationIndex)+"_panorama");
 			   else
-				   panoramaEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(audioEvents.size())+"_panorama");
+				   panoramaEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(panoramaEvents.size())+"_panorama");
 			   audioEvent.addActions(panoramaEvent.getEventName());
 			   audioEvent.JSONActions();
 			   panoramaEvents.add(panoramaEvent);
@@ -2020,7 +2021,7 @@ public class MmStationEvents {
 			   if(panoramaEvents.size()==0)
 				   panoramaEvent.setEventName("station"+Integer.toString(stationIndex)+"_panorama");
 			   else
-				   panoramaEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(audioEvents.size())+"_panorama");
+				   panoramaEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(panoramaEvents.size())+"_panorama");
 			   videoEvent.addActions(panoramaEvent.getEventName());
 			   videoEvent.JSONActions();
 			   panoramaEvents.add(panoramaEvent);
@@ -2300,7 +2301,7 @@ public class MmStationEvents {
 			   if(panoramaEvents.size()==0)
 				   panoramaEvent.setEventName("station"+Integer.toString(stationIndex)+"_panorama");
 			   else
-				   panoramaEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(audioEvents.size())+"_panorama");
+				   panoramaEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(panoramaEvents.size())+"_panorama");
 			   messageEvent.addActions(panoramaEvent.getEventName());
 			   messageEvent.JSONActions();
 			   panoramaEvents.add(panoramaEvent);
@@ -2632,6 +2633,7 @@ public class MmStationEvents {
 		panoramaEvents.clear();
 		videoEvents.clear();
 		messageEvents.clear();
+		collectItems.clear();
 		
 		action = new JSONArray();
 	}

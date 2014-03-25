@@ -3300,6 +3300,7 @@ public class MmMapViewer extends JPanel implements Printable {
 		swingPos.clear();
 		mapMarkerWindow.resetMapMarkers();
 		drawPoints();
+		
 	}
 	
 	//reads a json file and parsers them to corresponding events
@@ -5226,15 +5227,15 @@ public class MmMapViewer extends JPanel implements Printable {
                 }
                 
                 }
-                else
+                /*else
                 {
                 	
                     
                     for (final GeoPosition gp : geoPos) {
                         // convert geo to world bitmap pixel
-                    	
+                    	JOptionPane.showMessageDialog(null, "entered");
                     	//Image geoMarker = new ImageIcon(System.getProperty("user.dir")+"/markers/map_marker"+Integer.toString(imageIndex+1)+".png").getImage();
-                    	Image geoMarker = new ImageIcon(getClass().getResource("/map_marker"+Integer.toString(imageIndex+1)+".png")).getImage();
+                    	Image geoMarker = new ImageIcon(getClass().getResource("/mapmarkers/map_marker"+Integer.toString(imageIndex+1)+".png")).getImage();
                     	
                         final Point2D pt = mapKit.getMainMap().getTileFactory().geoToPixel(gp, mapKit.getMainMap().getZoom());
                         
@@ -5256,8 +5257,8 @@ public class MmMapViewer extends JPanel implements Printable {
                         g.drawString(Integer.toString(imageIndex-1)+":patt.map_marker"+Integer.toString(imageIndex), (int)(pt.getX()-rect.x-20),(int)(pt.getY()-rect.y+20));  
                         
                         imageIndex++;
-                    }*/
-                }
+                    }
+                }*/
                 
                             
                 g.dispose();
@@ -5266,8 +5267,38 @@ public class MmMapViewer extends JPanel implements Printable {
                 updateMapMarkerPositions(rect.x,rect.y);
                  
               } 
+                else
+                {
+                	
+                    
+                    for (final GeoPosition gp : geoPos) {
+                        // convert geo to world bitmap pixel
+                    	//JOptionPane.showMessageDialog(null, "entered ");
+                    	File img = new File(System.getProperty("user.dir")+"/printmarkers/map_marker"+Integer.toString(imageIndex+1)+".png");
+                    	Image geoMarker=null;
+						try {
+							geoMarker = ImageIO.read(img);
+							geoMarker = geoMarker.getScaledInstance(25, 25, 0);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+                    	//Image geoMarker = new ImageIcon(getClass().getResource("/mapmarkers/map_marker"+Integer.toString(imageIndex+1)+".png")).getImage();
+                    	
+                        final Point2D pt = mapKit.getMainMap().getTileFactory().geoToPixel(gp, mapKit.getMainMap().getZoom());
+                        
+                        pt.setLocation(pt.getX()-geoMarker.getHeight(null)/2,pt.getY()-geoMarker.getHeight(null)/2-20);
+                        g.drawImage(geoMarker, (int)(pt.getX()-rect.x),(int)(pt.getY()-rect.y), null);  
+                        
+                        imageIndex++;
+                    }
+                    
+                    imageIndex = 2;
+                    
+                    
+                } 
                 
-                
+                g.dispose();
             }
 
         };
