@@ -856,6 +856,7 @@ public class MmAddEvents extends JPanel {
 		}   
 		 
 				
+	
 		latText.setText(Double.toString(station.getLatitude()));
 	    lanText.setText(Double.toString(station.getLongitude()));
 	}

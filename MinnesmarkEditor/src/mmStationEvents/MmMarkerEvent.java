@@ -24,6 +24,8 @@ public class MmMarkerEvent {
     String sourcePath,destinationPath;
     
     boolean collectItem;
+    
+    int angle=0;
 	
 	public boolean isCollectItem() {
 		return collectItem;
@@ -122,6 +124,11 @@ public class MmMarkerEvent {
 		return this.panoramaIndex;
 	}
 	
+	public void setAngle(int angle)
+	{
+		this.angle = angle;
+	}
+	
 	public void makeJSONObject()
 	{
 		try 
@@ -134,6 +141,7 @@ public class MmMarkerEvent {
 			attributes.put("modelName", this.modelFile);
 			File desFilePath = new File(sourcePath);
 			attributes.put("markerSize", desFilePath.length());
+			attributes.put("angle", this.angle);
 			
 			if(collectItem)
 			     attributes.put("collectItem", true);

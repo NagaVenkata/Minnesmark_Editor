@@ -1061,7 +1061,10 @@ public class MmStationEvents {
 					      if(lb.getText().contains(".txt"))
 						   { 	  
 								  MmMessageEvent messageEvent = new MmMessageEvent();
-								  messageEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(messageEvents.size())+"_message"); 
+								  if(messageEvents.size()==0)
+								      messageEvent.setEventName("station"+Integer.toString(stationIndex)+"_message");
+								  else
+									  messageEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(messageEvents.size())+"_message");
 								  String[] attrs = lb.getText().split(":");
 								  if(attrs.length<=1)
 								  {	   
@@ -1313,7 +1316,10 @@ public class MmStationEvents {
 		      if(lb.getText().contains(".txt"))
 			   { 	  
 					  MmMessageEvent messageEvent = new MmMessageEvent();
-					  messageEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(videoEvents.size())+"_message"); 
+					  if(messageEvents.size()==0)
+					      messageEvent.setEventName("station"+Integer.toString(stationIndex)+"_message");
+					  else
+						  messageEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(messageEvents.size())+"_message"); 
 					  String[] attrs = lb.getText().split(":");
 					  if(attrs.length<=1)
 					  {	   
@@ -1590,7 +1596,10 @@ public class MmStationEvents {
 		      if(lb.getText().contains(".txt"))
 			   { 	  
 					  MmMessageEvent messageEvent = new MmMessageEvent();
-					  messageEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(videoEvents.size())+"_message"); 
+					  if(messageEvents.size()==0)
+					      messageEvent.setEventName("station"+Integer.toString(stationIndex)+"_message");
+					  else
+						  messageEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(messageEvents.size())+"_message"); 
 					  String[] attrs = lb.getText().split(":");
 					  if(attrs.length<=1)
 					  {	   
@@ -1881,7 +1890,10 @@ public class MmStationEvents {
 		      if(lb.getText().contains(".txt"))
 			   { 	  
 					  MmMessageEvent messageEvent = new MmMessageEvent();
-					  messageEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(videoEvents.size())+"_message"); 
+					  if(messageEvents.size()==0)
+					      messageEvent.setEventName("station"+Integer.toString(stationIndex)+"_message");
+					  else
+						  messageEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(messageEvents.size())+"_message"); 
 					  String[] attrs = lb.getText().split(":");
 					  if(attrs.length<=1)
 					  {	   
@@ -2158,7 +2170,10 @@ public class MmStationEvents {
 		       if(lb.getText().contains(".txt"))
 			   { 	  
 					  MmMessageEvent messageEvent = new MmMessageEvent();
-					  messageEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(videoEvents.size())+"_message"); 
+					  if(messageEvents.size()==0)
+					      messageEvent.setEventName("station"+Integer.toString(stationIndex)+"_message");
+					  else
+						  messageEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(messageEvents.size())+"_message"); 
 					  String[] attrs = lb.getText().split(":");
 					  if(attrs.length<=1)
 					  {	   
@@ -2431,7 +2446,10 @@ public class MmStationEvents {
 		      if(lb.getText().contains(".txt"))
 			   { 	  
 					  MmMessageEvent nextMessageEvent = new MmMessageEvent();
-					  nextMessageEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(videoEvents.size())+"_video"); 
+					  if(messageEvents.size()==0)
+					      nextMessageEvent.setEventName("station"+Integer.toString(stationIndex)+"_message");
+					  else
+						  nextMessageEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(messageEvents.size())+"_message"); 
 					  String[] attrs = lb.getText().split(":");
 					  
 					  if(attrs.length<=1)

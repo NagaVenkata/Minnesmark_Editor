@@ -1742,13 +1742,13 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 	    		        pBook.append(map,printer.defaultPage());
 	    			}		
 	    			
-	    			if(!accordionMenu.getGlobalMarkerEvents().isEmpty())
+	    			if(accordionMenu.getCurrentAtiveMarkersCount()!=0)
 	    			{
 	    				index=accordionMenu.getGlobalMarkerEvents().get(0).getMarkerIndex();
 	    			    pBook.append(new MmPrintMarkers(System.getProperty("user.dir")+"/globalmarkers/pattern"+Integer.toString(index+1)+".png" ,accordionMenu.getGlobalMarkerEvents().get(0),language), printer.defaultPage());
 	    			}    
 	    			
-					for(int i=1;i<accordionMenu.getGlobalMarkerEvents().size();i++)
+					for(int i=1;i<accordionMenu.getCurrentAtiveMarkersCount();i++)
 					{		
 					   index = accordionMenu.getGlobalMarkerEvents().get(i).getMarkerIndex();
 					   
