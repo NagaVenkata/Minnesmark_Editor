@@ -83,6 +83,8 @@ public class MmAddGlobalMarkers extends JPanel {
 	ImageIcon[] images;
 	
 	int language;
+	
+	JFileChooser fileChooser = new JFileChooser();
 
 	public MmAddGlobalMarkers(JDialog frame1)
 	{
@@ -873,7 +875,7 @@ public class MmAddGlobalMarkers extends JPanel {
 		if(station!=null)
 		   currentIndex = station.getActualLabelsCount();
 		
-        JFileChooser fileChooser = new JFileChooser();
+        //JFileChooser fileChooser = new JFileChooser();
 		
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		
@@ -887,6 +889,9 @@ public class MmAddGlobalMarkers extends JPanel {
 		int val = fileChooser.showOpenDialog(null);
 	       if (val == JFileChooser.APPROVE_OPTION) {
 	    	   File file = fileChooser.getSelectedFile();
+	    	   
+	    	   fileChooser.setCurrentDirectory(fileChooser.getCurrentDirectory());
+	    	   
 	    	   if(currentIndex<4)
 	    	   {  
 	    		  

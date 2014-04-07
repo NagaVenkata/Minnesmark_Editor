@@ -769,7 +769,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 		
 		ArrayList<String> markerTexts = new ArrayList<String>();
 		
-		for(int i=0;i<18;i++)
+		for(int i=0;i<14;i++)
 			markerTexts.add(new String(MmLanguage.language_markers[language][i]));
 		
 		accordionMenu.setMarkersText(markerTexts);
@@ -1216,7 +1216,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 				
 				isSaved = accordionMenu.isStartEventsSaved();
 				
-				if(isSaved && map.isFileOpen())
+				/*if(isSaved && map.isFileOpen())
 				{
 					map.resetMapContents();
 					if(!accordionMenu.getGlobalMarkerEvents().isEmpty())
@@ -1234,7 +1234,7 @@ public class MmEditorMain extends JFrame implements ActionListener,AWTEventListe
 				    accordionMenu.setStartEventsSaved(true);
 				    dirFile = null;
 				    save_file = null;
-				}
+				}*/
 				
 				if(!isSaved)
 				{

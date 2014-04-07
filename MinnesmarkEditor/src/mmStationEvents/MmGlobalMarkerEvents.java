@@ -250,7 +250,7 @@ public class MmGlobalMarkerEvents {
 			}
 		}
 		
-		if(count<4)
+		if(count!=-1 && count<4)
 		{
 			labels.get(count).setText(text);
 			labels.get(count).setName(path);
@@ -591,6 +591,8 @@ public class MmGlobalMarkerEvents {
 			      { 	  
 			    	     	  
 			    	  String[] attrs = lb.getText().split(":");
+			    	  
+			    	  markerEvent.addActions("MarkerDetect");
 			    	  
 			    	  if(lb.getText().contains("Model"))
 			    	  {

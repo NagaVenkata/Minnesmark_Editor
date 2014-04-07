@@ -21,6 +21,7 @@ public class MmObj_OsgWriter {
 		filePath=path;
 	}
 	
+	
 	public  static void WriteObj_OsgFile(String sourcePath,String destinationPath)
 	{
 		

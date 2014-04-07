@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.*;
 
 import org.jdesktop.swingx.mapviewer.GeoPosition;
 import org.json.*;
@@ -95,6 +96,8 @@ public class MmStationEvents {
 	public void setStationName(String name)
 	{
 		this.stationName = name;
+		
+		System.out.println("Station name "+stationName);
 		
 		if(this.stationName.length()==8)
 		{
@@ -219,7 +222,7 @@ public class MmStationEvents {
 		JLabel lb = new JLabel(text);
 		lb.setName(path);
 		
-		int count =-1;
+		int count = -1;
 		
 		for(int i=0;i<labels.size();i++)
 		{
@@ -230,8 +233,9 @@ public class MmStationEvents {
 			}
 		}
 		
-		if(count<4)
+		if(count!=-1 && count<4)
 		{
+			
 			labels.get(count).setText(text);
 			labels.get(count).setName(path);
 			current_index++;
@@ -256,6 +260,72 @@ public class MmStationEvents {
 		return this.stationName;
 	}
 	
+	public int getStationIndexFromSwingPoint()
+	{
+		int index;
+		if(this.getStationType())
+		{
+			String[] subStr = this.stationName.split("_");
+			
+			if(subStr.length>0)
+			{
+				String str = subStr[0];
+				str = str.substring(str.length()-1);
+				index = Integer.parseInt(str);
+				
+				return index;
+			}
+		}
+		
+		return 0;
+	}
+	
+	public int getSwingIndexFromSwingPoint()
+	{
+		int index;
+		if(this.getStationType())
+		{
+			String[] subStr = this.stationName.split("_");
+			
+			Pattern pattern = Pattern.compile("[0-9]+");
+			
+			
+			
+			if(subStr.length>0)
+			{
+				
+				String str = subStr[subStr.length-1];
+				Matcher matcher = pattern.matcher(str);
+				while(matcher.find())
+				{
+					System.out.println("matches "+matcher.group());
+					index = Integer.parseInt(matcher.group());
+					return index;
+				}
+				//str = str.substring(str.length()-1);
+				//index = Integer.parseInt(str);
+				//System.out.println("index of swing point from name "+index);
+				//return index;
+			}
+		}
+		
+		return 0;
+	}
+	
+	public int getStationIndexFromStation()
+	{
+		int index;
+		if(!this.getStationType())
+		{
+				String str = this.stationName.substring(this.stationName.length()-1);
+				index = Integer.parseInt(str);
+				
+				return index;
+			
+		}
+		
+		return 0;
+	}
 	public double getLatitude()
 	{
 		return this.latitude;
@@ -685,7 +755,7 @@ public class MmStationEvents {
 			    	  {	
 			    	     if(!createVideoEvent(videoEvent))
 			    	     {	 
-			    	    	 videoEvent.addActions("mapEditMarker"+Integer.toString(stationIndex)); 
+			    	    	 //videoEvent.addActions("mapEditMarker"+Integer.toString(stationIndex)); 
 			    	    	 break;
 			    	     }  	 
 			    	  }   
@@ -784,7 +854,7 @@ public class MmStationEvents {
 			    	   {	
 			    	     if(!createMessageEvent(messageEvent))
 			    	     {
-			    	    	 messageEvent.addActions("mapEditMarker"+Integer.toString(stationIndex)); 
+			    	    	 //messageEvent.addActions("mapEditMarker"+Integer.toString(stationIndex)); 
 			    	    	 break;
 			    	     }	 
 			    	   }   
@@ -868,6 +938,9 @@ public class MmStationEvents {
 			  else
 				  nextImageEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(imageEvents.size())+"image");
 			  
+			  imageEvent.JSONActions();
+			  imageEvents.add(nextImageEvent);
+			  imageEvent.addActions(nextImageEvent.getEventName());
 			        String[] attrs = lb.getText().split(":");
 			        
 			        if(attrs.length<=1)
@@ -891,7 +964,7 @@ public class MmStationEvents {
 			        
 				    
 				    currentLabelIndex++;
-				    if(currentLabelIndex<labels.size())
+				    if(currentLabelIndex<=labels.size())
 				    {	
 				    	//JOptionPane.showMessageDialog(null, "Entered image event");
 				    	nextImageEvent.makeJSONObject();
@@ -901,9 +974,7 @@ public class MmStationEvents {
 //						    else
 //						    	imageEvent.addActions("EnableStation"+Integer.toString(nextStation.getSwingPointStationIndex())+"SwingPoint"+Integer.toString(nextStation.getIndexStationNameIndex())+"Compass");     
 				    	
-				        nextImageEvent.JSONActions();
-					    imageEvents.add(nextImageEvent);
-					    imageEvent.addActions(nextImageEvent.getEventName());	
+				        	
 				        
 					    if(!createImageEvent(nextImageEvent))
 					    	return false;
@@ -1050,7 +1121,7 @@ public class MmStationEvents {
 							  modelEvent.makeJSONObject();
 							  modelEvents.add(modelEvent);
 					    	  currentLabelIndex++;
-					    	  if(currentLabelIndex<=labels.size())
+					    	  if(currentLabelIndex<labels.size())
 					    	  {	
 					    		  if(!createModelEvent(modelEvent))
 					    			  return false;
@@ -1958,7 +2029,7 @@ public class MmStationEvents {
 					    audioEvent.JSONActions();
 					    
 					    currentLabelIndex++;
-				    	if(currentLabelIndex<=labels.size())
+				    	if(currentLabelIndex<labels.size())
 				    	{	
 				    	     if(!createImageEvent(imageEvent))
 				    	     {
@@ -2013,7 +2084,7 @@ public class MmStationEvents {
 			    	    videoEvent.addActions("enableStation"+Integer.toString(nextStation.getIndexStationNameIndex())+"Compass");
 			        else
 			    	    videoEvent.addActions("enableStation"+Integer.toString(nextStation.getSwingPointStationIndex())+"SwingPoint"+Integer.toString(nextStation.getIndexStationNameIndex())+"Compass");
-			        
+			        videoEvent.addActions("mapEditMarker"+Integer.toString(stationIndex));
 		    	}
 			    else
 				{	
@@ -2095,6 +2166,9 @@ public class MmStationEvents {
 		   { 	  
 				  MmVideoEvent nextVideoEvent = new MmVideoEvent();
 				  nextVideoEvent.setEventName("station"+Integer.toString(stationIndex)+"_"+Integer.toString(videoEvents.size())+"_video"); 
+				  videoEvents.add(nextVideoEvent);
+				  videoEvent.addActions(nextVideoEvent.getEventName());
+				  videoEvent.JSONActions();
 				  String[] attrs = lb.getText().split(":");
 				  if(attrs.length<=1)
 				  {	   
@@ -2121,9 +2195,9 @@ public class MmStationEvents {
 //					    	videoEvent.addActions("EnableStation"+Integer.toString(nextStation.getSwingPointStationIndex())+"SwingPoint"+Integer.toString(nextStation.getIndexStationNameIndex())+"Compass");
 				      	    
 				    	
-				         nextVideoEvent.JSONActions();
-					     videoEvents.add(nextVideoEvent);
-					     videoEvent.addActions(nextVideoEvent.getEventName());	
+				         //nextVideoEvent.JSONActions();
+					     //videoEvents.add(nextVideoEvent);
+					     //videoEvent.addActions(nextVideoEvent.getEventName());	
 					     if(!createVideoEvent(nextVideoEvent))
 					    	 return false;
 				     	    	     
@@ -2264,7 +2338,7 @@ public class MmStationEvents {
 			    	videoEvent.addActions("enableStation"+Integer.toString(nextStation.getIndexStationNameIndex())+"Compass");
 			    else
 			    	videoEvent.addActions("enableStation"+Integer.toString(nextStation.getSwingPointStationIndex())+"SwingPoint"+Integer.toString(nextStation.getIndexStationNameIndex())+"Compass");
-			    
+			    videoEvent.addActions("mapEditMarker"+Integer.toString(stationIndex));
 	    	}    
 		    else
 			{	
@@ -2472,13 +2546,13 @@ public class MmStationEvents {
 			    	  {	
 			    		  nextMessageEvent.makeJSONObject();
 					    	
-					      if(currentLabelIndex==labels.size()-1)
+					      /*if(currentLabelIndex==labels.size()-1)
 					      {
 //					    	  if(!nextStation.getStationType())
 //							    	messageEvent.addActions("EnableStation"+Integer.toString(nextStation.getIndexStationNameIndex())+"Compass");
 //							    else
 //							    	messageEvent.addActions("EnableStation"+Integer.toString(nextStation.getSwingPointStationIndex())+"SwingPoint"+Integer.toString(nextStation.getIndexStationNameIndex())+"Compass");
-					      }
+					      }*/
 					    	    
 					    	
 					      nextMessageEvent.JSONActions();
@@ -2545,7 +2619,7 @@ public class MmStationEvents {
 			    	 messageEvent.addActions("enableStation"+Integer.toString(nextStation.getIndexStationNameIndex())+"Compass");
 			    else
 			    	 messageEvent.addActions("enableStation"+Integer.toString(nextStation.getSwingPointStationIndex())+"SwingPoint"+Integer.toString(nextStation.getIndexStationNameIndex())+"Compass");
-			    
+			    messageEvent.addActions("mapEditMarker"+Integer.toString(stationIndex));
 	    	}
 		    else
 			{	
