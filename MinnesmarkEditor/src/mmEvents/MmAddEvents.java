@@ -1077,7 +1077,7 @@ public class MmAddEvents extends JPanel {
 			System.out.println("station index before remove "+stationEvents.get(i).getStationName()+"  "+stationEvents.get(i).getStationType());
 		}*/
 		
-	    System.out.println("station index "+station_index+"  "+stationEvents.size());
+	    //System.out.println("station index "+station_index+"  "+stationEvents.size());
 			
 		if(index==0)
 		{
@@ -1143,11 +1143,11 @@ public class MmAddEvents extends JPanel {
 		
 		if((index)>0 && (index)<stationEvents.size()-1)
 		{
-		    System.out.println("index "+index);
+		    /*System.out.println("index "+index);
 			for(int i=index-1;i<stationEvents.size();i++)
 			{
 				System.out.println("data before "+stationEvents.get(i).getStationName()+"  "+stationEvents.get(i).getStationIndex());
-			}
+			}*/
 			
 			int removeStationIndex;
 			
@@ -1175,41 +1175,46 @@ public class MmAddEvents extends JPanel {
 			{
 				if(stationEvents.get(i).getStationType())
 				{
-					System.out.println("loop index "+i+"  "+stationIndx+"  "+stationEvents.get(i).getStationName());
+					/*System.out.println("loop index "+i+"  "+stationIndx+"  "+stationEvents.get(i).getStationName());
 					
 					System.out.println("station index "+stationEvents.get(i).getSwingPointStationIndex()+"  "+stationEvents.get(index-1).getStationIndex());
 					
-					System.out.println("swing index "+stationEvents.get(i).getSwingIndexFromSwingPoint());
+					System.out.println("swing index "+stationEvents.get(i).getSwingIndexFromSwingPoint());*/
 					
 					swingIndx = stationEvents.get(i).getSwingIndexFromSwingPoint();
 					
 					stationIndx = stationEvents.get(i).getSwingPointStationIndex();
 					
-					if(stationIndx == removeStationIndex)
+					if(stationIndx >= removeStationIndex)
 					{
 						stationIndx-=1;
 						swingIndx-=1;
 					}
 					
+					if(stationIndx != removeStationIndex)
+					{
+					   stationEvents.get(i).setStationIndex(stationIndx-1);
+					}  
+					else
+						stationEvents.get(i).setStationIndex(stationIndx);
 					
-					stationEvents.get(i).setStationIndex(stationIndx);
 					stationEvents.get(i).setStationName("station"+Integer.toString(stationIndx)+"_swingPoint"+Integer.toString(swingIndx));
-					stationEvents.get(i).setCurrentStationIndex(stationEvents.get(i).getCurrentStationIndex()-1);
+					stationEvents.get(i).setCurrentStationIndex(stationIndx);
 					
 				}
 				
 				if(!stationEvents.get(i).getStationType())
 				{
 					
-					System.out.println("loop index in station "+i);
-					System.out.println("Station index "+stationEvents.get(i).getStationIndexFromStation());
+					//System.out.println("loop index in station "+i);
+					//System.out.println("Station index "+stationEvents.get(i).getStationIndexFromStation());
 					
 					stationIndx = stationEvents.get(i).getStationIndexFromStation();
 					
 					if(stationIndx!=stationEvents.get(index-1).getStationIndex())
 						stationIndx-=1;
 					
-					stationEvents.get(i).setStationIndex(stationIndx);
+					stationEvents.get(i).setStationIndex(stationIndx-1);
 					stationEvents.get(i).setStationName("station"+Integer.toString(stationIndx));
 					stationEvents.get(i).setCurrentStationIndex(stationIndx);
 					
@@ -1327,6 +1332,12 @@ public class MmAddEvents extends JPanel {
 					
 			}
 			
+			for(int j=0;j<stationEvents.size();j++)
+			{
+				System.out.println("data after  last index "+stationEvents.get(j).getStationName()+"  "+stationEvents.get(j).getStationIndex());
+			}
+			
+			
 			return;
 		}
 		
@@ -1355,6 +1366,8 @@ public class MmAddEvents extends JPanel {
 			}	
 			
 		}
+		
+		
 		
 		
 		

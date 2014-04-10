@@ -603,14 +603,9 @@ public class MmAddEventsDialog extends JPanel implements ActionListener {
 				// TODO Auto-generated method stub
 				JLabel lb = (JLabel) textPanel.getComponent(componentIndex);
 				ImageIcon image1 = new ImageIcon(lb.getName());
-				if(image1.getIconWidth()<=1024 && image1.getIconHeight()<=1024)
+				if(image1.getIconWidth()>=1024 && image1.getIconHeight()>=1024)
 				{	
-
-					 panoramaChkbx.setSelected(true);
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(null, MmLanguage.language_mediaException[language][3]+" "+image1.getIconWidth()+" och "+image1.getIconHeight());
+                    JOptionPane.showMessageDialog(null, MmLanguage.language_mediaException[language][3]+" "+image1.getIconWidth()+" och "+image1.getIconHeight());
 					panoramaChkbx.setSelected(false);
 				}
 			}

@@ -358,7 +358,7 @@ public class MmSwingPoints {
 	    int meterConversion = 1609;
 	    float pntDist = new Float(dist * meterConversion).floatValue();
 	       
-	     System.out.println("pnt distance "+pntDist);  
+	     //System.out.println("pnt distance "+pntDist);  
 	       	       
 	     if(pntDist<=40)
 	     {	   
@@ -415,6 +415,47 @@ public class MmSwingPoints {
 		
 		return false;
 	}
+	
+	public boolean isPointPresent(Point pnt)
+	{
+		/*draw a imaginary circle with radius of five around the swing point
+		 * then calculate the distance between the current point and the swing point
+		 * the should be less than squre of radius. 
+		 */
+	    //System.out.println("type "+getEndPointType()+"  "+getEndPointRadius());
+		
+		if(getEndPointRadius()==10)
+		{	
+		  	
+			
+			Rectangle rect = new Rectangle(endPoint.x-20,endPoint.y-25,40,40);
+			
+			//System.out.println("data "+rect.contains(pnt));
+			
+			if(rect.contains(pnt))
+			{
+				return true;
+			}
+			
+		}
+		else if(getEndPointRadius()!=10)
+		{	
+		  	
+			
+			Rectangle rect1 = new Rectangle(endPoint.x-5,endPoint.y-5,10,10);
+			
+			//System.out.println("data "+rect.contains(pnt));
+			
+			if(rect1.contains(pnt))
+			{
+				return true;
+			}
+			
+		}	   	
+		
+		return false;
+	}
+	
 	
 	
 

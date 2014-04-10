@@ -298,7 +298,7 @@ public class MmStationEvents {
 				Matcher matcher = pattern.matcher(str);
 				while(matcher.find())
 				{
-					System.out.println("matches "+matcher.group());
+					//System.out.println("matches "+matcher.group());
 					index = Integer.parseInt(matcher.group());
 					return index;
 				}
