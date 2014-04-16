@@ -587,7 +587,7 @@ public class MmGlobalMarkerEvents {
 			      
 			      lb = labels.get(currentLabelIndex);
 			      
-			      if(lb.getText().contains(".obj") || lb.getText().contains("Model"))
+			      if(lb.getText().contains(".obj") || lb.getText().contains("Model") || lb.getText().contains(".osg"))
 			      { 	  
 			    	     	  
 			    	  String[] attrs = lb.getText().split(":");
@@ -966,6 +966,10 @@ public class MmGlobalMarkerEvents {
 							     videoEvent.setEventName("marker"+Integer.toString(markerIndex+1)+"_video");
 							  else
 								  videoEvent.setEventName("marker"+Integer.toString(markerIndex+1)+"_"+Integer.toString(videoEvents.size())+"_video");
+							  
+							  imageEvent.addActions(videoEvent.getEventName());
+							  imageEvent.JSONActions();
+							  
 							   String[] attrs = lb.getText().split(":");
 							   if(attrs.length<=1)
 							   {	   
@@ -981,8 +985,6 @@ public class MmGlobalMarkerEvents {
 							  //videoEvent.setVideoFileName(lb.getText());
 							  videoEvent.setSourcePath(lb.getName());
 							  videoEvent.setDestinationPath(this.saveFilePath);
-							  imageEvent.addActions(videoEvent.getEventName());
-							  imageEvent.JSONActions();
 							  videoEvent.makeJSONObject();
 					    	  videoEvents.add(videoEvent);
 					    	  currentLabelIndex++;
@@ -1744,8 +1746,8 @@ public class MmGlobalMarkerEvents {
 		    	
 		     	 		    	
 		         nextAudioEvent.JSONActions();
-			     audioEvents.add(nextAudioEvent);
-			     audioEvent.addActions(nextAudioEvent.getEventName());	
+			     //audioEvents.add(nextAudioEvent);
+			     //audioEvent.addActions(nextAudioEvent.getEventName());	
 			     if(!createAudioEvent(nextAudioEvent))
 			    	 return false;
 		         
@@ -2036,14 +2038,16 @@ public class MmGlobalMarkerEvents {
 				  nextVideoEvent.setSourcePath(lb.getName());
 				  nextVideoEvent.setDestinationPath(this.saveFilePath);
 				  
+				  nextVideoEvent.makeJSONObject();
+			    	
+			      videoEvent.JSONActions();
+				  videoEvents.add(nextVideoEvent);
+				  videoEvent.addActions(nextVideoEvent.getEventName());
+				  
 		    	  currentLabelIndex++;
 		    	  if(currentLabelIndex<=labels.size())
 		    	  {	
-		    		  nextVideoEvent.makeJSONObject();
-				    	
-				      nextVideoEvent.JSONActions();
-					  videoEvents.add(nextVideoEvent);
-					  videoEvent.addActions(nextVideoEvent.getEventName());	
+		    		  	
 					  if(!createVideoEvent(nextVideoEvent))
 						  return false;
 				     	    	     

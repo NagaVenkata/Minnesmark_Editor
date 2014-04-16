@@ -848,10 +848,12 @@ public class MmMapViewer extends JPanel implements Printable {
         				//System.out.println("clicked index and point "+clickedEdge+" "+isPointPresent);
         				if(clickedEdge!= -1)
         				{
-        					System.out.println("index value of j "+j);
+        					//System.out.println("index value of j "+j);
         					edgeIndex = j;
         					isPointPresent=true;
         					mapKit.getMainMap().setPanEnabled(false);
+        					if(edgeIndex+1>=events.getStations().size())
+        						edgeIndex-=1;
         					break;
         				}
                                      				
@@ -942,9 +944,10 @@ public class MmMapViewer extends JPanel implements Printable {
         	        			 MmSwingPoints swgPnts = new MmSwingPoints();
         	 					 swgPnts.setStartPoint(swingPos.get(i).getStartPoint());
         	 					 swgPnts.setStartGeoPosition(getGeoPosition(swingPos.get(i).getStartPoint()));
+        	 				 	 swgPnts.setStartPointRadius(swingPos.get(i).getStartPointRadius());
         	 					 swgPnts.setEndPoint(swingPos.get(i+1).getEndPoint());
         	 					 swgPnts.setEndGeoPosition(swingPos.get(i+1).getEndGeoPosition());
-        	 					 swgPnts.setEndPointRadius(5);
+        	 					 swgPnts.setEndPointRadius(swingPos.get(i+1).getEndPointRadius());
         	 					 swgPnts.setStationIndex(swingPos.get(i).getStationIndex());
         	 					 swgPnts.setEndPointType(true);
         	 					 
@@ -999,7 +1002,6 @@ public class MmMapViewer extends JPanel implements Printable {
 							
 							if(swingPos.size()>1)
 							{
-								
 								deleteStations_WayPoints(mousePos.get(index).getPoint());
 							}
 							
@@ -1008,6 +1010,8 @@ public class MmMapViewer extends JPanel implements Printable {
 							
 							if(geoPos.size()==1)
 								swingPos.clear();
+							
+							//JOptionPane.showMessageDialog(null, "data "+edgeIndex+"  "+events.getStations().size());
 							
 							if(index==0)
 							    events.removeStation(index);
@@ -1080,6 +1084,7 @@ public class MmMapViewer extends JPanel implements Printable {
 							geoPos.set(index,getGeoPosition(currentStationPoint));
 						    swingPos.get(edgeIndex).setEndPoint(currentStationPoint);
 					  	    swingPos.get(edgeIndex).setEndGeoPosition(getGeoPosition(currentStationPoint));
+					  	    
 					  	    events.updateStationGeoPosition(edgeIndex+1, getGeoPosition(currentStationPoint));
 						}
 					}
@@ -1409,6 +1414,8 @@ public class MmMapViewer extends JPanel implements Printable {
 				
 		//System.out.println("station point "+point+"  "+(edgeIndex+1));
 		
+		//JOptionPane.showMessageDialog(null, "swingPos  "+edgeIndex+1);
+		
 		if((edgeIndex+1)>0 && (edgeIndex+1)<=swingPos.size()-1)
 		{
 			
@@ -1419,15 +1426,28 @@ public class MmMapViewer extends JPanel implements Printable {
 				
 				//System.out.println("index points before "+swingPos.size());
 				
+				//JOptionPane.showMessageDialog(null, "size  "+swingPos.size());
+				
 			     //if(swingPos.get(i).getEndPoint().equals(point) || (swingPos.get(i).getEndPoint().equals(pnt1)))
 				 if(swingPos.get(i).isPointPresent(point))
 			     {
-			    	 swingPos.get(i).setEndPoint(swingPos.get(i+1).getEndPoint());
+					 MmSwingPoints swgPnt = new MmSwingPoints();
+					 swgPnt.setStartPoint(swingPos.get(i).getStartPoint());
+					 swgPnt.setStartGeoPosition(swingPos.get(i).getStartGeoPosition());
+					 swgPnt.setStartPointRadius(swingPos.get(i).getStartPointRadius());
+					 
+					 swgPnt.setEndPoint(swingPos.get(i+1).getEndPoint());
+					 swgPnt.setEndGeoPosition(swingPos.get(i+1).getEndGeoPosition());
+					 swgPnt.setEndPointRadius(swingPos.get(i+1).getEndPointRadius());
+					 
+					 swingPos.set(i, swgPnt);
+					 
+			    	 /*swingPos.get(i).setEndPoint(swingPos.get(i+1).getEndPoint());
 			    	 swingPos.get(i).setEndGeoPosition(swingPos.get(i+1).getEndGeoPosition());
-			    	 swingPos.get(i).setEndPointRadius(swingPos.get(i+1).getEndPointRadius());
+			    	 swingPos.get(i).setEndPointRadius(swingPos.get(i+1).getEndPointRadius());*/
 			         swingPos.remove(i+1);
-			         JOptionPane.showMessageDialog(null, "size  "+swingPos.size());
-			         System.out.println("index points after point removed "+swingPos.size());
+			         //JOptionPane.showMessageDialog(null, "size  "+swingPos.size());
+			         //System.out.println("index points after point removed "+swingPos.size());
 			         return;
 			    	    		    	
 			     }
@@ -1444,10 +1464,12 @@ public class MmMapViewer extends JPanel implements Printable {
 			int indx = -1;
 			
 			
-		  if(swingPos.get(swingPos.size()-2).getStartPointRadius()==5)
+		  if(swingPos.get(swingPos.size()-2).getStartPointRadius()==5 && swingPos.get(swingPos.size()-1).getStartPointRadius()!=10)
 		  {	  
+			 //JOptionPane.showMessageDialog(null, "Entered "+(swingPos.size()-2)); 
 		     for(int i=swingPos.size()-2;;i--)
 		     {
+		    	 //JOptionPane.showMessageDialog(null, "Entered loop "+i +"  "+swingPos.get(i).getStartPointRadius());
 			     if(swingPos.get(i).getStartPointRadius()==10)
 			     {
 				    indx=i;
